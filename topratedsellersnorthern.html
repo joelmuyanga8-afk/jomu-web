@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-Rated Sellers | Northern</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-terms" id="navbarone">
+            <!-- Navbar brand for large and medium screens. -->
+            <div class="container">
+                <a class="navbar-brand" href="index.php">
+                    <img src="assets/images/JoMu black and white.png" id="logo-change" class="img-fluid logo">
+                </a>
+            </div>
+            <!-- Toggler for small and medium screens -->
+            <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNav" aria-controls="offcanvasNav" style="margin-right: -28px; ">
+                <span>
+                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                </span>
+            </button>
+            <!-- Search bar for large screens. -->
+            <div class="container help-searching d-none d-md-none d-lg-block">
+                <input type="text" id="help-searchbar" class="help-searchbar" placeholder="Search Business">
+                <button type="submit" class="button help-search-button">
+                    <img src="assets/images/icons/Search-Icon-3.png" class="help-options-icons">
+                </button>
+            </div>
+            <!-- Search bar for medium screens. -->
+            <div class="container help-searching d-none d-md-block d-lg-none"
+                style="margin-top: -45px; margin-right: 60px;">
+                <input type="text" id="help-searchbar" class="help-searchbar" placeholder="Search Business">
+                <button type="submit" class="button help-search-button">
+                    <img src="assets/images/icons/Search-Icon-3.png" class="help-options-icons">
+                </button>
+            </div>
+            <!-- Search Bar for small screens. -->
+            <div class="hello-help-container d-block d-md-none d-lg-none"
+                style="margin-top: -45px; margin-left: 110px;">
+                <div class="container"
+                    style=" display: flex; max-width: 250px; position: relative; width: 90%; height: 3.6vh;">
+                    <input type="text" id="help-searchbar" class="help-searchbar" placeholder="Search Business">
+                    <button type="submit" class="button help-search-button">
+                        <img src="assets/images/icons/Search-Icon-3.png"
+                            style=" width: 25px; height: 25px; margin-right: 14px;">
+                    </button>
+                </div>
+            </div>
+            <!-- Navbar links for large screens -->
+            <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active signin">
+                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    </li>
+                    <li class="nav-item active signin">
+                        <a class="nav-link link-text" href="createaccount.html">Create Account</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- offcanvas menu for small and medium screens -->
+            <div class="offcanvas offcanvas-bottom d-lg-none" tabindex="-1" id="offcanvasNav"
+                aria-labelledby="offcanvasNavbarLabel" style="height: 20vh;">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close bg-white " data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        </li>
+                    </ul>
+                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                        account</button>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container-top-rated-sellers">
+            <p class="d-none d-md-block d-lg-block" style=" color: white; font-weight: 600; font-size: small;"><a
+                    href="index.php" style="text-decoration: none; color: white;">Home Page</a> <span
+                    style="color: rgb(255, 255, 255);">&#187;</span>
+                Home
+                <span style="color: rgb(255, 255, 255);">&#187;</span>
+                Top-Rated Sellers <span style="color: rgb(255, 255, 255);">&#187;</span>
+                Northern
+            </p>
+
+            <p class="d-block d-md-none d-lg-none"
+                style="margin-left: 10px; color: white; font-weight: 600; font-size: small;"><a href="index.php"
+                    style="text-decoration: none; color: white;">Home Page</a> <span
+                    style="color: rgb(255, 255, 255);">&#187;</span>
+                Home
+                <span style="color: rgb(255, 255, 255);">&#187;</span>
+                Top-Rated Sellers <span style="color: rgb(255, 255, 255);">&#187;</span>
+                Northern
+            </p>
+            <div class="container mb-3 mt-3 newarrivals-container-one bg-white">
+                <h4 style="font-weight: 700">Top-Rated Sellers - <span style="color: rgb(241, 90, 36);">Northern
+                        Uganda</span>
+                </h4>
+                <hr>
+                <p>Explore the top-rated businesses from<b style="color: rgb(241, 90, 36);"> Gulu, Lira, Arua, Kitgum,
+                        Nebbi,
+                    </b>and other key towns
+                    in the Northern region of Uganda. These businesses are recognized for their excellence, reliability,
+                    and high customer ratings.
+                    Discover quality wholesale deals and build lasting business connections with confidence.</p>
+            </div>
+
+            <!-- Container for large screens.  -->
+            <div class="container d-none d-md-block d-lg-block">
+                <div class="" id="filter-info">
+                    <div class="row g-2">
+                        <div class=" col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Ndiboota From China.jpeg"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Abba Enterprises Ltd</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9733; &#9733;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Abba
+                                            Enterprises
+                                            Ltd</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            Ndiboota from China.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Belts.jpg" class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Belty Vendors Ltd</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9733; &#9733;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Belty
+                                            Vendors Ltd<h5>
+                                                <hr>
+                                                <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                                    specialists for
+                                                    boys,
+                                                    girls,
+                                                    and men.</p>
+                                                <button class="card-button-vendorshops mt-3">Visit
+                                                    Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Hooded Jumper white.png"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Namyalo Jumpers Section
+                                        </h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9733; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Namyalo
+                                            Jumpers Section</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Water bottle white.webp"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Ham Bottles Manufacturers
+                                        </h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9733; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">Ham
+                                            Bottles
+                                            Manufacturers</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Shoes2.jpeg"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Mukasa Shoe Center</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9733; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Abba
+                                            Enterprises Ltd</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Jewelerly.jpeg"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Kampala Jewelers</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Abba
+                                            Enterprises Ltd</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Shoes3.jpeg"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">NAM Shoe Section</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">NAM
+                                            Shoe
+                                            Section<h5>
+                                                <hr>
+                                                <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                                    specialists for
+                                                    boys,
+                                                    girls,
+                                                    and men.</p>
+                                                <button class="card-button-vendorshops mt-3">Visit
+                                                    Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Curtains.jpeg"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Jinja Curtain Wholesalers
+                                        </h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Jinja
+                                            Curtain Wholesalers</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Clothes Bale.webp"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Abba Enterprises Ltd</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Abba
+                                            Enterprises Ltd</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Beverages.jpeg"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Abba Enterprises Ltd</h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                            Abba
+                                            Enterprises Ltd</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Water bottle white.webp"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Ham Bottles Manufacturers
+                                        </h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                </div>
+                                <div class="back-page-vendorshops bg-dark">
+                                    <div class="card-content-vendorshops">
+                                        <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">Ham
+                                            Bottles
+                                            Manufacturers</h5>
+                                        <hr>
+                                        <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                            specialists
+                                            for
+                                            boys,
+                                            girls,
+                                            and men.</p>
+                                        <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card-vendorshops">
+                                <div class="front-page-vendorshops">
+                                    <div class="card-img-vendorshops">
+                                        <img src="assets/images/Hooded Jumper white.png"
+                                            class="img-fluid card-img-image-vendorshops">
+                                    </div>
+                                    <div class="card-info-vendorshops">
+                                        <h5 class="card-title-vendorshops px-1 mb-0">Namyalo Jumpers Section
+                                        </h5>
+                                        <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                            &#9733; &#9734; &#9734;</p>
+                                    </div>
+                                    <div class="back-page-vendorshops bg-dark">
+                                        <div class="card-content-vendorshops">
+                                            <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                                Abba
+                                                Enterprises Ltd</h5>
+                                            <hr>
+                                            <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                                specialists
+                                                for
+                                                boys,
+                                                girls,
+                                                and men.</p>
+                                            <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container for small screens.  -->
+            <div class="container-fluid mt-2 d-block d-md-none d-lg-none" id="filter-info">
+                <div class="row g-2">
+                    <div class=" col-6 col-md-4 col-lg-3">
+                        <div class="card-vendorshops">
+                            <div class="front-page-vendorshops">
+                                <div class="card-img-vendorshops">
+                                    <img src="assets/images/Ndiboota From China.jpeg"
+                                        class="img-fluid card-img-image-vendorshops">
+                                </div>
+                                <div class="card-info-vendorshops">
+                                    <h5 class="card-title-vendorshops px-1 mb-0">Abba Enterprises Ltd</h5>
+                                    <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                        &#9733; &#9733; &#9733;</p>
+                                </div>
+                            </div>
+                            <div class="back-page-vendorshops bg-dark">
+                                <div class="card-content-vendorshops">
+                                    <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                        Abba
+                                        Enterprises
+                                        Ltd</h5>
+                                    <hr>
+                                    <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                        specialists
+                                        for
+                                        Ndiboota from China.</p>
+                                    <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card-vendorshops">
+                            <div class="front-page-vendorshops">
+                                <div class="card-img-vendorshops">
+                                    <img src="assets/images/Belts.jpg" class="img-fluid card-img-image-vendorshops">
+                                </div>
+                                <div class="card-info-vendorshops">
+                                    <h5 class="card-title-vendorshops px-1 mb-0">Belty Vendors Ltd</h5>
+                                    <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                        &#9733; &#9733; &#9733;</p>
+                                </div>
+                            </div>
+                            <div class="back-page-vendorshops bg-dark">
+                                <div class="card-content-vendorshops">
+                                    <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                        Belty
+                                        Vendors Ltd<h5>
+                                            <hr>
+                                            <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                                specialists for
+                                                boys,
+                                                girls,
+                                                and men.</p>
+                                            <button class="card-button-vendorshops mt-3">Visit
+                                                Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-6 col-md-4 col-lg-3">
+                        <div class="card-vendorshops">
+                            <div class="front-page-vendorshops">
+                                <div class="card-img-vendorshops">
+                                    <img src="assets/images/Ndiboota From China.jpeg"
+                                        class="img-fluid card-img-image-vendorshops">
+                                </div>
+                                <div class="card-info-vendorshops">
+                                    <h5 class="card-title-vendorshops px-1 mb-0">Abba Enterprises Ltd</h5>
+                                    <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                        &#9733; &#9733; &#9733;</p>
+                                </div>
+                            </div>
+                            <div class="back-page-vendorshops bg-dark">
+                                <div class="card-content-vendorshops">
+                                    <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">
+                                        Abba
+                                        Enterprises
+                                        Ltd</h5>
+                                    <hr>
+                                    <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                        specialists
+                                        for
+                                        Ndiboota from China.</p>
+                                    <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card-vendorshops">
+                            <div class="front-page-vendorshops">
+                                <div class="card-img-vendorshops">
+                                    <img src="assets/images/Water bottle white.webp"
+                                        class="img-fluid card-img-image-vendorshops">
+                                </div>
+                                <div class="card-info-vendorshops">
+                                    <h5 class="card-title-vendorshops px-1 mb-0">Ham Bottles Manufacturers
+                                    </h5>
+                                    <p class="card-subtitle-vendorshops top-rated-seller-star">&#9733; &#9733;
+                                        &#9733; &#9733; &#9734;</p>
+                                </div>
+                            </div>
+                            <div class="back-page-vendorshops bg-dark">
+                                <div class="card-content-vendorshops">
+                                    <h5 style="color:white;  -webkit-text-stroke: 0.5px rgb(241,90,36);">Ham
+                                        Bottles
+                                        Manufacturers</h5>
+                                    <hr>
+                                    <p class="card-description-vendorshops mt-4">Wholesale fashion
+                                        specialists
+                                        for
+                                        boys,
+                                        girls,
+                                        and men.</p>
+                                    <button class="card-button-vendorshops mt-3">Visit Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <hr>
+    <footer class="footer-terms py-2 text-center">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+
+    <script>
+        async function syncAuthCtasForSignedInUser() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const authSelectors = [
+                    "a[href='signin.html']",
+                    "a[href='./signin.html']",
+                    "a[href='/signin.html']",
+                    "a[href='createaccount.html']",
+                    "a[href='./createaccount.html']",
+                    "a[href='/createaccount.html']",
+                    "button[onclick*='createaccount.html']"
+                ];
+
+                document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                    const li = node.closest('li');
+                    if (li) {
+                        li.remove();
+                    } else {
+                        node.remove();
+                    }
+                });
+
+                document.querySelectorAll('.offcanvas').forEach((panel) => {
+                    const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                    if (hasActions) return;
+
+                    const panelId = panel.getAttribute('id');
+                    if (panelId) {
+                        document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                    }
+                    panel.remove();
+                });
+            } catch (error) {
+                // Keep default auth links when auth check is unavailable.
+            }
+        }
+
+        syncAuthCtasForSignedInUser();
+    </script>
+    <script>
+        // Change navbar color upon scrolling.
+        window.addEventListener("scroll", function () {
+            const navbar = document.querySelector(".navbar-terms");
+            if (window.scrollY > 110) {
+                navbar.classList.add("navbar-terms-scrolled");
+            } else {
+                navbar.classList.remove("navbar-terms-scrolled");
+            }
+        });
+
+        // Change logo upon scrolling.
+        window.addEventListener("scroll", function () {
+            const navbar = document.querySelector(".navbar-terms");
+            const logo = document.getElementById("logo-change");
+
+            if (window.scrollY > 110) {
+                navbar.classList.add("navbar-terms-scrolled");
+                logo.src = "assets/images/JoMu logo redesigned.png";
+            } else {
+                navbar.classList.remove("navbar-terms-scrolled");
+                logo.src = "assets/images/JoMu black and white.png";
+            }
+        });
+
+
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

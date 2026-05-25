@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body class="container body-signin d-flex flex-column min-vh-100">
+    <header></header>
+    <main class="main-signin flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+        <div class="row w-100" style="max-width: 1000px;">
+            <div class="col-md-6 d-none d-md-block">
+                <img src="assets/images/Createaccount-image.png" alt="createaccount-image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <div class="w-100  signin-logo" style="max-width: 400px;">
+                    <a class="mb-4 d-block signin-logo" href="index.php">
+                        <img src="assets/images/JoMu logo redesigned.png" class="img-fluid mx-auto d-block signinjomu"
+                            style="max-width: 190px; margin-left: 12px;" alt="jomu-logo">
+                    </a>
+                </div>
+                <div class="createaccount-container mx-auto" style="max-width: 400px;">
+                    <form action="php/createaccount.php" id="createaccountForm" method="POST">
+                        <input type="hidden" name="csrf_token" id="createAccountCsrfToken" value="">
+                        <h4 class="mb-3 px-1">Create a business account.</h4>
+                        <div class="form-floating mb-3">
+                            <input type="text" id="business_name" name="business_name" class="form-control"
+                                placeholder="Business Name" required>
+                            <label for="business-name">Business Name</label>
+                            <small id="businessNameWarning"
+                                style="color: red; display: block; margin-top: 4px;"></small>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" id="emailormobilenumber" name="emailormobilenumber" class="form-control"
+                                placeholder="Email or Mobile Number" required>
+                            <label for="email-mobilenumber">Email or Mobile Number</label>
+                            <div id="contactError" style="color: red; font-size: 13px;"></div>
+                            <div id="emailormobilenumberError" style="color: red; font-size: 13px;"></div>
+                            <small id="invalidwarning" style="color: red; display: block; margin-top: 4px;"></small>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Password" required>
+                            <label for="password">Password</label>
+                            <small id="passwordWarning" style="color: red; display: block; margin-top: 4px;"></small>
+                        </div>
+                        <p class="small mb-3 px-4 text-center">By continuing, you agree to JoMu's <a
+                                class="terms-conditions" href="termsandconditions.html">Terms and Conditions</a>.</p>
+                        <button type="submit" class="btn w-100 signin-button"
+                            id="createAccountContinueBtn">Continue</button>
+                        <button type="button" class="btn w-100 signin-button mt-2" id="googleCreateBtn"
+                            style="background-color: rgb(241,90,36);">Create account using Google.</button>
+                        <div id="googleCreateFallbackButton" class="mt-2 d-none"></div>
+                        <small id="googleCreateFeedback"
+                            style="display:block; margin-top: 6px; color: #c0392b;"></small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr>
+    <footer class="footer-signin py-2 text-center d-none d-md-block d-lg-block">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+        <!-- </div> -->
+    </footer>
+
+    <footer class="footer-terms py-2 text-center mt-0 d-block d-md-none d-lg-none">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Account creation success message popup.  -->
+    <div id="popup"
+        style="display:none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 10000;">
+        <div
+            style="background-color: white; padding: 18px 18px; border-radius: 15px; text-align: center; max-width: 320px;">
+            <h3 style="margin-bottom: 10px; color: rgb(241,90,36);">Account Created</h3>
+            <h6 style="color: green;">Your business account has been created successfully.</h6>
+            <p style="font-weight: 600;">Redirecting to Signin...</p>
+
+            <button id="continueBtn" style="margin-top: 12px; padding: 8px 14px; border-radius: 8px; border: none; font-weight: 600;
+            background: rgb(0,0,255); color: white;">Continue</button>
+        </div>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        // Email or Mobile number already exists functionality. 
+        // Read query string values 
+        const params = new URLSearchParams(window.location.search);
+        const isGoogleCompletionMode = params.get("google_complete") === "1";
+        const createAccountForm = document.getElementById("createaccountForm");
+        const businessNameInput = document.getElementById("business_name");
+        const emailOrMobileInput = document.getElementById("emailormobilenumber");
+        const passwordInput = document.getElementById("password");
+        const heading = document.querySelector("#createaccountForm h4");
+        const continueButton = document.getElementById("createAccountContinueBtn");
+        const googleCreateBtn = document.getElementById("googleCreateBtn");
+        const googleCreateFallbackButton = document.getElementById("googleCreateFallbackButton");
+        const googleCreateFeedback = document.getElementById("googleCreateFeedback");
+        const businessNameWarning = document.getElementById("businessNameWarning");
+        let publicCsrfToken = "";
+        async function getPublicCsrfToken() {
+            if (publicCsrfToken) return publicCsrfToken;
+            try {
+                const response = await fetch("php/auth_status.php", { credentials: "same-origin" });
+                if (!response.ok) return "";
+                const data = await response.json();
+                publicCsrfToken = String(data.csrf_token || "");
+                const csrfInput = document.getElementById("createAccountCsrfToken");
+                if (csrfInput) csrfInput.value = publicCsrfToken;
+                return publicCsrfToken;
+            } catch (err) {
+                return "";
+            }
+        }
+        getPublicCsrfToken();
+        // Refill previously typed value 
+        if (params.get("business_name")) {
+            businessNameInput.value = params.get("business_name");
+        }
+        if (params.get("emailormobilenumber")) {
+            emailOrMobileInput.value = params.get("emailormobilenumber");
+        }
+        // If php sent back an error 
+        if (params.get("error") === "emailmobilenumber_exists") {
+            const msg =
+                document.getElementById("emailormobilenumberError"); msg.textContent =
+                    "This email or mobile number is already registered.";
+            msg.style.display = "block"
+
+            emailOrMobileInput.focus();
+        }
+        if (params.get("error") === "invalid_business_name") {
+            businessNameWarning.textContent = "Business name must be 3 to 40 characters.";
+            businessNameInput.focus();
+        }
+        if (params.get("error") === "reserved_business_name") {
+            businessNameWarning.textContent = "Try another business name.";
+            businessNameInput.focus();
+        }
+        if (params.get("error") === "weak_password") {
+            passwordInput.focus();
+            document.getElementById("passwordWarning").textContent = "Password must be at least 8 characters.";
+            document.getElementById("passwordWarning").style.display = "inline";
+        }
+
+
+        // Warn user about inserting in invalid email or mobile number functionality.
+        // This is only for frontend. For denial to submit to database, I have done it in the backend(php).
+        const field = emailOrMobileInput;
+        const warning = document.getElementById("invalidwarning");
+        const phoneRegex = /^(?:\+256\d{9}|07\d{8})$/;
+        function isValidEmail(value) {
+            const input = document.createElement("input");
+            input.type = "email";
+            input.value = value.trim();
+            return input.checkValidity();
+        }
+        field.addEventListener("blur", () => {
+            const value = field.value.trim();
+            warning.textContent = "";
+            if (value === "") return;
+            // if (value.includes("@")) {
+            if (value.includes(".")) {
+
+                if (!isValidEmail(value)) {
+                    warning.textContent = "Please enter a valid email or Ugandan mobile number.";
+                }
+                return;
+            }
+            if (!phoneRegex.test(value)) {
+                warning.textContent = "Please enter a valid email or  mobile number.";
+            }
+        });
+
+
+        // Password greater than four characters atleast.
+        const passwordField = passwordInput;
+        const passwordwarn = document.getElementById("passwordWarning");
+        function validateBusinessName() {
+            const value = businessNameInput.value.trim();
+            businessNameWarning.textContent = "";
+            if (value.length > 0 && (value.length < 3 || value.length > 40)) {
+                businessNameWarning.textContent = "Business name must be 3 to 40 characters.";
+                return false;
+            }
+            if (value === "JoMu") {
+                businessNameWarning.textContent = "Try another business name.";
+                return false;
+            }
+            return true;
+        }
+        function validatePassword() {
+            const value = passwordField.value.trim();
+            passwordwarn.style.display = "none";
+            if (value.length > 0 && value.length < 8) {
+                passwordwarn.textContent = "Password must be at least 8 characters long.";
+                passwordwarn.style.display = "inline";
+                return false;
+            }
+            return true;
+        }
+        businessNameInput.addEventListener("input", validateBusinessName);
+        passwordField.addEventListener("input", validatePassword);
+        createAccountForm.addEventListener('submit', async function (event) {
+            const formToken = await getPublicCsrfToken();
+            if (!formToken) {
+                event.preventDefault();
+                googleCreateFeedback.textContent = "Security token could not be loaded. Please refresh and try again.";
+                googleCreateFeedback.style.color = "#c0392b";
+                return;
+            }
+
+            if (isGoogleCompletionMode) {
+                event.preventDefault();
+
+                const businessName = businessNameInput.value.trim();
+                if (businessName.length < 3) {
+                    googleCreateFeedback.textContent = "Please enter a valid business name.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                    businessNameInput.focus();
+                    return;
+                }
+                if (businessName === "JoMu") {
+                    googleCreateFeedback.textContent = "Try another business name.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                    businessNameInput.focus();
+                    return;
+                }
+
+                continueButton.disabled = true;
+                googleCreateFeedback.textContent = "Saving your business name...";
+                googleCreateFeedback.style.color = "#1f7a1f";
+
+                try {
+                    let csrfToken = "";
+                    const authStatusResponse = await fetch("php/auth_status.php", { credentials: "same-origin" });
+                    if (authStatusResponse.ok) {
+                        const authStatus = await authStatusResponse.json();
+                        csrfToken = String(authStatus.csrf_token || "");
+                    }
+
+                    const response = await fetch("php/google_complete_business_name.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRF-Token": csrfToken
+                        },
+                        body: new URLSearchParams({ business_name: businessName })
+                    });
+                    const data = await response.json();
+                    if (!response.ok || !data.success) {
+                        googleCreateFeedback.textContent = data.message || "Unable to save business name right now.";
+                        googleCreateFeedback.style.color = "#c0392b";
+                        return;
+                    }
+
+                    window.location.href = data.redirect || "php/businessvendordashboard.php";
+                } catch (err) {
+                    googleCreateFeedback.textContent = "Something went wrong while saving your business name.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                } finally {
+                    continueButton.disabled = false;
+                }
+
+                return;
+            }
+
+            if (!validateBusinessName() || !validatePassword()) {
+                event.preventDefault();
+            }
+        });
+
+        if (isGoogleCompletionMode) {
+            heading.textContent = "Complete your Google account setup.";
+            document.getElementById("contactError").textContent = "";
+            document.getElementById("emailormobilenumberError").textContent = "";
+            warning.textContent = "";
+            passwordwarn.textContent = "";
+
+            emailOrMobileInput.value = "";
+            passwordInput.value = "";
+            emailOrMobileInput.required = false;
+            passwordInput.required = false;
+
+            emailOrMobileInput.closest(".form-floating").style.display = "none";
+            passwordInput.closest(".form-floating").style.display = "none";
+            googleCreateBtn.style.display = "none";
+            googleCreateFallbackButton.classList.add("d-none");
+            googleCreateFeedback.style.color = "#1f7a1f";
+            googleCreateFeedback.textContent = "Enter your business name to finish creating your Google account.";
+        }
+
+        // Google create-account flow.
+        let googleCreateInitialized = false;
+        async function initializeGoogleCreate() {
+            if (googleCreateInitialized) return true;
+            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+                googleCreateFeedback.textContent = "Google Sign-In is still loading. Please try again.";
+                googleCreateFeedback.style.color = "#c0392b";
+                return false;
+            }
+
+            try {
+                const response = await fetch("php/google_config.php");
+                const config = await response.json();
+                if (!response.ok || !config.success || !config.google_client_id) {
+                    googleCreateFeedback.textContent = config.message || "Google Sign-In is not configured.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                    return false;
+                }
+
+                window.google.accounts.id.initialize({
+                    client_id: config.google_client_id,
+                    callback: handleGoogleCreateCredential,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                window.google.accounts.id.renderButton(googleCreateFallbackButton, {
+                    theme: "outline",
+                    size: "large",
+                    width: Math.min(380, window.innerWidth - 50),
+                    text: "signup_with"
+                });
+
+                googleCreateInitialized = true;
+                return true;
+            } catch (err) {
+                googleCreateFeedback.textContent = "Unable to initialize Google Sign-In right now.";
+                googleCreateFeedback.style.color = "#c0392b";
+                return false;
+            }
+        }
+
+        async function handleGoogleCreateCredential(response) {
+            if (!response || !response.credential) {
+                googleCreateFeedback.textContent = "Google did not return a sign-in token.";
+                googleCreateFeedback.style.color = "#c0392b";
+                return;
+            }
+
+            googleCreateBtn.disabled = true;
+            googleCreateFeedback.textContent = "Creating your Google account...";
+            googleCreateFeedback.style.color = "#1f7a1f";
+
+            try {
+                const authResponse = await fetch("php/google_auth.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ id_token: response.credential, flow: "signup", csrf_token: await getPublicCsrfToken() })
+                });
+                const data = await authResponse.json();
+
+                if (!authResponse.ok || !data.success) {
+                    googleCreateFeedback.textContent = data.message || "Google authentication failed.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                    googleCreateBtn.disabled = false;
+                    return;
+                }
+
+                window.location.href = data.redirect || "createaccount.html?google_complete=1";
+            } catch (err) {
+                googleCreateFeedback.textContent = "Something went wrong while connecting your Google account.";
+                googleCreateFeedback.style.color = "#c0392b";
+                googleCreateBtn.disabled = false;
+            }
+        }
+
+        if (!isGoogleCompletionMode) {
+            googleCreateBtn.addEventListener("click", async () => {
+                googleCreateFeedback.textContent = "";
+                const ready = await initializeGoogleCreate();
+                if (!ready) return;
+
+                window.google.accounts.id.prompt((notification) => {
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        googleCreateFallbackButton.classList.remove("d-none");
+                        googleCreateFeedback.textContent = "Tap the Google button below if the popup did not appear.";
+                        googleCreateFeedback.style.color = "#c0392b";
+                    }
+                });
+            });
+        }
+
+
+
+        // Pop up message functionality 
+        if (params.get("success") === "1") {
+            const popup = document.getElementById("popup");
+            popup.style.display = "flex";
+            // Auto redirect after 2 seconds. 
+            setTimeout(() => {
+                window.location.href = "signin.html";
+            }, 6000);
+            // Or redirect immediately when button clicked. 
+            document.getElementById("continueBtn").addEventListener("click", () => {
+                window.location.href = "signin.html";
+            });
+        }
+    </script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

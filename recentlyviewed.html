@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Recently Viewed</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body.recently-viewed-page {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recently-viewed-page main {
+            flex: 1 0 auto;
+        }
+
+        body.recently-viewed-page>footer {
+            margin-top: auto;
+        }
+
+        .recently-viewed-page .footer-links {
+            gap: 4px 8px;
+        }
+
+        .recent-listings-shell {
+            width: 100%;
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+
+        img.media-preview-item,
+        img.media-preview-source {
+            cursor: default;
+        }
+
+        video.media-preview-item,
+        video.media-preview-source {
+            cursor: pointer;
+        }
+
+        #mediaPreviewOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 18px;
+        }
+
+        #mediaPreviewOverlay.active {
+            display: flex;
+        }
+
+        .media-preview-panel {
+            max-width: 96vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .media-preview-content {
+            max-width: 96vw;
+            max-height: 72vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            background: #000;
+            z-index: 1;
+        }
+
+        .media-preview-details {
+            width: min(96vw, 620px);
+            background: rgba(9, 9, 9, 0.82);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            text-align: left;
+            z-index: 3;
+        }
+
+        .media-preview-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: rgb(241, 90, 36);
+        }
+
+        .media-preview-price,
+        .media-preview-description {
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+            line-height: 1.35;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .media-preview-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font-size: 34px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 2px 8px;
+        }
+
+        .media-preview-watermark {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            max-width: 28vw;
+            opacity: 0.28;
+            pointer-events: none;
+            user-select: none;
+            display: none;
+            z-index: 2;
+        }
+
+        .recent-listing-section {
+            margin-bottom: 1rem;
+        }
+
+        .recent-listing-heading {
+            margin: 0 0 0.2rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: rgb(34, 32, 32);
+        }
+
+        .recent-listings-row {
+            --bs-gutter-x: 0.45rem;
+            --bs-gutter-y: 0.45rem;
+        }
+
+        .recent-listings-row>[class*="col-"] {
+            display: flex;
+        }
+
+        .recent-listings-row .card.h-100 {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .recent-listings-row .card-img-top.media-preview-item {
+            width: 100%;
+            height: 190px !important;
+            aspect-ratio: auto;
+            object-fit: cover;
+            background: #fff;
+            flex: 0 0 auto;
+        }
+
+        .recent-listings-row .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: auto;
+            padding-top: 124.5% !important;
+            flex: 0 0 auto;
+            background: #000;
+            overflow: hidden;
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+
+        .recent-listings-row .video-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #000;
+            display: block;
+        }
+
+        .recent-listings-row .card-body {
+            padding: 0.45rem;
+        }
+
+        .recent-listings-row .jomu-card-typography {
+            display: grid !important;
+            gap: 0.08rem;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            row-gap: 0 !important;
+            align-content: start;
+            flex: 1 1 auto;
+            min-height: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .recent-listings-row .recent-image-card-body {
+            grid-template-rows: 1.1em 2.3em 1.2em auto 1.35em !important;
+        }
+
+        .recent-listings-row .recent-image-card-body .listing-name-top {
+            grid-row: 1;
+        }
+
+        .recent-listings-row .recent-image-card-body .listing-description {
+            grid-row: 2;
+            min-height: 2.3em !important;
+            max-height: 2.3em !important;
+            overflow: hidden !important;
+        }
+
+        .recent-listings-row .recent-image-card-body .product-price-range {
+            grid-row: 3;
+            min-height: 1.2em !important;
+            max-height: 1.2em !important;
+        }
+
+        .recent-listings-row .recent-image-card-body .listing-action-btn {
+            grid-row: 4;
+            align-self: start;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .recent-listings-row .recent-image-card-body .recent-viewed-at {
+            grid-row: 5;
+            align-self: start;
+            margin-top: 0.25rem;
+        }
+
+        .recent-listings-row .jomu-card-typography .card-title {
+            font-weight: 600;
+            letter-spacing: 0;
+            color: rgb(241, 90, 36);
+        }
+
+        .recent-listings-row .jomu-card-typography .card-text {
+            font-weight: 500;
+            line-height: 1.15;
+        }
+
+        .recent-listings-row .jomu-card-typography .product-price-range {
+            font-weight: 800;
+        }
+
+        .recent-listings-row .card-title,
+        .recent-listings-row .video-stock-title {
+            font-size: 0.95rem;
+            line-height: 1.1;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .recent-listings-row .listing-description-link,
+        .recent-listings-row .video-description-brief {
+            font-size: 0.8rem;
+            line-height: 1.15;
+            color: inherit;
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            min-height: 2.3em;
+            max-height: 2.3em;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .recent-listings-row .listing-description-link:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .recent-listings-row .product-price-range {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #1f1f1f;
+            line-height: 1.1;
+        }
+
+        .recent-listings-row .price-unit {
+            font-weight: 500;
+        }
+
+        .recent-listings-row .discount-section {
+            display: inline-block;
+            font-size: 0.78rem;
+            line-height: 1.2;
+            background-color: #198754;
+            color: #fff;
+            padding: 0.16rem 0.45rem;
+            border-radius: 4px;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        .recent-listings-row .video-card-body {
+            display: grid !important;
+            grid-template-rows: 30px 1.05em 2.16em 1.1em 1.1em;
+            align-content: start;
+            min-height: 0;
+            overflow: hidden;
+            gap: 0.03rem;
+        }
+
+        body.recently-viewed-page .recent-listings-row .card.h-100:not(.recent-video-card) {
+            height: 340px !important;
+        }
+
+        body.recently-viewed-page .recent-listings-row .recent-video-card.h-100 {
+            width: 100%;
+            height: auto !important;
+        }
+
+        .recent-listings-row .video-seller-row {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .recent-listings-row .video-seller-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .recent-listings-row .video-seller-link:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .recent-listings-row .video-seller-dp {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #e9ecef;
+        }
+
+        .recent-listings-row .video-seller-dp-fallback {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+            background: #6c757d;
+        }
+
+        .recent-listings-row .video-seller-name {
+            margin: 0;
+            font-size: 0.82rem;
+            line-height: 1.02;
+            font-weight: 600;
+            color: #343a40;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-listings-row .video-stock-title {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.05;
+            font-weight: 700;
+            color: rgb(241, 90, 36);
+        }
+
+        .recent-listings-row .video-description-brief {
+            margin: 0;
+            color: #5f676f;
+            line-height: 1.08;
+            min-height: 2.16em;
+            max-height: 2.16em;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .recent-listings-row .listing-action-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .recent-listings-row .video-hashtags {
+            grid-row: 4;
+            margin-top: 0;
+            font-size: 0.74rem;
+            font-weight: 600;
+            color: #0d6efd;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-viewed-at {
+            margin: 0;
+            font-size: 0.73rem;
+            color: #6b6b6b;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-video-card .recent-viewed-at {
+            grid-row: 5;
+        }
+
+        .recent-listings-row .recent-viewed-at.video-hashtags {
+            color: #0d6efd;
+        }
+
+        .recent-empty-state {
+            width: 100%;
+            text-align: center;
+            padding: 2rem 0.9rem;
+            color: #525252;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+        }
+
+        .recent-empty-state-title {
+            margin: 0 0 0.35rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgb(34, 32, 32);
+        }
+
+        .recent-empty-state-text {
+            margin: 0;
+            font-size: 0.88rem;
+            line-height: 1.45;
+            font-weight: 500;
+        }
+
+        @media (max-width: 767.98px) {
+            .recently-viewed-page .footer-help br {
+                display: none;
+            }
+
+            .recent-listings-shell {
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            .recent-listings-row {
+                --bs-gutter-x: 0.25rem;
+                --bs-gutter-y: 0.25rem;
+            }
+
+            .recently-viewed-page .footer-help small {
+                display: block;
+                margin-top: 6px;
+            }
+
+            .recent-listing-heading {
+                font-size: 0.95rem;
+            }
+
+            .recent-listings-row .card-img-top.media-preview-item {
+                aspect-ratio: auto;
+                height: clamp(100px, 30vw, 140px) !important;
+                object-fit: cover;
+            }
+
+            .recent-listings-row .card-body {
+                padding: 0.3rem;
+            }
+
+            body.recently-viewed-page .recent-listings-row .recent-video-card.h-100 {
+                height: auto !important;
+            }
+
+            .recent-listings-row .video-card-body {
+                grid-template-rows: 28px 1em 2.1em 1.1em 1.1em;
+            }
+
+            body.recently-viewed-page .recent-listings-row .card.h-100:not(.recent-video-card) {
+                height: 276px !important;
+            }
+
+            .recent-listings-row .card-title,
+            .recent-listings-row .video-stock-title {
+                font-size: 0.82rem;
+            }
+
+            .recent-listings-row .listing-description-link,
+            .recent-listings-row .video-description-brief {
+                font-size: 0.74rem;
+                min-height: 2.1em;
+                max-height: 2.1em;
+            }
+
+            .recent-listings-row .product-price-range {
+                font-size: 0.78rem;
+            }
+        }
+
+        .recent-mobile-auth-menu {
+            position: fixed;
+            left: auto !important;
+            right: 35px !important;
+            top: 58px;
+            z-index: 1200;
+        }
+
+        .recent-mobile-auth-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 10px;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            transform: rotate(45deg);
+            border-radius: 2px;
+            box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
+            left: auto;
+        }
+    </style>
+</head>
+
+<body class="recently-viewed-page" style="background-color: #f0ecec;">
+    <div class="container-fluid" style="z-index: 10; padding: 0px; margin: 0px;">
+        <a href="index.php">
+            <video class="d-none d-md-block d-lg-block" style="height: inherit; width: 100%;" autoplay loop muted
+                src="assets/videos/Over Navbar JoMu 70px.mp4"></video>
+            <video class="d-block d-md-none d-lg-none" style="height: inherit; width: 100%;" autoplay loop muted
+                src="assets/videos/Over Navbar JoMu 1080px.mp4"></video>
+        </a>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light  sticky-top navbarone navbar-help bg-dark" id="navbarone"
+        style="z-index: 100; margin-top: -6px;">
+        <div class="container">
+            <a class="navbar-brand brand-logos" href="index.php">
+                <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+            </a>
+        </div>
+
+        <!-- Auth actions for small and medium screens -->
+        <button class="navbar-toggler d-lg-none signin-icon-bg" type="button" aria-expanded="false"
+            aria-label="Open sign in menu" id="recentNavbarToggler">
+            <span>
+                <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+            </span>
+        </button>
+        <div id="recentMobileAuthMenu" class="dropdown-menu mobile-auth-menu recent-mobile-auth-menu"
+            aria-labelledby="recentNavbarToggler">
+            <a class="dropdown-item mobile-auth-item" href="signin.html" id="recentSigninMobileLink"
+                data-mobile-auth-link="signin.html">Sign In</a>
+            <button class="dropdown-item mobile-auth-item mobile-auth-create" id="recentCreateAccountMobileButton"
+                type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+        </div>
+
+        <!-- Navbar links for large screens -->
+        <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active signin" id="recentSigninNavItem">
+                    <a class="nav-link link-text" href="signin.html">Sign In</a>
+                </li>
+            </ul>
+            <button class="button button-createaccount" id="recentCreateAccountButton"
+                onclick="location.href='createaccount.html'">Create
+                account</button>
+        </div>
+
+    </nav>
+    <main>
+        <div class="container-fluid">
+            <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
+                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    style="color: rgb(0,0,255);">&#187;</span>
+                All
+                <span style="color: rgb(0,0,255);">&#187;</span>
+                Recently Viewed
+            </p>
+        </div>
+        <hr class="mt-0 mb-0">
+        <div class="container-fluid mb-3 mt-0 newarrivals-container-one text-center">
+            <p>Here is a quick look at the products and services you've recently explored. Easily revisit items you're
+                interested in without
+                starting your search all over again.
+            </p>
+        </div>
+
+        <div class="container-fluid recent-listings-shell">
+            <div id="recentlyViewedListings">
+                <p class="recent-empty-state">Loading your recently viewed listings...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-2 footer-help py-2 text-center bg-dark">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+    <div id="mediaPreviewOverlay" aria-hidden="true">
+        <button type="button" class="media-preview-close" id="mediaPreviewClose"
+            aria-label="Close preview">&times;</button>
+        <div class="media-preview-panel">
+            <img id="mediaPreviewImage" class="media-preview-content" alt="Listing preview" style="display:none;">
+            <video id="mediaPreviewVideo" class="media-preview-content" controls style="display:none;"></video>
+            <div id="mediaPreviewDetails" class="media-preview-details" style="display:none;">
+                <p id="mediaPreviewTitle" class="media-preview-title"></p>
+                <p id="mediaPreviewPrice" class="media-preview-price"></p>
+                <p id="mediaPreviewDescription" class="media-preview-description"></p>
+            </div>
+        </div>
+        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png"
+            alt="JoMu watermark">
+    </div>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+
+    <script>
+        const recentListingsRoot = document.getElementById('recentlyViewedListings');
+        const mediaOverlay = document.getElementById("mediaPreviewOverlay");
+        const mediaClose = document.getElementById("mediaPreviewClose");
+        const mediaPreviewImage = document.getElementById("mediaPreviewImage");
+        const mediaPreviewVideo = document.getElementById("mediaPreviewVideo");
+        const mediaPreviewDetails = document.getElementById("mediaPreviewDetails");
+        const mediaPreviewTitle = document.getElementById("mediaPreviewTitle");
+        const mediaPreviewPrice = document.getElementById("mediaPreviewPrice");
+        const mediaPreviewDescription = document.getElementById("mediaPreviewDescription");
+        const mediaWatermark = document.getElementById("mediaPreviewWatermark");
+        let recentStorageKey = 'jomuRecentlyViewedListings:guest';
+        let lastTapTime = 0;
+        let lastTapSrc = "";
+        const defaultSellerProfileImage = 'assets/images/profile.png';
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatViewedAt(value) {
+            if (!value) {
+                return 'Recently viewed';
+            }
+
+            const parsed = new Date(String(value).replace(' ', 'T'));
+            if (Number.isNaN(parsed.getTime())) {
+                return 'Recently viewed';
+            }
+
+            return `Viewed ${parsed.toLocaleString([], {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+            })}`;
+        }
+
+        function resolveRecentProfileImagePath(rawPath) {
+            const normalized = String(rawPath || '').trim().replace(/\\/g, '/');
+            if (normalized === '') return '';
+            if (/^(https?:)?\/\//i.test(normalized) || normalized.startsWith('data:') || normalized.startsWith('blob:')) {
+                return normalized;
+            }
+            if (normalized.startsWith('/')) {
+                return normalized;
+            }
+            if (normalized.startsWith('assets/')) {
+                return normalized;
+            }
+            if (normalized.startsWith('php/')) {
+                return '/' + normalized;
+            }
+            if (normalized.startsWith('uploads/')) {
+                return '/php/' + normalized;
+            }
+            if (!normalized.includes('/')) {
+                return '/php/uploads/profile/' + normalized;
+            }
+            return '/php/' + normalized.replace(/^\.?\//, '');
+        }
+
+        function normalizeRecentItem(item) {
+            const listingId = Number.parseInt(String(item?.listing_id ?? ''), 10);
+            if (!Number.isInteger(listingId) || listingId <= 0) {
+                return null;
+            }
+
+            return {
+                listing_id: listingId,
+                user_id: Number.parseInt(String(item?.user_id ?? ''), 10) || 0,
+                viewed_at: String(item?.viewed_at || '').trim(),
+                media_type: String(item?.media_type || '').trim() === 'video' ? 'video' : 'image',
+                media_src: String(item?.media_src || '').trim(),
+                title: String(item?.title || '').trim(),
+                description: String(item?.description || '').trim(),
+                price: String(item?.price || '').trim(),
+                action_label: String(item?.action_label || '').trim(),
+                action_url: String(item?.action_url || item?.purchase_url || '#').trim(),
+                purchase_url: String(item?.purchase_url || item?.action_url || '#').trim(),
+                seller_name: String(item?.seller_name || '').trim(),
+                seller_profilepic: resolveRecentProfileImagePath(String(item?.seller_profilepic || '').trim()),
+                hashtags: String(item?.hashtags || '').trim(),
+            };
+        }
+
+        function escapeAttribute(value) {
+            return escapeHtml(value);
+        }
+
+        function splitPriceLabel(priceText) {
+            const normalized = String(priceText || '').trim();
+            if (normalized.endsWith(' / unit')) {
+                return {
+                    amount: normalized.slice(0, -7),
+                    unit: ' / unit',
+                };
+            }
+
+            return {
+                amount: normalized,
+                unit: '',
+            };
+        }
+
+        function buildRecentImageCardMarkup(item) {
+            const title = item.title || 'Listing';
+            const description = item.description || 'View this listing on JoMu.';
+            const actionUrl = item.action_url || item.purchase_url || '#';
+            const actionLabel = item.action_label || 'See Listing';
+            const priceParts = splitPriceLabel(item.price);
+            const hasPrice = priceParts.amount !== '';
+            const bodyClass = hasPrice
+                ? 'recent-image-card-body'
+                : 'recent-image-card-body';
+
+            return `
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="${escapeAttribute(item.media_src)}" class="card-img-top img-fluid media-preview-item media-preview-source" alt="${escapeAttribute(title)}" data-preview-type="image" data-preview-src="${escapeAttribute(item.media_src)}" data-preview-title="${escapeAttribute(title)}" data-preview-description="${escapeAttribute(description)}" data-preview-price="${escapeAttribute(item.price)}" data-preview-listing-id="${item.listing_id}">
+                        <div class="card-body p-2 d-flex flex-column jomu-card-typography ${bodyClass}" style="gap: 1px;">
+                            <h5 class="card-title mb-0 listing-name-top">${escapeHtml(title)}</h5>
+                            <p class="card-text mb-0 listing-description"><a href="${escapeAttribute(actionUrl)}" class="listing-description-link">${escapeHtml(description)}</a></p>
+                            ${hasPrice ? `<p class="card-text mb-0 product-price-range">${escapeHtml(priceParts.amount)}${priceParts.unit ? `<span class="price-unit">${escapeHtml(priceParts.unit)}</span>` : ''}</p>` : ''}
+                            <a href="${escapeAttribute(actionUrl)}" class="btn card-img-button py-1 mt-0 listing-action-btn">${escapeHtml(actionLabel)}</a>
+                            <p class="recent-viewed-at">${escapeHtml(formatViewedAt(item.viewed_at))}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buildRecentVideoSellerMarkup(item) {
+            const sellerName = item.seller_name || 'Business';
+            const sellerInitial = sellerName.charAt(0).toUpperCase() || 'B';
+            const sellerUrl = item.user_id > 0
+                ? (item.is_own_listing ? 'php/profile.php' : `php/visitor_profile.php?user_id=${encodeURIComponent(String(item.user_id))}`)
+                : '#';
+
+            if (item.seller_profilepic) {
+                return `
+                    <a href="${escapeAttribute(sellerUrl)}" class="video-seller-row video-seller-link">
+                        <img src="${escapeAttribute(item.seller_profilepic)}" alt="${escapeAttribute(sellerName)}" class="video-seller-dp" onerror="this.onerror=null;this.src='${escapeAttribute(defaultSellerProfileImage)}';">
+                        <p class="video-seller-name">${escapeHtml(sellerName)}</p>
+                    </a>
+                `;
+            }
+
+            return `
+                <a href="${escapeAttribute(sellerUrl)}" class="video-seller-row video-seller-link">
+                    <span class="video-seller-dp video-seller-dp-fallback">${escapeHtml(sellerInitial)}</span>
+                    <p class="video-seller-name">${escapeHtml(sellerName)}</p>
+                </a>
+            `;
+        }
+
+        function buildRecentVideoCardMarkup(item) {
+            const title = item.title || 'Listing';
+            const description = item.description || 'View this listing on JoMu.';
+            const hashtags = item.hashtags || '#JoMu';
+
+            return `
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100 recent-video-card">
+                        <div class="video-wrapper">
+                            <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="${escapeAttribute(item.media_src)}" data-preview-title="${escapeAttribute(title)}" data-preview-description="${escapeAttribute(description)}" data-preview-price="${escapeAttribute(item.price)}" data-preview-listing-id="${item.listing_id}">
+                                <source src="${escapeAttribute(item.media_src)}" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="card-body p-2 video-card-body">
+                            ${buildRecentVideoSellerMarkup(item)}
+                            <h6 class="video-stock-title">${escapeHtml(title)}</h6>
+                            <p class="video-description-brief">${escapeHtml(description)}</p>
+                            <p class="video-hashtags mb-0">${escapeHtml(hashtags)}</p>
+                            <p class="recent-viewed-at">${escapeHtml(formatViewedAt(item.viewed_at))}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createRecentCardMarkup(item) {
+            if (!item || !item.media_src) {
+                return '';
+            }
+
+            return item.media_type === 'video'
+                ? buildRecentVideoCardMarkup(item)
+                : buildRecentImageCardMarkup(item);
+        }
+
+        function createSectionMarkup(title, items) {
+            if (!items.length) {
+                return '';
+            }
+
+            return `
+                <section class="recent-listing-section">
+                    ${title ? `<h2 class="recent-listing-heading">${escapeHtml(title)}</h2>` : ''}
+                    <div class="row recent-listings-row">
+                        ${items.map(createRecentCardMarkup).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderEmptyState(message) {
+            recentListingsRoot.innerHTML = `
+                <div class="recent-empty-state">
+                    <p class="recent-empty-state-title">No recently viewed listings yet</p>
+                    <p class="recent-empty-state-text">${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function updateMediaPreviewDetails(sourceEl) {
+            if (!mediaPreviewDetails) return;
+            const title = String(sourceEl?.dataset.previewTitle || "").trim();
+            const price = String(sourceEl?.dataset.previewPrice || "").trim();
+            const description = String(sourceEl?.dataset.previewDescription || "");
+            const hasDetails = title !== "" || price !== "" || description !== "";
+
+            mediaPreviewTitle.textContent = title;
+            mediaPreviewTitle.style.display = title ? "block" : "none";
+            mediaPreviewPrice.textContent = price ? `Price: ${price}` : "";
+            mediaPreviewPrice.style.display = price ? "block" : "none";
+            mediaPreviewDescription.textContent = description;
+            mediaPreviewDescription.style.display = description ? "block" : "none";
+            mediaPreviewDetails.style.display = hasDetails ? "block" : "none";
+        }
+
+        function closeMediaPreview() {
+            if (!mediaOverlay) return;
+            mediaPreviewVideo.pause();
+            mediaPreviewVideo.removeAttribute("src");
+            mediaPreviewImage.removeAttribute("src");
+            mediaPreviewImage.style.display = "none";
+            mediaPreviewVideo.style.display = "none";
+            if (mediaPreviewDetails) {
+                mediaPreviewDetails.style.display = "none";
+            }
+            mediaOverlay.classList.remove("active");
+            mediaOverlay.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+            if (mediaWatermark) mediaWatermark.style.display = "none";
+        }
+
+        function openMediaPreview(type, src, sourceEl) {
+            if (!mediaOverlay || !src) return;
+            mediaPreviewImage.style.display = "none";
+            mediaPreviewVideo.style.display = "none";
+            updateMediaPreviewDetails(sourceEl);
+
+            if (type === "video") {
+                mediaPreviewVideo.src = src;
+                mediaPreviewVideo.style.display = "block";
+                mediaPreviewVideo.play().catch(() => { });
+                if (mediaWatermark) mediaWatermark.style.display = "none";
+            } else {
+                mediaPreviewImage.src = src;
+                mediaPreviewImage.style.display = "block";
+                if (mediaWatermark) mediaWatermark.style.display = "block";
+            }
+            mediaOverlay.classList.add("active");
+            mediaOverlay.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+
+        function openPreviewFromSource(sourceEl) {
+            if (!sourceEl) return;
+            const type = sourceEl.dataset.previewType || (sourceEl.tagName.toLowerCase() === "video" ? "video" : "image");
+            const src = sourceEl.dataset.previewSrc || sourceEl.getAttribute("src") || "";
+            openMediaPreview(type, src, sourceEl);
+        }
+
+        async function getRecentStorageKey() {
+            try {
+                const response = await fetch('php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) {
+                    return recentStorageKey;
+                }
+
+                const data = await response.json();
+                recentStorageKey = data?.signed_in && data?.user_key
+                    ? `jomuRecentlyViewedListings:${data.user_key}`
+                    : 'jomuRecentlyViewedListings:guest';
+                return recentStorageKey;
+            } catch (error) {
+                return recentStorageKey;
+            }
+        }
+
+        async function syncAuthActionsVisibility() {
+            try {
+                const response = await fetch('php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data?.signed_in) {
+                    return;
+                }
+
+                document.getElementById('recentSigninNavItem')?.remove();
+                document.getElementById('recentCreateAccountButton')?.remove();
+                document.getElementById('recentSigninMobileLink')?.remove();
+                document.getElementById('recentCreateAccountMobileButton')?.remove();
+                document.getElementById('recentMobileAuthMenu')?.remove();
+
+                const navbarToggler = document.getElementById('recentNavbarToggler');
+                if (navbarToggler) {
+                    navbarToggler.style.display = 'none';
+                }
+            } catch (error) {
+                // Leave guest actions visible if auth state cannot be determined.
+            }
+        }
+
+        (function () {
+            const mobileAuthButton = document.getElementById('recentNavbarToggler');
+            const mobileAuthMenu = document.getElementById('recentMobileAuthMenu');
+            if (!mobileAuthButton || !mobileAuthMenu) {
+                return;
+            }
+
+            function positionMobileAuthMenu() {
+                const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
+                mobileAuthMenu.style.right = `${rightOffset}px`;
+                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+            }
+
+            function setMobileAuthOpen(isOpen) {
+                if (isOpen) {
+                    positionMobileAuthMenu();
+                }
+                mobileAuthMenu.classList.toggle('show', isOpen);
+                mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            mobileAuthButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setMobileAuthOpen(!mobileAuthMenu.classList.contains('show'));
+            });
+
+            document.addEventListener('click', (event) => {
+                if (mobileAuthButton.contains(event.target) || mobileAuthMenu.contains(event.target)) {
+                    return;
+                }
+                setMobileAuthOpen(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            });
+        })();
+
+        (function () {
+            const mobileAuthItems = Array.from(document.querySelectorAll('[data-mobile-auth-link]'));
+            if (mobileAuthItems.length === 0) {
+                return;
+            }
+
+            mobileAuthItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const nextUrl = item.getAttribute('data-mobile-auth-link');
+                    if (!nextUrl) {
+                        return;
+                    }
+
+                    window.location.assign(nextUrl);
+                });
+            });
+        })();
+
+        function loadStoredRecentlyViewedListings(storageKey) {
+            try {
+                const raw = localStorage.getItem(storageKey);
+                const items = raw ? JSON.parse(raw) : [];
+                return Array.isArray(items)
+                    ? items.map(normalizeRecentItem).filter(Boolean).slice(0, 20)
+                    : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveStoredRecentlyViewedListings(storageKey, items) {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(items.slice(0, 20)));
+            } catch (error) {
+                // Non-blocking recent-history update.
+            }
+        }
+
+        async function fetchLiveRecentlyViewedListings(ids) {
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return [];
+            }
+
+            const response = await fetch(`php/recently_viewed_listings.php?ids=${encodeURIComponent(ids.join(','))}`, {
+                credentials: 'same-origin'
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to load recent listings.');
+            }
+
+            const data = await response.json();
+            return Array.isArray(data?.listings) ? data.listings : [];
+        }
+
+        function mergeStoredAndLiveRecentItems(storedItems, liveItems) {
+            const liveById = new Map();
+
+            liveItems.forEach((item) => {
+                const normalized = normalizeRecentItem(item);
+                if (normalized) {
+                    liveById.set(normalized.listing_id, normalized);
+                }
+            });
+
+            return storedItems
+                .map((storedItem) => {
+                    const liveItem = liveById.get(storedItem.listing_id);
+                    if (!liveItem || !liveItem.media_src) {
+                        return null;
+                    }
+
+                    return {
+                        ...storedItem,
+                        ...liveItem,
+                        viewed_at: storedItem.viewed_at || liveItem.viewed_at || '',
+                    };
+                })
+                .filter(Boolean);
+        }
+
+        async function loadRecentlyViewedListings() {
+            const storageKey = await getRecentStorageKey();
+            const storedItems = loadStoredRecentlyViewedListings(storageKey);
+
+            if (storedItems.length === 0) {
+                renderEmptyState('Explore some listings first and they will appear here.');
+                return;
+            }
+
+            try {
+                const ids = storedItems.map((item) => item.listing_id);
+                const liveItems = await fetchLiveRecentlyViewedListings(ids);
+                const mergedItems = mergeStoredAndLiveRecentItems(storedItems, liveItems);
+
+                saveStoredRecentlyViewedListings(storageKey, mergedItems);
+
+                if (mergedItems.length === 0) {
+                    renderEmptyState('Listings removed by businesses are cleared from this page automatically.');
+                    return;
+                }
+
+                const imageItems = mergedItems.filter((item) => item.media_type !== 'video');
+                const videoItems = mergedItems.filter((item) => item.media_type === 'video');
+                const sectionsMarkup = [
+                    createSectionMarkup('', imageItems),
+                    createSectionMarkup('Recently Viewed Videos', videoItems),
+                ].join('');
+
+                recentListingsRoot.innerHTML = sectionsMarkup || '';
+            } catch (error) {
+                const fallbackItems = storedItems.filter((item) => item.media_src);
+
+                if (fallbackItems.length === 0) {
+                    renderEmptyState('Your recently viewed listings could not be loaded right now.');
+                    return;
+                }
+
+                const imageItems = fallbackItems.filter((item) => item.media_type !== 'video');
+                const videoItems = fallbackItems.filter((item) => item.media_type === 'video');
+                const sectionsMarkup = [
+                    createSectionMarkup('', imageItems),
+                    createSectionMarkup('Recently Viewed Videos', videoItems),
+                ].join('');
+
+                recentListingsRoot.innerHTML = sectionsMarkup || '';
+            }
+        }
+
+        loadRecentlyViewedListings();
+        syncAuthActionsVisibility();
+        window.addEventListener('focus', loadRecentlyViewedListings);
+        window.addEventListener('storage', (event) => {
+            if (event.key && String(event.key).startsWith('jomuRecentlyViewedListings')) {
+                loadRecentlyViewedListings();
+            }
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                loadRecentlyViewedListings();
+            }
+        });
+
+        document.querySelector('main')?.addEventListener('click', (event) => {
+            const sourceEl = event.target.closest('.media-preview-source') || event.target.closest('.video-stock-title, .video-description-brief, .video-hashtags, .listing-name-top, .listing-description, .listing-description-link')?.closest('.card')?.querySelector('.media-preview-source');
+            openPreviewFromSource(sourceEl);
+        });
+
+        document.querySelector('main')?.addEventListener('touchend', (event) => {
+            const sourceEl = event.target.closest('.media-preview-source') || event.target.closest('.video-stock-title, .video-description-brief, .video-hashtags, .listing-name-top, .listing-description, .listing-description-link')?.closest('.card')?.querySelector('.media-preview-source');
+            if (!sourceEl) return;
+            const sourceKey = sourceEl.dataset.previewSrc || sourceEl.getAttribute('src') || '';
+            const now = Date.now();
+            const isDoubleTap = now - lastTapTime < 350 && sourceKey !== '' && sourceKey === lastTapSrc;
+
+            lastTapTime = now;
+            lastTapSrc = sourceKey;
+
+            if (!isDoubleTap) return;
+            event.preventDefault();
+            openPreviewFromSource(sourceEl);
+            lastTapTime = 0;
+            lastTapSrc = '';
+        }, { passive: false });
+
+        document.addEventListener('touchstart', () => {
+            if (Date.now() - lastTapTime > 600) {
+                lastTapTime = 0;
+                lastTapSrc = '';
+            }
+        });
+
+        if (mediaClose) {
+            mediaClose.addEventListener("click", closeMediaPreview);
+        }
+
+        if (mediaOverlay) {
+            mediaOverlay.addEventListener("click", (event) => {
+                if (event.target === mediaOverlay) {
+                    closeMediaPreview();
+                }
+            });
+        }
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeMediaPreview();
+            }
+        });
+
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+    <script src="assets/listing-preview-modal.js"></script>
+    <script src="assets/listing-preview-gallery.js"></script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

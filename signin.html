@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body class="container body-signin d-flex flex-column min-vh-100">
+    <header></header>
+    <main class="main-signin flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+        <div class="w-100  signin-logo" style="max-width: 400px;">
+            <div class="container see">
+                <a class="mb-4 d-block signin-logo" href="index.php">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid mx-auto d-block signinjomu"
+                        style="max-width: 190px; margin-left: 12px;" alt="jomu-logo">
+                </a>
+                <div class="signin-container mx-auto" style="max-width: 400px;">
+                    <form action="php/signin.php" method="POST" id="signinForm">
+                        <input type="hidden" name="csrf_token" id="signinCsrfToken" value="">
+                        <h4 class="mb-3 px-4">Sign in to your account.</h4>
+                        <div class="form-floating mb-3">
+                            <input type="text" id="emailormobilenumber" name="emailormobilenumber" class="form-control"
+                                placeholder="Email or Mobile Number" required>
+                            <label for="email-mobilenumber">Enter your Email or Mobile Number</label>
+                            <small id="invalidwarning" style="color: red; display: block; margin-top: 4px;"></small>
+                        </div>
+                        <div class="form-floating mb-1">
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Password" required>
+                            <label for="password">Enter your Password</label>
+                            <small id="invalidPassword" style="color: red; display: block; margin-top: 4px;"></small>
+                        </div>
+                        <div class="mb-1 px-1">
+                            <button type="button" id="forgotPasswordTrigger"
+                                class="btn btn-link p-0 small text-decoration-none mb-0"
+                                style="color: rgb(0,0,255);">Forgot
+                                Password?</button>
+                        </div>
+                        <p class="small mb-3 px-4 text-center">By continuing, you agree to JoMu's <a
+                                class="terms-conditions" href="termsandconditions.html">Terms and Conditions</a>.</p>
+                        <button type="submit" class="btn w-100 signin-button">Continue</button>
+                        <button type="button" class="btn w-100 signin-button mt-2" id="googleSigninBtn"
+                            style="background-color: rgb(241,90,36);">Continue with
+                            Google.</button>
+                        <div id="googleSigninFallbackButton" class="mt-2 d-none"></div>
+                        <small id="googleSigninFeedback"
+                            style="display:block; margin-top: 6px; color: #c0392b;"></small>
+                    </form>
+                </div>
+            </div>
+    </main>
+    <div id="forgotPasswordModal" class="forgot-password-modal d-none" aria-hidden="true">
+        <div class="forgot-password-dialog">
+            <h5 class="mb-3" style="color: rgb(241, 90, 36);"><b>Reset password</b></h5>
+            <button type="button" id="forgotPasswordClose" class="forgot-password-close"
+                aria-label="Close reset password popup">&times;</button>
+
+            <div id="forgotStep1">
+                <p class="small mb-3">Enter the email or mobile number you used to create your account.</p>
+                <div class="mb-2">
+                    <label class="form-label d-block mb-1">Send code by</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="recoveryMethod" id="recoverEmail"
+                                value="email" checked>
+                            <label class="form-check-label" for="recoverEmail">Email</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="recoveryMethod" id="recoverPhone"
+                                value="phone">
+                            <label class="form-check-label" for="recoverPhone">WhatsApp</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="recoveryIdentifier" class="form-control"
+                        placeholder="Email or Mobile Number">
+                </div>
+                <button type="button" id="sendRecoveryCodeBtn" class="btn w-100 signin-button">Send code</button>
+            </div>
+
+            <div id="forgotStep2" class="d-none">
+                <p class="small mb-2">Enter the 6-digit code sent to your selected method.</p>
+                <div class="mb-3">
+                    <input type="text" id="recoveryCode" class="form-control" placeholder="Verification code"
+                        maxlength="6" inputmode="numeric">
+                </div>
+                <button type="button" id="verifyRecoveryCodeBtn" class="btn w-100 signin-button">Verify code</button>
+            </div>
+
+            <div id="forgotStep3" class="d-none">
+                <p class="small mb-2">Set your new password.</p>
+                <div class="mb-2">
+                    <input type="password" id="newRecoveryPassword" class="form-control"
+                        placeholder="New password (at least 8 characters)">
+                </div>
+                <div class="mb-3">
+                    <input type="password" id="confirmRecoveryPassword" class="form-control"
+                        placeholder="Confirm new password">
+                </div>
+                <button type="button" id="resetPasswordBtn" class="btn w-100 signin-button">Reset password</button>
+            </div>
+
+            <small id="forgotPasswordFeedback" class="d-block mt-3"></small>
+        </div>
+    </div>
+    <hr>
+    <footer class="footer-signin py-2 text-center d-none d-md-block d-lg-block">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+        <!-- </div> -->
+    </footer>
+
+    <footer class="footer-terms py-2 text-center d-block d-md-none d-lg-none">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        // Invalid email / mobile number warning. 
+        const field = document.getElementById("emailormobilenumber");
+        const warning = document.getElementById("invalidwarning");
+        const phoneRegex = /^(?:\+256\d{9}|07\d{8})$/;
+        function isValidEmail(value) {
+            const input = document.createElement("input");
+            input.type = "email";
+            input.value = value.trim();
+            return input.checkValidity();
+        }
+        field.addEventListener("blur", () => {
+            const value = field.value.trim();
+            warning.textContent = "";
+            if (value === "") return;
+            if (value.includes("@")) {
+
+                if (!isValidEmail(value)) {
+                    warning.textContent = "Please enter a valid email or Ugandan mobile number.";
+                }
+                return;
+            }
+            if (!phoneRegex.test(value)) {
+                warning.textContent = "Please enter a valid email or mobile number.";
+            }
+        });
+
+        // Invalid password or when the business is not found in database functionality.
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get("error");
+        if (error) {
+            document.getElementById("invalidPassword").textContent = error;
+        }
+
+        let publicCsrfToken = "";
+        async function getPublicCsrfToken() {
+            if (publicCsrfToken) return publicCsrfToken;
+            try {
+                const response = await fetch("php/auth_status.php", { credentials: "same-origin" });
+                if (!response.ok) return "";
+                const data = await response.json();
+                publicCsrfToken = String(data.csrf_token || "");
+                const signinCsrfInput = document.getElementById("signinCsrfToken");
+                if (signinCsrfInput) signinCsrfInput.value = publicCsrfToken;
+                return publicCsrfToken;
+            } catch (err) {
+                return "";
+            }
+        }
+        getPublicCsrfToken();
+        document.getElementById("signinForm").addEventListener("submit", async (event) => {
+            const token = await getPublicCsrfToken();
+            if (!token) {
+                event.preventDefault();
+                document.getElementById("invalidPassword").textContent = "Security token could not be loaded. Please refresh and try again.";
+            }
+        });
+
+        // Google Sign-In flow.
+        const googleSigninBtn = document.getElementById("googleSigninBtn");
+        const googleSigninFallbackButton = document.getElementById("googleSigninFallbackButton");
+        const googleSigninFeedback = document.getElementById("googleSigninFeedback");
+        let googleSigninInitialized = false;
+
+        async function initializeGoogleSignin() {
+            if (googleSigninInitialized) return true;
+            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+                googleSigninFeedback.textContent = "Google Sign-In is still loading. Please try again.";
+                return false;
+            }
+
+            try {
+                const response = await fetch("php/google_config.php");
+                const config = await response.json();
+                if (!response.ok || !config.success || !config.google_client_id) {
+                    googleSigninFeedback.textContent = config.message || "Google Sign-In is not configured.";
+                    return false;
+                }
+
+                window.google.accounts.id.initialize({
+                    client_id: config.google_client_id,
+                    callback: handleGoogleSigninCredential,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                window.google.accounts.id.renderButton(googleSigninFallbackButton, {
+                    theme: "outline",
+                    size: "large",
+                    width: Math.min(380, window.innerWidth - 50),
+                    text: "continue_with"
+                });
+
+                googleSigninInitialized = true;
+                return true;
+            } catch (err) {
+                googleSigninFeedback.textContent = "Unable to initialize Google Sign-In right now.";
+                return false;
+            }
+        }
+
+        async function handleGoogleSigninCredential(response) {
+            if (!response || !response.credential) {
+                googleSigninFeedback.textContent = "Google did not return a sign-in token.";
+                return;
+            }
+
+            googleSigninBtn.disabled = true;
+            googleSigninFeedback.style.color = "#1f7a1f";
+            googleSigninFeedback.textContent = "Signing you in with Google...";
+
+            try {
+                const authResponse = await fetch("php/google_auth.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ id_token: response.credential, flow: "signin", csrf_token: await getPublicCsrfToken() })
+                });
+                const data = await authResponse.json();
+
+                if (!authResponse.ok || !data.success) {
+                    googleSigninFeedback.style.color = "#c0392b";
+                    googleSigninFeedback.textContent = data.message || "Google authentication failed.";
+                    googleSigninBtn.disabled = false;
+                    return;
+                }
+
+                window.location.href = data.redirect || "php/businessvendordashboard.php";
+            } catch (err) {
+                googleSigninFeedback.style.color = "#c0392b";
+                googleSigninFeedback.textContent = "Something went wrong while signing in with Google.";
+                googleSigninBtn.disabled = false;
+            }
+        }
+
+        googleSigninBtn.addEventListener("click", async () => {
+            googleSigninFeedback.style.color = "#c0392b";
+            googleSigninFeedback.textContent = "";
+            const ready = await initializeGoogleSignin();
+            if (!ready) return;
+
+            window.google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    googleSigninFallbackButton.classList.remove("d-none");
+                    googleSigninFeedback.textContent = "Tap the Google button below if the popup did not appear.";
+                }
+            });
+        });
+
+        // Forgot password flow.
+        const forgotPasswordModal = document.getElementById("forgotPasswordModal");
+        const forgotPasswordTrigger = document.getElementById("forgotPasswordTrigger");
+        const forgotPasswordClose = document.getElementById("forgotPasswordClose");
+        const forgotPasswordFeedback = document.getElementById("forgotPasswordFeedback");
+        const forgotStep1 = document.getElementById("forgotStep1");
+        const forgotStep2 = document.getElementById("forgotStep2");
+        const forgotStep3 = document.getElementById("forgotStep3");
+        const recoveryIdentifierInput = document.getElementById("recoveryIdentifier");
+        const recoveryCodeInput = document.getElementById("recoveryCode");
+        const sendRecoveryCodeBtn = document.getElementById("sendRecoveryCodeBtn");
+        const verifyRecoveryCodeBtn = document.getElementById("verifyRecoveryCodeBtn");
+        const resetPasswordBtn = document.getElementById("resetPasswordBtn");
+        const newRecoveryPassword = document.getElementById("newRecoveryPassword");
+        const confirmRecoveryPassword = document.getElementById("confirmRecoveryPassword");
+
+        let recoveryIdentifier = "";
+
+        function resetForgotPasswordFlow() {
+            forgotStep1.classList.remove("d-none");
+            forgotStep2.classList.add("d-none");
+            forgotStep3.classList.add("d-none");
+            forgotPasswordFeedback.textContent = "";
+            forgotPasswordFeedback.style.color = "";
+            recoveryCodeInput.value = "";
+            newRecoveryPassword.value = "";
+            confirmRecoveryPassword.value = "";
+        }
+
+        function openForgotPasswordModal() {
+            forgotPasswordModal.classList.remove("d-none");
+            forgotPasswordModal.setAttribute("aria-hidden", "false");
+            recoveryIdentifierInput.value = field.value.trim();
+            resetForgotPasswordFlow();
+        }
+
+        function closeForgotPasswordModal() {
+            forgotPasswordModal.classList.add("d-none");
+            forgotPasswordModal.setAttribute("aria-hidden", "true");
+        }
+
+        function showFeedback(message, isError = false) {
+            forgotPasswordFeedback.textContent = message;
+            forgotPasswordFeedback.style.color = isError ? "#c0392b" : "#1f7a1f";
+        }
+
+        forgotPasswordTrigger.addEventListener("click", openForgotPasswordModal);
+        forgotPasswordClose.addEventListener("click", closeForgotPasswordModal);
+        forgotPasswordModal.addEventListener("click", (event) => {
+            if (event.target === forgotPasswordModal) {
+                closeForgotPasswordModal();
+            }
+        });
+
+        sendRecoveryCodeBtn.addEventListener("click", async () => {
+            const selectedMethod = document.querySelector('input[name="recoveryMethod"]:checked')?.value || "email";
+            const identifier = recoveryIdentifierInput.value.trim();
+
+            if (!identifier) {
+                showFeedback("Please enter your email or mobile number.", true);
+                return;
+            }
+
+            sendRecoveryCodeBtn.disabled = true;
+            showFeedback("Checking account and sending code...");
+
+            try {
+                const response = await fetch("php/forgot_password_send_code.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ method: selectedMethod, identifier, csrf_token: await getPublicCsrfToken() })
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showFeedback(data.message || "Unable to send code. Please try again.", true);
+                    return;
+                }
+
+                recoveryIdentifier = data.identifier || identifier;
+                forgotStep1.classList.add("d-none");
+                forgotStep2.classList.remove("d-none");
+                showFeedback(data.message || "Code sent successfully.");
+            } catch (err) {
+                showFeedback("Something went wrong while sending the code.", true);
+            } finally {
+                sendRecoveryCodeBtn.disabled = false;
+            }
+        });
+
+        verifyRecoveryCodeBtn.addEventListener("click", async () => {
+            const code = recoveryCodeInput.value.trim();
+
+            if (!code) {
+                showFeedback("Please enter the verification code.", true);
+                return;
+            }
+
+            verifyRecoveryCodeBtn.disabled = true;
+            showFeedback("Verifying code...");
+
+            try {
+                const response = await fetch("php/forgot_password_verify_code.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ identifier: recoveryIdentifier, code, csrf_token: await getPublicCsrfToken() })
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showFeedback(data.message || "Invalid code. Please try again.", true);
+                    return;
+                }
+
+                forgotStep2.classList.add("d-none");
+                forgotStep3.classList.remove("d-none");
+                showFeedback(data.message || "Code verified. Set your new password.");
+            } catch (err) {
+                showFeedback("Something went wrong while verifying the code.", true);
+            } finally {
+                verifyRecoveryCodeBtn.disabled = false;
+            }
+        });
+
+        resetPasswordBtn.addEventListener("click", async () => {
+            const password = newRecoveryPassword.value;
+            const confirmPassword = confirmRecoveryPassword.value;
+
+            if (password.length < 8) {
+                showFeedback("Password must be at least 8 characters.", true);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showFeedback("New password and confirm password do not match.", true);
+                return;
+            }
+
+            resetPasswordBtn.disabled = true;
+            showFeedback("Updating password...");
+
+            try {
+                const response = await fetch("php/forgot_password_reset.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ identifier: recoveryIdentifier, new_password: password, csrf_token: await getPublicCsrfToken() })
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showFeedback(data.message || "Unable to reset password right now.", true);
+                    return;
+                }
+
+                showFeedback(data.message || "Password reset successful. You can now sign in.");
+                setTimeout(() => {
+                    closeForgotPasswordModal();
+                }, 1100);
+            } catch (err) {
+                showFeedback("Something went wrong while resetting your password.", true);
+            } finally {
+                resetPasswordBtn.disabled = false;
+            }
+        });
+    </script>
+    <style>
+        .forgot-password-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .forgot-password-dialog {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 18px 16px 16px;
+        }
+
+        .forgot-password-close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            border: 0;
+            background: transparent;
+            font-size: 25px;
+            line-height: 1;
+            cursor: pointer;
+        }
+    </style>
+
+
+
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

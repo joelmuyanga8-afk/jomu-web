@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | About</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f0ecec;">
+    <div class="container-fluid" style="z-index: 10; padding: 0px; margin: 0px;">
+        <a href="index.php">
+            <video class="d-none d-md-block d-lg-block" style="height: inherit; width: 100%;" autoplay loop muted
+                src="assets/videos/Over Navbar JoMu 70px.mp4"></video>
+            <video class="d-block d-md-none d-lg-none" style="height: inherit; width: 100%;" autoplay loop muted
+                src="assets/videos/Over Navbar JoMu 1080px.mp4"></video>
+        </a>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light  sticky-top navbarone navbar-help bg-dark" id="navbarone"
+        style="z-index: 100; margin-top: -6px;">
+        <div class="container">
+            <a class="navbar-brand brand-logos" href="index.php">
+                <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+            </a>
+        </div>
+        <!-- Toggler for small and medium screens -->
+        <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+            <span>
+                <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+            </span>
+        </button>
+        <!-- Navbar links for large screens -->
+        <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active signin">
+                    <a class="nav-link link-text" href="signin.html">Sign In</a>
+                </li>
+            </ul>
+            <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                account</button>
+        </div>
+
+        <!-- offcanvas menu for small and medium screens -->
+        <div class="offcanvas offcanvas-bottom d-lg-none" tabindex="-1" id="offcanvasNav"
+            aria-labelledby="offcanvasNavbarLabel" style="height: 20vh;">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close bg-white " data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    </li>
+                </ul>
+                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    account</button>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <!-- Image container sticky for large screens. -->
+        <div class="m-2 mt-1 container-one-about">
+            <div class="container-images-about bg-white d-none d-md-none d-lg-block">
+                <div class="image-about-container mb-1 mt-5">
+                    <img src="assets/images/JoMu laptop 3-1.png" class="img-fluid image-about">
+                </div>
+                <div class="image-about-container mb-1">
+                    <img src="assets/images/JoMu Phone 2.png" class="img-fluid image-about">
+                </div>
+            </div>
+            <!-- </div> -->
+            <!-- Image container sticky for Medium screens. -->
+            <div class="m-2 mt-1 container-one-about">
+                <div class="container-images-about bg-white d-none d-md-block d-lg-none">
+                    <div class="image-about-container mb-1 mt-5">
+                        <img src="assets/images/JoMu laptop 3-1.png" class="img-fluid image-about">
+                    </div>
+                    <div class="image-about-container mb-1">
+                        <img src="assets/images/JoMu Phone 2.png" class="img-fluid image-about">
+                        <div class="image-about-container mt-1 mb-1">
+                            <img src="assets/images/JoMu laptop 1.png" class="img-fluid image-about">
+                        </div>
+                        <div class="image-about-container mb-1">
+                            <img src="assets/images/JoMu Phone 1.png" class="img-fluid image-about">
+                        </div>
+                        <div class="image-about-container mb-1">
+                            <img src="assets/images/JoMu laptop 2.png" class="img-fluid image-about">
+                        </div>
+                        <div class="image-about-container mb-1">
+                            <img src="assets/images/JoMu Phone 2.png" class="img-fluid image-about">
+                        </div>
+                    </div>
+                </div>
+                <!-- Image floating container for small screens. -->
+                <!-- Go to the bottom. -->
+
+                <div class="about-content-container bg-white w-100">
+                    <p><strong style="color: rgb(241, 90, 36);">Hi</strong>, Get to know about JoMu.</p>
+                    <hr>
+                    <div class="">
+                        <div class="text-center">
+                            <h3 style="color: rgb(241, 90, 36);"><strong>What is JoMu?</strong></h3>
+                        </div>
+                        <p class="text-center">JoMu is a business to business (B2B) wholesale marketplace platform
+                            designed
+                            to connect
+                            businesses and facilitate the
+                            buying, selling, and collaboration of products and services. JoMu serves as a hub where
+                            businesses can seamlessly engage in trade and partnerships. JoMu was started in 2024.
+                        </p>
+                    </div><br>
+                    <div class="text-center">
+                        <h3 style="color: rgb(241, 90, 36);"><strong>Vision</strong></h3>
+                    </div>
+                    <div class="container d-flex align-items-center justify-content-center">
+                        <div class="row">
+                            <div class="col-auto">
+                                <img src="assets/images/icons/JoMu Vision-icon.png" class="img-fluid">
+                            </div>
+                            <div class="col py-4">
+                                <p class="">Facilitate businesses across Africa through
+                                    reliable,
+                                    trustworthy, and
+                                    digitally
+                                    enhanced wholesale
+                                    trade.</p>
+                            </div>
+                        </div>
+                    </div><br><br>
+                    <div class="text-center">
+                        <h3 style="color: rgb(241, 90, 36);"><strong>Getting started with JoMu.</strong></h3>
+                    </div>
+                    <h5 class="text-center"><strong>New to JoMu? Getting started is easy. Just follow the steps below to
+                            create your account and set up your
+                            business
+                            profile to begin your journey to success.</strong> </h5><br>
+                    <!-- Large screen. -->
+                    <h5 class="text-center d-none d-md-none d-lg-block" style="opacity: 0.9;"><strong>Step 1. Navigate
+                            to
+                            "Create Account".</strong>
+                    </h5>
+                    <div class="steps-about text-center d-none d-md-none d-lg-block">
+                        <p>On any page with a navigation bar, locate and click the "Create Account" button at the top
+                            right.
+                        </p>
+                        <img src="assets/images/JoMu Screenshots-lg-1.png" style="width: 550px; height: 70px;"
+                            class="img-fluid">
+                    </div><br>
+                    <!-- Medium and Small screens. -->
+                    <h5 class="text-center d-block d-md-block d-lg-none" style="opacity: 0.9;"><strong>Step 1. Open the
+                            Navigation Menu.</strong>
+                        <div class="steps-about text-center d-block d-md-block d-lg-none">
+                            <p>On any page, with a navigation bar, tap the menu icon at the top-right corner of your
+                                screen
+                                (the navbar toggler).</p>
+                            <img src="assets/images/JoMu Screenshot-sm-1.png" class="img-fluid">
+                        </div><br>
+                        <!-- Large Screen. -->
+                        <h5 class="text-center d-none d-md-none d-lg-block" style="opacity: 0.9;"><strong>Step 2. Fill
+                                in
+                                required information</strong>
+                        </h5>
+                        <div class="steps-about text-center d-none d-md-none d-lg-block">
+                            <p>A registration form will appear. Enter the necessary details such as your business name,
+                                email
+                                address / phone number, and password.</p>
+                            <img src="assets/images/JoMu Screenshots-lg-2.png" style="width: 550px; height: 280px;"
+                                class="img-flui">
+                        </div><br>
+                        <!--Medium and Small Screens. -->
+                        <h5 class="text-center d-block d-md-block d-lg-none" style="opacity: 0.9;"><strong>Step 2. Tap
+                                "Create Account". </strong></h5>
+                        <div class="steps-about text-center d-block d-md-block d-lg-none">
+                            <p>Once the menu (drawer/offcanvas) slides in from the bottom, tap the "Create Account
+                                button to
+                                begin registration.</p>
+                            <img src="assets/images/JoMu Screenshot-sm-2.png" class="img-fluid">
+                        </div><br>
+                        <!-- Large screen. -->
+                        <h5 class="text-center d-none d-md-none d-lg-block" style="opacity: 0.9;"><strong>Step 3. Click
+                                "Continue".</strong>
+                        </h5>
+                        <div class="steps-about mb-0 text-center d-none d-md-none d-lg-block">
+                            <p>Once all fields are filled in, click the "Continue" (blue background) button to proceed.
+                                Otherwise, you can
+                                simply create your business account using Google (orange background button).</p>
+                            <img src="assets/images/JoMu Screenshots-lg-3.png" style="width: 550px; height: 280px;"
+                                class="img-fluid mb-0">
+                        </div><br>
+                        <!--Medium and Small screens. -->
+                        <h5 class="text-center d-block d-md-block d-lg-none" style="opacity: 0.9;"><strong>Step 3. Fill
+                                in
+                                required information</strong></h5>
+                        <div class="steps-about text-center d-block d-md-block d-lg-none">
+                            <p>A registration form will appear. Enter the necessary details such as your business name,
+                                email
+                                address / phone number, and password.</p>
+                            <img src="assets/images/JoMu Screenshot-sm-3.png" style="width: 250px; height: 400px;"
+                                class="img-fluid">
+                        </div><br><br>
+
+                        <!--Medium and Small screens. -->
+                        <h5 class="text-center d-block d-md-block d-lg-none" style="opacity: 0.9;"><strong>Step 4. Click
+                                "Continue".</strong></h5>
+                        <div class="steps-about text-center d-block d-md-block d-lg-none">
+                            <p>Once all fields are filled in, click the "Continue"(blue background) button to proceed.
+                                Otherwise, you can
+                                simply create your business account using Google (orange background button).</p>
+                            <img src="assets/images/JoMu Screenshot-sm-4.png" class="img-fluid">
+                        </div><br>
+                        <!-- Large screen. -->
+                        <h5 class="text-center d-none d-md-none d-lg-block" style="opacity: 0.9;"><strong>Step 4.
+                                Set Up
+                                your Profile.</strong>
+                        </h5>
+                        <div class="steps-about text-center d-none d-md-none d-lg-block">
+                            <p>After account creation, you'll be required to complete your profile. Set your
+                                <b>business
+                                    biography</b> and add other
+                                relevant information.
+                            </p>
+                        </div><br>
+                        <!--Medium and Small screens. -->
+                        <h5 class="text-center d-block d-md-block d-lg-none" style="opacity: 0.9;"><strong>Step 5. Set
+                                Up
+                                your Profile.</strong>
+                        </h5>
+                        <div class="steps-about text-center d-block d-md-block d-lg-none">
+                            <p>After account creation, you'll be required to complete your profile. Set your
+                                <b>business
+                                    biography</b> and add other
+                                relevant information.
+                            </p>
+                        </div><br>
+                        <!-- All screens. -->
+                        <h5 class="text-center" style="opacity: 0.9;"><strong>You're
+                                In!</strong> </h5>
+                        <div class="steps-about text-center">
+                            <p>Your account is now active. Explore features, post listings, and connect with other
+                                businesses.
+                            </p>
+                        </div>
+                </div>
+            </div>
+    </main>
+
+    <footer class=" footer-help py-2 text-center">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+
+    <!-- Image container carousel for small screens. -->
+    <div class="d-block d-md-none d-lg-none">
+        <div id="floating-ticket" class="position-fixed bottom-0 end-0">
+            <div class="container-images-about-small bg-white py-5 px-3 mt-5">
+                <div class="image-about-container-small mb-1 mt-5">
+                    <img src="assets/images/JoMu laptop 3-1.png" class="img-fluid image-about-small">
+                </div>
+                <div class="image-about-container-small mb-1">
+                    <img src="assets/images/JoMu Phone 2.png" class="img-fluid image-about-small">
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            async function syncAuthCtasForSignedInUser() {
+                try {
+                    const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                    if (!response.ok) return;
+
+                    const data = await response.json();
+                    if (!data || data.signed_in !== true) return;
+
+                    const authSelectors = [
+                        "a[href='signin.html']",
+                        "a[href='./signin.html']",
+                        "a[href='/signin.html']",
+                        "a[href='createaccount.html']",
+                        "a[href='./createaccount.html']",
+                        "a[href='/createaccount.html']",
+                        "button[onclick*='createaccount.html']"
+                    ];
+
+                    document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                        const li = node.closest('li');
+                        if (li) {
+                            li.remove();
+                        } else {
+                            node.remove();
+                        }
+                    });
+
+                    document.querySelectorAll('.offcanvas').forEach((panel) => {
+                        const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                        if (hasActions) return;
+
+                        const panelId = panel.getAttribute('id');
+                        if (panelId) {
+                            document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                        }
+                        panel.remove();
+                    });
+                } catch (error) {
+                    // Keep default auth links when auth check is unavailable.
+                }
+            }
+
+            syncAuthCtasForSignedInUser();
+        </script>
+        <script>
+            // Image container upon opening page functionality.
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const ticket = document.getElementById('floating-ticket');
+                    ticket.style.display = 'none';
+                }, 6000);
+
+            });
+
+
+            // Back to top functionality.
+            const btn = document.getElementById("backToTop");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 400) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none"
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+        <script src="assets/bootstrap.bundle.min.js"></script>
+        <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

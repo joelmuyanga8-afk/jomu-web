@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Help Center</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .help-search-result {
+            margin-top: 0;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
+            text-align: left;
+            width: 100%;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+
+        .help-result-navigation {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .help-result-nav-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 0, 255, 0.25);
+            background: #ffffff;
+            color: #000000;
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            min-width: 100px;
+            font-size: 0.92rem;
+            line-height: 1.2;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .help-result-nav-button:hover:not(:disabled) {
+            background: rgba(230, 236, 255, 0.95);
+            border-color: rgba(0, 0, 255, 0.4);
+            color: #000000;
+        }
+
+        .help-result-nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .help-result-nav-button:hover:not(:disabled) {
+            background: #f4f6ff;
+            border-color: rgba(0, 0, 255, 0.35);
+        }
+
+        .help-result-nav-button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body style="padding-top: 68px;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
+            <div class="container">
+                <a class="navbar-brand brand-logos" href="index.php">
+                    <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+                </a>
+            </div>
+            <!-- Toggler for small and medium screens -->
+            <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <span>
+                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                </span>
+            </button>
+            <!-- Navbar links for large screens -->
+            <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active signin">
+                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    </li>
+                </ul>
+                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    account</button>
+            </div>
+
+            <!-- offcanvas menu for small and medium screens -->
+            <div class="offcanvas offcanvas-bottom d-lg-none" tabindex="-1" id="offcanvasNav"
+                aria-labelledby="offcanvasNavbarLabel" style="height: 20vh;">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close bg-white " data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        </li>
+                    </ul>
+                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                        account</button>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="help-container">
+            <div class="help-content">
+                <div class="start-help" style="margin-top: -10px;">
+                    <h6><a href="index.php" style="text-decoration: none; opacity: 0.7;"
+                            class="start-text-help">JoMu</a> <span style="opacity: 0.5;"
+                            class="start-text-help">|</span>
+                        <a href="help.html" style="text-decoration: none;" class="start-text-help">Help Center
+                            <!-- Help icon for large screens. -->
+                            <img src="assets/images/icons/Help-Center-Icon-white.png"
+                                class="d-none d-lg-inline  options-icons options-icons-help">
+                            <!-- Help icon for medium screens. -->
+                            <img src="assets/images/icons/Help-Center-Icon-white.png"
+                                class="d-none d-lg-none d-md-inline  options-icons options-icons-help">
+                            <!-- Help Icon for small screens. -->
+                            <img src="assets/images/icons/Help Center-icon.png"
+                                class="d-inline d-lg-none d-md-none options-icons options-icons-help"></a>
+                    </h6><br>
+                </div>
+                <div class="hello-help-container">
+                    <div class="text-center" style="margin-top: -20px;">
+                        <h2>Hello,</h2>
+                        <h3>Welcome to our Customer Service.</h3>
+                        <h4>How may we help you?</h4>
+                        <div class="container help-searching">
+                            <input type="text" id="help-searchbar" class="help-searchbar"
+                                placeholder="Search for answers">
+                            <button type="button" id="help-search-button" class="button help-search-button"
+                                aria-label="Search for help answers">
+                                <img src="assets/images/icons/Search-Icon-3.png" class="help-options-icons">
+                            </button>
+                            <div id="help-search-result" class="help-search-result" aria-live="polite"></div>
+                        </div>
+                    </div>
+                    <div class="blur-container-help mt-2 mx-auto" style="max-width: 400px;">
+                        <p style="margin: 0;"><strong>Here's what you can do:</strong></p>
+                        <p style="margin: 0;"><strong style="opacity: 0.7;">Search for Answers:</strong> Use the search
+                            bar above to quickly find solutions.</p>
+                        <p style="margin: 0;"><strong style="opacity: 0.7;">Explore FAQs:</strong> Browse frequently
+                            asked questions to get instant help.</p>
+                        <p style="margin: 0;"><strong style="opacity: 0.7;">Talk to Us:</strong> Can't find what you're
+                            looking for? Click "Talk to Us" to reach our
+                            support team directly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <h3 style="color: rgb(0, 0, 255); background-color: #f0ecec; padding-top: 10px;" class="text-center mb-0">FAQs
+        </h3>
+        <div class="px-md-5 faq-container">
+            <div class="frequent-qtns2">
+                <div class="faq faq-first2">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">What is JoMu and how does it work?</div>
+                    <div class="faqanswer faqanswerfirsttwo">JoMu is a business to business platform that connects
+                        businesses looking to buy, sell, or collaborate.
+                        You can list your products/services, discover potential partners, and start deals directly
+                        through the platform.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Who can join the platform?</div>
+                    <div class="faqanswer">Any legalised business or verified entrepreneur can join, including
+                        manufacturers, wholesalers, retailers,
+                        service providers, and startups.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">How do I register my business?</div>
+                    <div class="faqanswer">Simply click on "Create account", fill in the required information, and
+                        submit by clicking "Continue".</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Is it free to create an account?</div>
+                    <div class="faqanswer">Yes! Creating an account on JoMu is free.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">How do I verify another business before making a
+                        deal?</div>
+                    <div class="faqanswer">You can check their profile, reviews, business documents(if uploaded), or
+                        request additional verification
+                        before proceeding.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Who is the most trustworthy seller for clothes
+                        bale (Ndiboota) on JoMu?</div>
+                    <div class="faqanswer">JoMu does not rank or endorse specific sellers, buyers or service providers.
+                        However, you can
+                        identify trustworthy by checking their reviews,
+                        and how complete their profile is. Always connect and communicate clearly before making any
+                        deals.</div>
+                </div>
+                <div class="faq faq-last2">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Is there a messaging system to communicate with
+                        other businesses?</div>
+                    <div class="faqanswer">Yes, our built-in messaging system allows you to chat securely with potential
+                        business partners.
+                        <!-- However the chat system is only availabe on the JoMu mobile application. -->
+                    </div>
+                </div>
+            </div>
+            <div class="frequent-qtns">
+                <div class="faq faq-first">
+                    <!-- Chevron arrows &#x2303;   &#8964; -->
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Can individuals join the platform?</div>
+                    <div class="faqanswer">No, only businesses and verified entrepreneurs.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">What to do if I fail to recover my forgotten
+                        password?</div>
+                    <div class="faqanswer">Send a direct message to JoMu through our social media handles or simply
+                        email us for support.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">How do I delete my account?</div>
+                    <div class="faqanswer">Contact JoMu support team for help.
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Can I access the platform without creating an
+                        account?</div>
+                    <div class="faqanswer">You can browse listings, but you must create an account to connect or post.
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">How do I report a fake or suspicious business?
+                    </div>
+                    <div class="faqanswer">Contact JoMu support team with details.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Is my data safe on this platform?</div>
+                    <div class="faqanswer">Yes, we use industry-standard practices to protect your data. Read more in
+                        the <a href="privacypolicy.html">
+                            Privacy Policy</a>.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">I'm in agriculture. Can I post seasonal products?
+                    </div>
+                    <div class="faqanswer">Yes, as long as you specify your category(Agriculture), you can list seasonal
+                        products and update them based on availability.</div>
+                </div>
+                <div class="faq">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">Can I post single items like one phone or laptop
+                        for retail sale?</div>
+                    <div class="faqanswer">No. JoMu is strictly for bulk buying and selling. We do not support single or
+                        retail product listings. Please use platforms
+                        designed for individual item sales if you're looking to sell or buy single products.</div>
+                </div>
+                <div class="faq faq-last">
+                    <div class="faq-qtn" onclick="toggleAnswer(this)">How can I connect with other businesses?</div>
+                    <div class="faqanswer">You can browse listings, send direct messages, or request to connect with a
+                        business from their profile.</div>
+                </div>
+            </div>
+        </div>
+        <div style="background-color: #f0ecec; padding: 20px;" class="mb-2">
+            <div class="container didnt">
+                <h5>Didn't find help?</h5>
+                <button class="talk-button" onclick="location.href='support.html'"><strong>Talk to Us</strong></button>
+            </div>
+        </div>
+    </main>
+
+    <footer class=" footer-help py-2 text-center">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+
+    <script>
+        async function syncAuthCtasForSignedInUser() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const authSelectors = [
+                    "a[href='signin.html']",
+                    "a[href='./signin.html']",
+                    "a[href='/signin.html']",
+                    "a[href='createaccount.html']",
+                    "a[href='./createaccount.html']",
+                    "a[href='/createaccount.html']",
+                    "button[onclick*='createaccount.html']"
+                ];
+
+                document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                    const li = node.closest('li');
+                    if (li) {
+                        li.remove();
+                    } else {
+                        node.remove();
+                    }
+                });
+
+                document.querySelectorAll('.offcanvas').forEach((panel) => {
+                    const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                    if (hasActions) return;
+
+                    const panelId = panel.getAttribute('id');
+                    if (panelId) {
+                        document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                    }
+                    panel.remove();
+                });
+            } catch (error) {
+                // Keep default auth links when auth check is unavailable.
+            }
+        }
+
+        syncAuthCtasForSignedInUser();
+    </script>
+    <script>
+        function toggleAnswer(element) {
+            const faqanswer = element.nextElementSibling;
+            const isOpen = faqanswer.style.maxHeight;
+
+            // Close all answers first
+            document.querySelectorAll('.faqanswer').forEach(ans => {
+                ans.style.maxHeight = null;
+                ans.style.paddingTop = '0';
+                ans.style.paddingBottom = '0';
+            });
+
+            // Open selected question
+            if (!isOpen) {
+                // faqanswer.style.maxHeight = faqanswer.scrollHeight + 'px';
+                faqanswer.style.maxHeight = 'max-content';
+                faqanswer.style.paddingTop = '6px';
+                faqanswer.style.paddingBottom = '15px';
+            }
+        };
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        (function initHelpSearch() {
+            const searchInput = document.getElementById('help-searchbar');
+            const searchButton = document.getElementById('help-search-button');
+            const resultBox = document.getElementById('help-search-result');
+            if (!searchInput || !searchButton || !resultBox) return;
+
+            const faqItems = Array.from(document.querySelectorAll('.faq')).map((faq) => {
+                const questionElement = faq.querySelector('.faq-qtn');
+                const answerElement = faq.querySelector('.faqanswer');
+                return {
+                    question: questionElement ? questionElement.textContent.trim() : '',
+                    answer: answerElement ? answerElement.textContent.trim() : '',
+                    keywords: []
+                };
+            }).filter((item) => item.question && item.answer);
+
+            /*
+             * Add extra searchable help entries here.
+             * These are NOT shown in the visible FAQ list on the page.
+             */
+            const customHelpItems = [
+                {
+                    question: 'What is JoMu platform about?',
+                    answer: 'JoMu is a B2B eCommerce platform that connects businesses to service providers, suppliers, manufacturers, and wholesalers for bulk trade.',
+                    keywords: ['about', 'b2b', 'purpose', 'platform overview']
+                },
+                {
+                    question: 'Is this platform only for businesses?',
+                    answer: 'Yes, the platform is designed specifically for business-to-business (B2B) transactions.',
+                    keywords: ['b2b only', 'eligibility', 'usage']
+
+                },
+                {
+                    question: 'How do I place a purchase or a schedule?',
+                    answer: 'Browse products and services, answer the required fields, submit and then wait for the business to respond.',
+                    keywords: ['buying', 'order', 'purchase', 'schedule']
+                },
+                {
+                    question: 'Can I buy in small quantities?',
+                    answer: 'Most suppliers set minimum order quantities (MOQs), but some allow flexible purchases.',
+                    keywords: ['MOQ', 'minimum purchase', 'minimum order', 'quantity']
+                },
+                {
+                    question: 'Can I negotiate prices or charges?',
+                    answer: 'Yes, many businesses allow direct negotiation through messaging or quotation requests.',
+                    keywords: ['negotiation', 'pricing', 'charging', 'deals']
+                },
+                {
+                    question: 'How do I contact a supplier or a service provider?',
+                    answer: 'You can message them directly through the platform.',
+                    keywords: ['contact supplier', 'contact service provider', 'communication']
+                },
+                {
+                    question: 'What payment methods are accepted?',
+                    answer: 'Payment methods vary by business and may include mobile money, bank transfer, cash or other options.',
+                    keywords: ['payment methods', 'mobile money', 'bank transfer', 'credit card', 'cash']
+                },
+                {
+                    question: 'Do I pay the platform or the supplier?',
+                    answer: 'Payments are typically made directly to the supplier unless otherwise stated.',
+                    keyword: ['payment process', 'supplier payment']
+                },
+                {
+                    question: 'What happens if a supplier fails to deliver?',
+                    answer: 'You can report the issue with evidence, and the platform may assist in dispute resolution.',
+                    keywords: ['dispute', 'issue', 'delivery failure']
+                },
+                {
+                    question: 'Do suppliers offer delivery?',
+                    answer: 'Many suppliers provide delivery options depending on location.',
+                    keywords: ['delivery', 'logistics']
+                },
+                {
+                    question: 'How long does delivery take?',
+                    answer: 'Delivery times vary based on supplier, product, and location.',
+                    keywords: ['delivery time', 'duration']
+                },
+                {
+                    question: 'Can I track my order',
+                    answer: 'Tracking depends on the supplier or logistics partner.',
+                    keywords: ['tracking', 'order status', 'purchase status']
+                },
+                {
+                    question: 'Is there a fee to sell?',
+                    answer: 'No, listings are free.',
+                    keywords: ['subscription', 'selling fee']
+                },
+                {
+                    question: 'How do I upload products?',
+                    answer: 'Use the business dashboard under manage listings section to add product listing.',
+                    keywords: ['product upload', 'dashboard', 'add listing']
+                },
+                {
+                    question: 'Can I manage bulk pricing?',
+                    answer: 'Yes, you can set tiered pricing based on specific criteria.',
+                    keywords: ['bulk pricing', 'tier pricing']
+                },
+                {
+                    question: 'How do I update my profile?',
+                    answer: 'Go to your profile page and edit your account details.',
+                    keywords: ['profile update']
+                },
+                {
+                    question: 'I forgot my password. What should I do?',
+                    answer: 'Use the "Forgot Password" option to reset it.',
+                    keywords: ['password reset', 'login issue']
+                },
+                {
+                    question: 'Can I compare businesses?',
+                    answer: 'Yes, you can compare based on pricing or charging, profile set up, and product offerings.',
+                    keywords: ['comparison', 'evaluation']
+                },
+                {
+                    question: 'Can I find suppliers from different regions?',
+                    answer: 'Yes, suppliers from all regions are available on the platform.',
+                    keywords: ['regions', 'nationwide']
+                },
+                {
+                    question: 'Can I filter by location?',
+                    answer: 'Yes, you can search businesses by region or location.',
+                    keywords: ['location filter', 'region search']
+                },
+                {
+                    question: 'Does the JoMu platform support local businesses?',
+                    answer: 'Yes, it promotes local manufacturers, suppliers, wholesalers, and service providers.',
+                    keywords: ['local suppliers', 'local businesses']
+                },
+                {
+                    question: 'What items are restricted',
+                    answer: 'All illegal goods are not allowed on the platform.',
+                    keywords: ['prohibited items', 'illegal', 'restricted']
+                },
+                {
+                    question: 'How can JoMu platform grow my business?',
+                    answer: 'JoMu connects you to more suppliers, better pricing, and wider markets.',
+                    keywords: ['business growth', 'benefits']
+                },
+                {
+                    question: 'Can I expand beyond my region?',
+                    answer: 'Yes, the platform enables nationwide and potentially cross-border trade.',
+                    keywords: ['expansion', 'beyond']
+                },
+                {
+                    question: 'Can I get exclusive deals?',
+                    answer: 'Some businesses offer exclusive deals for long-term or high-volume buyers.',
+                    keywords: ['exclusive deals', 'contracts']
+                },
+                {
+                    question: 'Are there hidden charges?',
+                    answer: 'All charges should be disclosed by the supplier. Always confirm before payment.',
+                    keywords: ['hidden fees', 'pricing transparency']
+                },
+                {
+                    question: 'Are products genuine/original?',
+                    answer: 'Businesses are expected to provide genuine products, but buyers should request proof if needed.',
+                    keywords: ['product aunthenticity', 'quality', 'original', 'genuine']
+                },
+                {
+                    question: 'Can I request samples?',
+                    answer: 'Some suppliers offer samples, either free or at a cost.',
+                    keywords: ['samples', 'product testing']
+                },
+                {
+                    question: 'Are product specifications accurate?',
+                    answer: 'Suppliers provide specifications, but buyers are encouraged to confirm before purchase.',
+                    keywords: ['specifications', 'product details']
+                },
+                {
+                    question: 'Can I cancel a purchase / schedule?',
+                    answer: "Cancellation depends on the supplier's / service provider's policy and purchase / schedule stage.",
+                    keywords: ['cancel', 'cancellation']
+                },
+                {
+                    question: 'Are returns accepted?',
+                    answer: 'Return policies vary by supplier. Always review terms before ordering.',
+                    keywords: ['retuns policy']
+                },
+                {
+                    question: 'How do refunds work?',
+                    answer: 'Refunds are handled based on supplier agreements and JoMu policies.',
+                    keywords: ['refunds', 'payment return']
+                },
+                {
+                    question: 'Can I arrange my own transport?',
+                    answer: 'Yes, many suppliers allow buyers to arrange their own transport.',
+                    keywords: ['self pickup', 'arrange transport']
+                },
+                {
+                    question: 'How fast do suppliers respond?',
+                    answer: 'Response times vary, but active suppliers typically respond within a short period.',
+                    keywords: ['response time']
+                },
+                {
+                    question: 'How do I handle large orders?',
+                    answer: 'Ensure stock availability and communicate timelines clearly with buyers.',
+                    keywords: ['bulk orders', 'capacity']
+                },
+                {
+                    question: 'Can I build long-term supplier relationship?',
+                    answer: 'Yes, many businesses establish ongoing partnerships through the platform.',
+                    keywords: ['partnerships', 'long term']
+                },
+                {
+                    question: 'Can I source multiple products at once?',
+                    answer: 'Yes, you can order from multiple suppliers at once.',
+                    keywords: ['multiple sourcing', 'bulk orders']
+                },
+                {
+                    question: 'Does JoMu platform currently use AI?',
+                    answer: 'Not yet. AI-powered features are planned and will be introduced in future updates.',
+                    keywords: ['ai avialability']
+                },
+                {
+                    question: 'Will AI features be added to the platform?',
+                    answer: 'Yes, we are working on introducing AI tools to improve product & service discovery, recommendations, and business insights.',
+                    keywords: ['artificial intelligence', 'ai feature', 'roadmap']
+                },
+                {
+                    question: 'Will AI replace human decision-making?',
+                    answer: 'No, AI will assist users with insights, while all decisions remain fully in your control.',
+                    keywords: ['ai_control', 'ai decision making']
+                },
+                {
+                    question: 'Will AI increase costs for users?',
+                    answer: 'Core features will remain accessible. Some advanced AI tools may be part of premium services.',
+                    keywords: ['ai pricing']
+                },
+                {
+                    question: 'Can I choose whether to use AI features?',
+                    answer: 'Yes, AI tools will be optional and designed to support your workflow.',
+                    keywords: ['ai optional', 'user control']
+                }
+            ];
+
+            const knowledgeBase = [...faqItems, ...customHelpItems];
+
+            const normalize = (value) => value
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            const getTokens = (value) => normalize(value)
+                .split(' ')
+                .filter((token) => token.length > 2);
+            let lastRenderedQuery = '';
+
+            function hideResult() {
+                resultBox.classList.remove('is-visible');
+                resultBox.innerHTML = '';
+                lastRenderedQuery = '';
+            }
+
+            function findBestAnswer(query) {
+                const normalizedQuery = normalize(query);
+                const queryTokens = getTokens(query);
+
+                let bestMatch = null;
+                let bestScore = 0;
+
+                knowledgeBase.forEach((item) => {
+                    const questionNorm = normalize(item.question);
+                    const answerNorm = normalize(item.answer);
+                    const keywordText = Array.isArray(item.keywords) ? item.keywords.join(' ') : '';
+                    const keywordsNorm = normalize(keywordText);
+                    let score = 0;
+
+                    if (questionNorm === normalizedQuery) score += 120;
+                    if (questionNorm.includes(normalizedQuery)) score += 70;
+                    if (answerNorm.includes(normalizedQuery)) score += 45;
+                    if (keywordsNorm.includes(normalizedQuery)) score += 55;
+
+                    if (queryTokens.length > 0) {
+                        const combinedTokens = new Set([
+                            ...getTokens(item.question),
+                            ...getTokens(item.answer),
+                            ...getTokens(keywordText)
+                        ]);
+                        const overlap = queryTokens.filter((token) => combinedTokens.has(token)).length;
+                        score += overlap * 12;
+                    }
+
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMatch = item;
+                    }
+                });
+
+                if (!bestMatch || bestScore < 18) return null;
+                return bestMatch;
+            }
+
+            function findMatches(query) {
+                const normalizedQuery = normalize(query);
+                const queryTokens = getTokens(query);
+
+                const scoredItems = knowledgeBase.map((item) => {
+                    const questionNorm = normalize(item.question);
+                    const answerNorm = normalize(item.answer);
+                    const keywordText = Array.isArray(item.keywords) ? item.keywords.join(' ') : Array.isArray(item.keyword) ? item.keyword.join(' ') : (item.keyword || '');
+                    const keywordsNorm = normalize(keywordText);
+                    let score = 0;
+
+                    if (questionNorm === normalizedQuery) score += 120;
+                    if (questionNorm.includes(normalizedQuery)) score += 70;
+                    if (answerNorm.includes(normalizedQuery)) score += 45;
+                    if (keywordsNorm.includes(normalizedQuery)) score += 55;
+
+                    if (queryTokens.length > 0) {
+                        const combinedTokens = new Set([
+                            ...getTokens(item.question),
+                            ...getTokens(item.answer),
+                            ...getTokens(keywordText)
+                        ]);
+                        const overlap = queryTokens.filter((token) => combinedTokens.has(token)).length;
+                        score += overlap * 12;
+                    }
+
+                    return {
+                        item,
+                        score
+                    };
+                });
+
+                return scoredItems
+                    .filter(({ score }) => score >= 18)
+                    .sort((a, b) => b.score - a.score)
+                    .map(({ item }) => item);
+            }
+
+            let currentMatches = [];
+            let currentIndex = 0;
+
+            function renderActiveResult() {
+                const result = currentMatches[currentIndex];
+                if (!result) {
+                    hideResult();
+                    return;
+                }
+
+                const total = currentMatches.length;
+                const showPrevious = currentIndex > 0;
+                const showNext = currentIndex < total - 1;
+
+                resultBox.innerHTML = `
+                    <p class="help-search-result-label">Related answer ${currentIndex + 1} of ${total}</p>
+                    <p class="help-search-result-question">${result.question}</p>
+                    <p class="help-search-result-answer">${result.answer}</p>
+                    <div class="help-result-navigation">
+                        <button type="button" id="help-search-prev" class="help-result-nav-button" style="display: ${showPrevious ? 'inline-flex' : 'none'};" ${showPrevious ? '' : 'disabled'}>Previous</button>
+                        <button type="button" id="help-search-next" class="help-result-nav-button" style="display: ${showNext ? 'inline-flex' : 'none'};" ${showNext ? '' : 'disabled'}>Next</button>
+                    </div>
+                `;
+                resultBox.classList.add('is-visible');
+            }
+
+            function renderResult(query) {
+                const trimmedQuery = query.trim();
+                if (!trimmedQuery) {
+                    hideResult();
+                    return;
+                }
+                lastRenderedQuery = normalize(trimmedQuery);
+                currentMatches = findMatches(trimmedQuery);
+                currentIndex = 0;
+
+                if (currentMatches.length === 0) {
+                    resultBox.innerHTML = `
+                        <p class="help-search-result-label">No direct answer found</p>
+                        <p class="help-search-result-answer">Try different words or click <a href="support.html">Talk to Us</a> for direct support.</p>
+                    `;
+                    resultBox.classList.add('is-visible');
+                    return;
+                }
+
+                renderActiveResult();
+            }
+
+            resultBox.addEventListener('click', (event) => {
+                const button = event.target.closest('button');
+                if (!button) return;
+                if (button.id === 'help-search-next') {
+                    if (currentIndex < currentMatches.length - 1) {
+                        currentIndex += 1;
+                        renderActiveResult();
+                    }
+                }
+                if (button.id === 'help-search-prev') {
+                    if (currentIndex > 0) {
+                        currentIndex -= 1;
+                        renderActiveResult();
+                    }
+                }
+            });
+
+            searchButton.addEventListener('click', () => {
+                renderResult(searchInput.value);
+            });
+
+            searchInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    renderResult(searchInput.value);
+                }
+            });
+
+            searchInput.addEventListener('input', () => {
+                const currentQuery = searchInput.value.trim();
+                if (!currentQuery) {
+                    hideResult();
+                    return;
+                }
+
+                if (lastRenderedQuery && normalize(currentQuery) !== lastRenderedQuery) {
+                    hideResult();
+                }
+            });
+        })();
+    </script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

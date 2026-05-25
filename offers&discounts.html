@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu.ug</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body.offers-discounts-page>footer {
+            margin-top: auto;
+            position: static;
+            width: 100%;
+        }
+
+        body.offers-discounts-page {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .offers-discounts-page main {
+            flex: 1 0 auto;
+        }
+
+        .offers-discounts-page .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+        }
+
+        .cards-container {
+            width: 100%;
+        }
+
+        .cards-container .card.h-100 {
+            height: 100%;
+        }
+
+        .cards-container .card-img-top.media-preview-item {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            background: #fff;
+        }
+
+        img.media-preview-item,
+        img.media-preview-source {
+            cursor: default;
+        }
+
+        video.media-preview-item,
+        video.media-preview-source {
+            cursor: pointer;
+        }
+
+        #mediaPreviewOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 18px;
+        }
+
+        #mediaPreviewOverlay.active {
+            display: flex;
+        }
+
+        .media-preview-panel {
+            max-width: 96vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .media-preview-content {
+            max-width: 96vw;
+            max-height: 72vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            background: #000;
+            z-index: 1;
+        }
+
+        .media-preview-details {
+            width: min(96vw, 620px);
+            background: rgba(9, 9, 9, 0.82);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            text-align: left;
+            z-index: 3;
+        }
+
+        .media-preview-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: rgb(241, 90, 36);
+        }
+
+        .media-preview-price,
+        .media-preview-description {
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        .media-preview-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font-size: 34px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 2px 8px;
+        }
+
+        .media-preview-watermark {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            max-width: 28vw;
+            opacity: 0.28;
+            pointer-events: none;
+            user-select: none;
+            display: none;
+            z-index: 2;
+        }
+
+        .listing-description-link {
+            color: inherit;
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            line-height: 1.25;
+            min-height: 2.5em;
+        }
+
+        .listing-description-link:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 14px 0;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination .btn {
+            padding: 5px 10px;
+            border: 1px solid rgb(241, 90, 36);
+            color: rgb(0, 0, 255);
+            border-radius: 3px;
+            margin: 0 1px;
+        }
+
+        .pagination .btn:hover:not(:disabled) {
+            background-color: rgb(241, 90, 36);
+            color: #fff;
+        }
+
+        .pagination .btn.active {
+            background-color: rgb(241, 90, 36);
+            color: #fff;
+        }
+
+        .pagination .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .offers-message {
+            width: 100%;
+            text-align: center;
+            padding: 1.25rem 0.4rem;
+            font-weight: 600;
+            color: #454545;
+        }
+
+        @media (min-width: 768px) {
+            body.offers-discounts-page .cards-container .card.h-100 {
+                width: 100%;
+                height: 318px !important;
+                overflow: hidden;
+            }
+
+            body.offers-discounts-page .cards-container .card-body {
+                display: grid !important;
+                grid-template-rows: 1.18em 2.42em 1.3em auto !important;
+                row-gap: 0.1rem;
+                align-content: start;
+                flex: 1 1 auto;
+                min-height: 0;
+                overflow: hidden;
+            }
+
+            body.offers-discounts-page .cards-container .listing-name-top {
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 1.18 !important;
+                min-height: 1.18em !important;
+                max-height: 1.18em !important;
+                flex: 0 0 auto;
+            }
+
+            body.offers-discounts-page .cards-container .listing-description-text {
+                max-height: 2.42em !important;
+            }
+
+            body.offers-discounts-page .cards-container .product-price-range {
+                align-self: start;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 1.18 !important;
+                min-height: 1.3em !important;
+                max-height: 1.3em !important;
+                flex: 0 0 auto;
+                margin-bottom: 0 !important;
+            }
+
+            body.offers-discounts-page .cards-container .listing-action-btn {
+                grid-row: 4;
+                flex: 0 0 auto;
+                margin-top: 0 !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            body.offers-discounts-page #navbarone {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-left: 0;
+                padding-right: 4px;
+            }
+
+            body.offers-discounts-page #navbarone>.d-block.d-md-none.d-lg-none.py-0.px-0 {
+                width: auto;
+                margin: 0 0 0 -14px;
+                padding: 0 !important;
+                flex: 0 0 auto;
+            }
+
+            body.offers-discounts-page #navbarone .brand-logos {
+                display: block;
+                margin: 0;
+                padding-left: 0 !important;
+            }
+
+            body.offers-discounts-page #navbarone .navbar-brand {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            body.offers-discounts-page #navbarone .brand-logos .logo {
+                margin-right: 0 !important;
+            }
+
+            body.offers-discounts-page #navbarone .searching-small {
+                position: absolute;
+                left: calc(50% + 30px);
+                transform: translateX(-50%);
+                width: clamp(165px, calc(100vw - 165px), 265px);
+                max-width: calc(100vw - 165px);
+                min-width: 0;
+                padding: 0;
+            }
+
+            body.offers-discounts-page #navbarone .searching-small .input-group {
+                width: 100%;
+            }
+
+            body.offers-discounts-page #navbarone .searching-small .form-control,
+            body.offers-discounts-page #navbarone .searching-small .btn {
+                margin-top: 0;
+                margin-left: 0;
+            }
+
+            body.offers-discounts-page #navbarone .searching-small .form-control {
+                border-radius: 10px 0 0 10px;
+            }
+
+            body.offers-discounts-page #navbarone .navbar-toggler {
+                position: static;
+                right: auto;
+                top: auto;
+                margin: 0;
+                flex: 0 0 auto;
+            }
+
+            body.offers-discounts-page #navbarone .navbar-toggler.d-lg-none {
+                margin-right: 2px;
+            }
+
+            .offers-discounts-page .footer-feedback br {
+                display: none;
+            }
+
+            .offers-discounts-page .footer-feedback small {
+                display: block;
+                margin-top: 6px;
+            }
+
+            .cards-container {
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            .cards-container .row {
+                --bs-gutter-x: 0.25rem;
+                --bs-gutter-y: 0.25rem;
+            }
+
+            .cards-container .card-img-top.media-preview-item {
+                aspect-ratio: auto;
+                height: clamp(100px, 30vw, 140px);
+                object-fit: cover;
+            }
+
+            .cards-container .card.h-100 {
+                height: auto !important;
+                min-height: 0 !important;
+                overflow: hidden;
+            }
+
+            .cards-container .card-body {
+                display: grid !important;
+                grid-template-rows: 1.05em 2.2em 1.1em auto !important;
+                row-gap: 0;
+                align-content: start;
+                padding: 0.25rem !important;
+                min-height: 0;
+                overflow: hidden;
+            }
+
+            .cards-container .listing-name-top {
+                font-size: 0.82rem;
+                line-height: 1.05 !important;
+                display: block !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                min-height: 1.05em !important;
+                max-height: 1.05em !important;
+            }
+
+            .cards-container .listing-description-text {
+                -webkit-line-clamp: 2 !important;
+                line-clamp: 2 !important;
+                min-height: 2.2em !important;
+                max-height: 2.2em !important;
+                font-size: 0.76rem;
+            }
+
+            .cards-container .product-price-range {
+                font-size: 0.76rem;
+                line-height: 1.08 !important;
+                min-height: 1.1em !important;
+                max-height: 1.1em !important;
+            }
+
+            .cards-container .card-img-button {
+                font-size: 0.72rem;
+                line-height: 1.1;
+                padding: 0.22rem 0.15rem !important;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body.offers-discounts-page #navbarone .searching-small {
+                left: calc(50% + 34px);
+                width: clamp(153px, calc(100vw - 180px), 245px);
+                max-width: calc(100vw - 180px);
+            }
+        }
+
+        @media (max-width: 360px) {
+            body.offers-discounts-page #navbarone .searching-small {
+                left: calc(50% + 38px);
+                width: clamp(141px, calc(100vw - 190px), 215px);
+                max-width: calc(100vw - 190px);
+            }
+        }
+
+        .offers-mobile-auth-menu {
+            position: fixed;
+            left: auto !important;
+            right: 35px !important;
+            top: 58px;
+            z-index: 1200;
+        }
+
+        .offers-mobile-auth-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 10px;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            transform: rotate(45deg);
+            border-radius: 2px;
+            box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
+            left: auto;
+        }
+    </style>
+
+</head>
+
+
+<body class="body-one offers-discounts-page" style=" background-color: #f0ecec;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone bg-dark" id="navbarone">
+
+            <!-- Logo for large screens.-->
+            <div class="container d-none d-md-block d-lg-block">
+                <a class="navbar-brand brand-logos" href="index.php">
+                    <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+                </a>
+            </div>
+
+            <!-- Logo for small screens. -->
+            <div class="d-block d-md-none d-lg-none py-0 px-0">
+                <a class="navbar-brand brand-logos px-0" href="index.php">
+                    <img src="assets/images/JoMu black and white.png" class="img-fluid logo"
+                        style="margin-right: 60px;">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+                </a>
+            </div>
+
+
+            <!-- Auth actions for small and medium screens -->
+            <button class="navbar-toggler d-lg-none signin-icon-bg" type="button" aria-expanded="false"
+                aria-label="Open sign in menu" id="offersNavbarToggler">
+                <span>
+                    <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+                </span>
+            </button>
+            <div id="offersMobileAuthMenu" class="dropdown-menu mobile-auth-menu offers-mobile-auth-menu"
+                aria-labelledby="offersNavbarToggler">
+                <a class="dropdown-item mobile-auth-item" href="signin.html" id="offersSigninMobileLink"
+                    data-mobile-auth-link="signin.html">Sign In</a>
+                <button class="dropdown-item mobile-auth-item mobile-auth-create" id="offersCreateAccountMobileButton"
+                    type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+            </div>
+            <!-- Navbar links for large screens -->
+            <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+
+                <!-- Search bar for large screens. -->
+                <div class="container-fluid searching">
+                    <input type="text" id="searchbarInput" class="searchbar" placeholder="Search...">
+                    <button class="button search" type="submit">
+                        <span><img src="assets/images/icons/Search Icon.png" class="options-icons"></span>
+                        Search</button>
+                </div>
+                <ul class="navbar-nav">
+                    <li class="nav-item active signin" id="offersSigninNavItem">
+                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    </li>
+                </ul>
+                <button class="button button-createaccount" id="offersCreateAccountButton"
+                    onclick="location.href='createaccount.html'">Create
+                    account</button>
+            </div>
+            <!-- Search bar for medium screens -->
+            <div class="container-fluid d-none d-md-block d-lg-none searching-medium">
+                <input type="text" id="searchbarInput" class="searchbar-medium" placeholder="Search...">
+                <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+                            class="search-icon-medium search-medium"></span>
+                </button>
+            </div>
+
+            <div class="d-block d-md-none d-lg-none searching-small">
+                <div class="input-group">
+                    <input type="text" id="searchbarInput" class="form-control searchbar-small" placeholder="Search...">
+                    <button class="btn btn-search-small" type="submit"><span><img
+                                src="assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
+                    </button>
+                </div>
+            </div>
+
+            </div>
+        </nav>
+    </header>
+    <main class="main-one">
+        <div class="container-fluid">
+            <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
+                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    style="color: rgb(0,0,255);">&#187;</span>
+                All
+                <span style="color: rgb(0,0,255);">&#187;</span>
+                Offers & Discounts
+            </p>
+        </div>
+        <hr class="mt-0 mb-0">
+        <div class="container-fluid mb-3 mt-0 newarrivals-container-one">
+            <p>Discover the freshest Wholesale <b style="color: rgb(241, 90, 36);">discounts</b> and <b
+                    style="color: rgb(241, 90, 36);">special offers</b> curated just for your
+                business. This
+                section is updated
+                regularly to ensure you never miss a chance to save big. Keep checking in:- the next great deal could be
+                yours!.</p>
+        </div>
+
+        <div id="pagination-top" class="pagination mb-1 mt-1"></div>
+
+        <div id="cards-container" class="container cards-container mb-0">
+            <div id="discount-cards-row" class="row g-1">
+                <p class="offers-message">Loading discounted listings...</p>
+            </div>
+        </div>
+
+        <div id="pagination-bottom" class="pagination mt-0"></div>
+    </main>
+
+    <footer class=" footer-feedback py-2 text-center bg-white">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+    <div id="mediaPreviewOverlay" aria-hidden="true">
+        <button type="button" class="media-preview-close" id="mediaPreviewClose"
+            aria-label="Close preview">&times;</button>
+        <div class="media-preview-panel">
+            <img id="mediaPreviewImage" class="media-preview-content" alt="Listing preview" style="display:none;">
+            <video id="mediaPreviewVideo" class="media-preview-content" controls style="display:none;"></video>
+            <div id="mediaPreviewDetails" class="media-preview-details" style="display:none;">
+                <p id="mediaPreviewTitle" class="media-preview-title"></p>
+                <p id="mediaPreviewPrice" class="media-preview-price"></p>
+                <p id="mediaPreviewDescription" class="media-preview-description"></p>
+            </div>
+        </div>
+        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png"
+            alt="JoMu watermark">
+    </div>
+
+    <script>
+        const cardsPerPage = 12;
+        const cardsRow = document.getElementById('discount-cards-row');
+        const paginationContainers = document.querySelectorAll('.pagination');
+        const paginationTop = document.getElementById('pagination-top');
+        const paginationBottom = document.getElementById('pagination-bottom');
+        const mediaOverlay = document.getElementById('mediaPreviewOverlay');
+        const mediaClose = document.getElementById('mediaPreviewClose');
+        const mediaPreviewImage = document.getElementById('mediaPreviewImage');
+        const mediaPreviewVideo = document.getElementById('mediaPreviewVideo');
+        const mediaPreviewDetails = document.getElementById('mediaPreviewDetails');
+        const mediaPreviewTitle = document.getElementById('mediaPreviewTitle');
+        const mediaPreviewPrice = document.getElementById('mediaPreviewPrice');
+        const mediaPreviewDescription = document.getElementById('mediaPreviewDescription');
+        const mediaWatermark = document.getElementById('mediaPreviewWatermark');
+        let currentPage = 1;
+        let cardColumns = [];
+        let allDiscountCardColumns = [];
+        let lastTapTime = 0;
+        let lastTapSrc = '';
+        let recentStorageKey = 'jomuRecentlyViewedListings:guest';
+        let recentStorageKeyPromise = null;
+
+        function saveRecentlyViewedListing(item, storageKey) {
+            if (!item || !item.listing_id) return;
+            try {
+                const raw = localStorage.getItem(storageKey);
+                const currentItems = raw ? JSON.parse(raw) : [];
+                const safeItems = Array.isArray(currentItems) ? currentItems : [];
+                const nextItem = {
+                    listing_id: Number(item.listing_id) || 0,
+                    viewed_at: new Date().toISOString(),
+                    media_type: item.media_type === 'video' ? 'video' : 'image',
+                    html: String(item.html || '').trim(),
+                    media_src: String(item.media_src || '').trim(),
+                    title: String(item.title || '').trim(),
+                    description: String(item.description || '').trim(),
+                    price: String(item.price || '').trim(),
+                    action_label: String(item.action_label || 'Purchase Wholesale').trim(),
+                    purchase_url: String(item.purchase_url || '#').trim(),
+                };
+
+                const filteredItems = safeItems.filter((entry) => Number(entry?.listing_id || 0) !== nextItem.listing_id);
+                filteredItems.unshift(nextItem);
+                localStorage.setItem(storageKey, JSON.stringify(filteredItems.slice(0, 20)));
+            } catch (error) {
+                // Non-blocking recent-history update.
+            }
+        }
+
+        async function getRecentStorageKey() {
+            if (recentStorageKeyPromise) {
+                return recentStorageKeyPromise;
+            }
+
+            recentStorageKeyPromise = fetch('php/auth_status.php', { credentials: 'same-origin' })
+                .then((response) => response.ok ? response.json() : null)
+                .then((data) => {
+                    recentStorageKey = data?.signed_in && data?.user_key
+                        ? `jomuRecentlyViewedListings:${data.user_key}`
+                        : 'jomuRecentlyViewedListings:guest';
+                    return recentStorageKey;
+                })
+                .catch(() => recentStorageKey);
+
+            return recentStorageKeyPromise;
+        }
+
+        function storeRecentlyViewedListing(item) {
+            getRecentStorageKey().then((storageKey) => saveRecentlyViewedListing(item, storageKey));
+        }
+
+        function storeRecentListingFromSource(sourceEl) {
+            const listingId = Number.parseInt(sourceEl?.dataset.previewListingId || '', 10);
+            if (!Number.isInteger(listingId) || listingId <= 0) return;
+
+            const cardEl = sourceEl.closest('.card');
+            const columnEl = sourceEl.closest('.col-6.col-md-4.col-lg-3');
+            const actionLink = cardEl?.querySelector('a[href*=\"purchasewholesale.html\"]');
+            storeRecentlyViewedListing({
+                listing_id: listingId,
+                media_type: sourceEl?.dataset.previewType || 'image',
+                html: columnEl?.outerHTML || '',
+                media_src: sourceEl?.dataset.previewSrc || sourceEl?.getAttribute('src') || '',
+                title: sourceEl?.dataset.previewTitle || '',
+                description: sourceEl?.dataset.previewDescription || '',
+                price: sourceEl?.dataset.previewPrice || '',
+                action_label: actionLink?.textContent?.trim() || 'Purchase Wholesale',
+                purchase_url: actionLink?.getAttribute('href') || '#',
+            });
+        }
+
+        function isOfferListing(searchText) {
+            const text = String(searchText || '').trim();
+            return /\bdiscounts?\b/i.test(text) || /\bspecial offers?\b/i.test(text) || /\boffers?\b/i.test(text) || /\b\d{1,3}(?:\.\d+)?\s*%\s*(?:off|discount)?\b/i.test(text);
+        }
+
+        function getDescriptionFromCard(cardBody) {
+            const descLink = cardBody.querySelector('.listing-description-link');
+            if (descLink && descLink.textContent) {
+                return descLink.textContent.trim();
+            }
+
+            const imageWithPreview = cardBody.closest('.card')?.querySelector('[data-preview-description]');
+            if (imageWithPreview && imageWithPreview.dataset.previewDescription) {
+                return imageWithPreview.dataset.previewDescription.trim();
+            }
+
+            return '';
+        }
+
+        function updateMediaPreviewDetails(sourceEl) {
+            if (!mediaPreviewDetails) return;
+            const title = String(sourceEl?.dataset.previewTitle || '').trim();
+            const price = String(sourceEl?.dataset.previewPrice || '').trim();
+            const description = String(sourceEl?.dataset.previewDescription || '');
+            const hasDetails = title !== '' || price !== '' || description !== '';
+
+            mediaPreviewTitle.textContent = title;
+            mediaPreviewTitle.style.display = title ? 'block' : 'none';
+            mediaPreviewPrice.textContent = price ? `Price: ${price}` : '';
+            mediaPreviewPrice.style.display = price ? 'block' : 'none';
+            mediaPreviewDescription.textContent = description;
+            mediaPreviewDescription.style.whiteSpace = 'pre-wrap';
+            mediaPreviewDescription.style.wordBreak = 'break-word';
+            mediaPreviewDescription.style.display = description ? 'block' : 'none';
+            mediaPreviewDetails.style.display = hasDetails ? 'block' : 'none';
+        }
+
+        function closeMediaPreview() {
+            if (!mediaOverlay) return;
+            mediaPreviewVideo.pause();
+            mediaPreviewVideo.removeAttribute('src');
+            mediaPreviewImage.removeAttribute('src');
+            mediaPreviewImage.style.display = 'none';
+            mediaPreviewVideo.style.display = 'none';
+            if (mediaPreviewDetails) {
+                mediaPreviewDetails.style.display = 'none';
+            }
+            mediaOverlay.classList.remove('active');
+            mediaOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (mediaWatermark) mediaWatermark.style.display = 'none';
+        }
+
+        function openMediaPreview(type, src, sourceEl) {
+            if (!mediaOverlay || !src) return;
+            mediaPreviewImage.style.display = 'none';
+            mediaPreviewVideo.style.display = 'none';
+            updateMediaPreviewDetails(sourceEl);
+            storeRecentListingFromSource(sourceEl);
+
+            if (type === 'video') {
+                mediaPreviewVideo.src = src;
+                mediaPreviewVideo.style.display = 'block';
+                mediaPreviewVideo.play().catch(() => { });
+                if (mediaWatermark) mediaWatermark.style.display = 'none';
+            } else {
+                mediaPreviewImage.src = src;
+                mediaPreviewImage.style.display = 'block';
+                if (mediaWatermark) mediaWatermark.style.display = 'block';
+            }
+
+            mediaOverlay.classList.add('active');
+            mediaOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openPreviewFromSource(sourceEl) {
+            if (!sourceEl) return;
+            const type = sourceEl.dataset.previewType || (sourceEl.tagName.toLowerCase() === 'video' ? 'video' : 'image');
+            const src = sourceEl.dataset.previewSrc || sourceEl.getAttribute('src') || '';
+            openMediaPreview(type, src, sourceEl);
+        }
+
+        function buildPagination(totalPages) {
+            paginationContainers.forEach((container) => {
+                container.innerHTML = '';
+                if (totalPages <= 1) {
+                    return;
+                }
+
+                const prev = document.createElement('button');
+                prev.className = 'prev btn';
+                prev.dataset.action = 'prev';
+                prev.disabled = currentPage === 1;
+                prev.innerHTML = '&laquo;';
+                container.appendChild(prev);
+
+                for (let page = 1; page <= totalPages; page += 1) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = 'btn';
+                    if (page === currentPage) {
+                        pageBtn.classList.add('active');
+                    }
+                    pageBtn.dataset.page = String(page);
+                    pageBtn.textContent = String(page);
+                    container.appendChild(pageBtn);
+                }
+
+                const next = document.createElement('button');
+                next.className = 'next btn';
+                next.dataset.action = 'next';
+                next.disabled = currentPage === totalPages;
+                next.innerHTML = '&raquo;';
+                container.appendChild(next);
+            });
+        }
+
+        function showPage(page) {
+            const totalPages = Math.max(1, Math.ceil(cardColumns.length / cardsPerPage));
+            currentPage = Math.min(Math.max(page, 1), totalPages);
+
+            const start = (currentPage - 1) * cardsPerPage;
+            const end = start + cardsPerPage;
+
+            cardColumns.forEach((column, index) => {
+                column.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+
+            buildPagination(totalPages);
+            if (currentPage > 1) {
+                paginationTop.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function renderNoDealsMessage(message) {
+            cardsRow.innerHTML = '';
+            const msg = document.createElement('p');
+            msg.className = 'offers-message';
+            msg.textContent = message;
+            cardsRow.appendChild(msg);
+            paginationTop.innerHTML = '';
+            paginationBottom.innerHTML = '';
+            cardColumns = [];
+        }
+
+        function getSearchableTextFromCard(cardColumn) {
+            if (!(cardColumn instanceof HTMLElement)) return '';
+
+            const cardBody = cardColumn.querySelector('.card-body');
+            const title = cardBody?.querySelector('.card-title')?.textContent || '';
+            const description = getDescriptionFromCard(cardBody);
+            const price = cardBody?.querySelector('.product-price-range')?.textContent || '';
+            const category = String(cardColumn.dataset.searchCategory || '');
+            const stock = String(cardColumn.dataset.searchStock || '');
+
+            return `${title} ${description} ${price} ${category} ${stock}`
+                .toLowerCase()
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function filterDiscountCards(rawQuery) {
+            const query = String(rawQuery || '').trim().toLowerCase();
+
+            if (query === '') {
+                cardsRow.innerHTML = '';
+                allDiscountCardColumns.forEach((column) => {
+                    cardsRow.appendChild(column);
+                });
+                cardColumns = [...allDiscountCardColumns];
+                if (cardColumns.length === 0) {
+                    renderNoDealsMessage('No discounted listings found right now.');
+                    return;
+                }
+                showPage(1);
+                return;
+            }
+
+            const queryTokens = query.split(/\s+/).filter(Boolean);
+            const matchedColumns = allDiscountCardColumns.filter((column) => {
+                const searchableText = getSearchableTextFromCard(column);
+                return queryTokens.every((token) => searchableText.includes(token));
+            });
+
+            cardsRow.innerHTML = '';
+            matchedColumns.forEach((column) => {
+                cardsRow.appendChild(column);
+            });
+            cardColumns = matchedColumns;
+
+            if (matchedColumns.length === 0) {
+                renderNoDealsMessage('No Listings Matched.');
+                return;
+            }
+
+            showPage(1);
+        }
+
+        async function loadDiscountCards() {
+            try {
+                const response = await fetch('index.php', { credentials: 'same-origin' });
+                if (!response.ok) {
+                    throw new Error('Unable to load listings from index page.');
+                }
+
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const sourceColumns = doc.querySelectorAll('.cards-container .row > .col-6.col-md-4.col-lg-3');
+
+                cardsRow.innerHTML = '';
+
+                sourceColumns.forEach((sourceCol) => {
+                    const clonedCol = sourceCol.cloneNode(true);
+                    const cardBody = clonedCol.querySelector('.card-body');
+                    if (!cardBody) {
+                        return;
+                    }
+
+                    const titleText = cardBody.querySelector('.listing-name-top')?.textContent?.trim() || '';
+                    const descriptionText = getDescriptionFromCard(cardBody);
+                    const offerSearchText = `${titleText} ${descriptionText}`;
+                    if (!isOfferListing(offerSearchText)) {
+                        return;
+                    }
+
+                    cardsRow.appendChild(clonedCol);
+                });
+
+                cardColumns = Array.from(cardsRow.querySelectorAll(':scope > .col-6.col-md-4.col-lg-3'));
+                allDiscountCardColumns = [...cardColumns];
+
+                if (cardColumns.length === 0) {
+                    renderNoDealsMessage('No discounted listings found right now.');
+                    return;
+                }
+
+                showPage(1);
+            } catch (error) {
+                renderNoDealsMessage('Discounted listings are unavailable right now. Please try again.');
+            }
+        }
+
+        paginationContainers.forEach((container) => {
+            container.addEventListener('click', (event) => {
+                const target = event.target;
+                if (!(target instanceof HTMLElement)) {
+                    return;
+                }
+
+                if (target.dataset.page) {
+                    const selectedPage = Number.parseInt(target.dataset.page, 10);
+                    if (Number.isInteger(selectedPage)) {
+                        showPage(selectedPage);
+                    }
+                    return;
+                }
+
+                if (target.dataset.action === 'prev') {
+                    showPage(currentPage - 1);
+                    return;
+                }
+
+                if (target.dataset.action === 'next') {
+                    showPage(currentPage + 1);
+                }
+            });
+        });
+
+        loadDiscountCards();
+
+        const offersSearchInputs = Array.from(document.querySelectorAll('#searchbarInput'));
+        const offersSearchButtons = Array.from(
+            document.querySelectorAll('.searching button[type="submit"], .searching-medium button[type="submit"], .searching-small button[type="submit"]')
+        );
+
+        function syncOffersSearchInputs(sourceInput) {
+            const sourceValue = sourceInput?.value ?? '';
+            offersSearchInputs.forEach((input) => {
+                if (input !== sourceInput) {
+                    input.value = sourceValue;
+                }
+            });
+        }
+
+        function getPrimaryOffersSearchInput() {
+            const activeInput = document.activeElement;
+            if (activeInput && offersSearchInputs.includes(activeInput)) {
+                return activeInput;
+            }
+            return offersSearchInputs.find((input) => String(input.value || '').trim() !== '') || offersSearchInputs[0] || null;
+        }
+
+        offersSearchInputs.forEach((input) => {
+            input.addEventListener('input', () => {
+                syncOffersSearchInputs(input);
+            });
+
+            input.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter') return;
+                event.preventDefault();
+                syncOffersSearchInputs(input);
+                filterDiscountCards(input.value);
+            });
+        });
+
+        offersSearchButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const input = getPrimaryOffersSearchInput();
+                if (!input) return;
+                syncOffersSearchInputs(input);
+                filterDiscountCards(input.value);
+            });
+        });
+
+        (function () {
+            const mobileAuthButton = document.getElementById('offersNavbarToggler');
+            const mobileAuthMenu = document.getElementById('offersMobileAuthMenu');
+            if (!mobileAuthButton || !mobileAuthMenu) {
+                return;
+            }
+
+            function positionMobileAuthMenu() {
+                const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
+                mobileAuthMenu.style.right = `${rightOffset}px`;
+                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+            }
+
+            function setMobileAuthOpen(isOpen) {
+                if (isOpen) {
+                    positionMobileAuthMenu();
+                }
+                mobileAuthMenu.classList.toggle('show', isOpen);
+                mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            mobileAuthButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setMobileAuthOpen(!mobileAuthMenu.classList.contains('show'));
+            });
+
+            document.addEventListener('click', (event) => {
+                if (mobileAuthButton.contains(event.target) || mobileAuthMenu.contains(event.target)) {
+                    return;
+                }
+                setMobileAuthOpen(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            });
+        })();
+
+        (function () {
+            const mobileAuthItems = Array.from(document.querySelectorAll('[data-mobile-auth-link]'));
+            if (mobileAuthItems.length === 0) {
+                return;
+            }
+
+            mobileAuthItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const nextUrl = item.getAttribute('data-mobile-auth-link');
+                    if (!nextUrl) {
+                        return;
+                    }
+
+                    window.location.assign(nextUrl);
+                });
+            });
+        })();
+
+        async function syncAuthActionsVisibility() {
+            try {
+                const response = await fetch('php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data?.signed_in) {
+                    return;
+                }
+
+                document.getElementById('offersSigninNavItem')?.remove();
+                document.getElementById('offersCreateAccountButton')?.remove();
+                document.getElementById('offersSigninMobileLink')?.remove();
+                document.getElementById('offersCreateAccountMobileButton')?.remove();
+                document.getElementById('offersMobileAuthMenu')?.remove();
+
+                const navbarToggler = document.getElementById('offersNavbarToggler');
+                if (navbarToggler) {
+                    navbarToggler.style.display = 'none';
+                }
+            } catch (error) {
+                // Leave guest actions visible if auth state cannot be determined.
+            }
+        }
+
+        syncAuthActionsVisibility();
+
+        document.querySelector('main')?.addEventListener('click', (event) => {
+            const sourceEl = event.target.closest('.media-preview-source') || event.target.closest('.video-stock-title, .video-description-brief, .video-hashtags, .listing-name-top, .listing-description, .listing-description-link')?.closest('.card')?.querySelector('.media-preview-source');
+            openPreviewFromSource(sourceEl);
+        });
+
+        document.querySelector('main')?.addEventListener('touchend', (event) => {
+            const sourceEl = event.target.closest('.media-preview-source') || event.target.closest('.video-stock-title, .video-description-brief, .video-hashtags, .listing-name-top, .listing-description, .listing-description-link')?.closest('.card')?.querySelector('.media-preview-source');
+            if (!sourceEl) return;
+
+            const sourceKey = sourceEl.dataset.previewSrc || sourceEl.getAttribute('src') || '';
+            const now = Date.now();
+            const isDoubleTap = now - lastTapTime < 350 && sourceKey !== '' && sourceKey === lastTapSrc;
+
+            lastTapTime = now;
+            lastTapSrc = sourceKey;
+
+            if (!isDoubleTap) return;
+
+            event.preventDefault();
+            openPreviewFromSource(sourceEl);
+            lastTapTime = 0;
+            lastTapSrc = '';
+        }, { passive: false });
+
+        document.addEventListener('touchstart', () => {
+            if (Date.now() - lastTapTime > 600) {
+                lastTapTime = 0;
+                lastTapSrc = '';
+            }
+        });
+
+        if (mediaClose) {
+            mediaClose.addEventListener('click', closeMediaPreview);
+        }
+
+        if (mediaOverlay) {
+            mediaOverlay.addEventListener('click', (event) => {
+                if (event.target === mediaOverlay) {
+                    closeMediaPreview();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMediaPreview();
+            }
+        });
+
+        // Search bar moving texts.
+        const phrases = ["Business", "Discounted Product", "Offered Service"];
+        let index = 0;
+
+        setInterval(() => {
+            document.getElementById("searchbarInput").setAttribute("placeholder", phrases[index]);
+            index = (index + 1) % phrases.length;
+        }, 2500);
+
+        // Navbar change.
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbarone');
+
+            function handleScroll() {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            handleScroll();
+            window.addEventListener('scroll', handleScroll, { passive: true });
+        });
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+    <script src="assets/listing-preview-modal.js"></script>
+    <script src="assets/listing-preview-gallery.js"></script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

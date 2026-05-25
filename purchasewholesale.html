@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body.purchase-page {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding-top: 68px;
+        }
+
+        body.purchase-page>footer {
+            margin-top: auto;
+        }
+
+        @media (max-width: 767.98px) {
+            .purchase-page .footer-feedback {
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+            }
+
+            .purchase-page .footer-links {
+                gap: 2px 8px;
+                margin-bottom: 0;
+            }
+
+            .purchase-page .footer-feedback br {
+                display: none;
+            }
+
+            .purchase-page .footer-feedback small {
+                display: block;
+                margin-top: 2px;
+            }
+        }
+
+        #selected-product-price-range,
+        #selected-product-details {
+            font-size: 1.12rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 0.35rem !important;
+        }
+
+        #selected-product-description {
+            font-size: 0.95rem;
+            line-height: 1.35;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .description-label {
+            background: rgb(241, 90, 36);
+            color: #fff;
+            border-radius: 2px;
+            padding: 1px 6px;
+            display: inline-block;
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+
+        .seller-brief {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 0;
+        }
+
+        .seller-brief-link {
+            color: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .seller-brief-top {
+            margin: 0;
+        }
+
+        .seller-brief img {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .seller-brief-name {
+            font-size: 0.78rem;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .selected-gallery-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .selected-gallery-thumb {
+            width: 68px;
+            height: 68px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(241, 90, 36, 0.28);
+            cursor: pointer;
+        }
+
+        .selected-gallery-thumb.is-active {
+            border-color: rgb(241, 90, 36);
+            box-shadow: 0 0 0 2px rgba(241, 90, 36, 0.18);
+        }
+
+        .required-field-error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.12rem rgba(220, 53, 69, 0.2) !important;
+        }
+
+        .purchases-container.owner-view-mode {
+            width: 100%;
+            max-width: none;
+            justify-content: stretch;
+            align-items: flex-start;
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .owner-view-mode .owner-listing-column {
+            width: 100% !important;
+            max-width: none !important;
+            flex: 0 0 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .owner-view-mode .seller-brief-top {
+            display: flex;
+            justify-content: center;
+        }
+
+        .owner-view-mode .selected-listing-card {
+            display: flex !important;
+            flex-direction: row;
+            align-items: stretch;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .owner-view-mode .selected-listing-left,
+        .owner-view-mode .selected-listing-right {
+            width: 50% !important;
+            padding: 1rem !important;
+        }
+
+        .owner-view-mode .selected-listing-right {
+            text-align: left !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .owner-view-mode .selected-listing-left #selected-product-title,
+        .owner-view-mode .selected-listing-left #selected-product-category {
+            display: none;
+        }
+
+        .owner-view-mode #selected-product-title-owner,
+        .owner-view-mode #selected-product-category-owner {
+            display: block !important;
+        }
+
+        .owner-view-mode #selected-product-description {
+            text-align: left !important;
+        }
+
+        .owner-view-mode #selected-product-image {
+            width: 100%;
+            max-height: 72vh;
+            object-fit: contain;
+        }
+
+        .owner-view-mode .selected-gallery-strip {
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 576px) {
+            .owner-view-mode .owner-listing-column {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            .owner-view-mode .selected-listing-card {
+                display: flex !important;
+                flex-direction: column;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .owner-view-mode .selected-listing-left,
+            .owner-view-mode .selected-listing-right {
+                width: 100% !important;
+                padding-left: 6px !important;
+                padding-right: 6px !important;
+            }
+
+            .owner-view-mode .selected-listing-right {
+                text-align: left !important;
+            }
+
+            .owner-view-mode #selected-product-description {
+                text-align: left !important;
+            }
+
+            .selected-listing-card {
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+            }
+
+            .selected-listing-left {
+                width: 45%;
+                padding: 0.6rem;
+            }
+
+            .selected-listing-right {
+                width: 55%;
+                padding: 0.6rem 0.6rem 0.6rem 0;
+                text-align: left;
+            }
+
+            #selected-product-image {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
+            #selected-product-description {
+                display: block;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                text-align: left;
+            }
+        }
+
+        @media (min-width: 577px) {
+            .selected-listing-card {
+                display: block;
+            }
+
+            .selected-listing-left,
+            .selected-listing-right {
+                width: 100%;
+                padding: 0;
+            }
+
+            .selected-listing-right {
+                text-align: center;
+            }
+
+            #selected-product-description {
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 767.98px) {
+            .owner-view-mode .owner-listing-column {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .owner-view-mode .selected-listing-card {
+                display: flex !important;
+                flex-direction: column;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .owner-view-mode .selected-listing-left,
+            .owner-view-mode .selected-listing-right {
+                width: 100% !important;
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+
+            .owner-view-mode .selected-listing-right,
+            .owner-view-mode #selected-product-description {
+                text-align: left !important;
+            }
+        }
+
+        .jomu-popup-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(18, 22, 33, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .jomu-popup-backdrop.show {
+            display: flex;
+        }
+
+        .jomu-popup-card {
+            width: min(100%, 430px);
+            background: linear-gradient(180deg, #ffffff 0%, #fff7f2 100%);
+            border-radius: 18px;
+            box-shadow: 0 18px 50px rgba(16, 24, 40, 0.24);
+            overflow: hidden;
+            border: 1px solid rgba(241, 90, 36, 0.18);
+            transform: translateY(16px);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .jomu-popup-backdrop.show .jomu-popup-card {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .jomu-popup-top {
+            padding: 22px 24px 14px;
+            text-align: center;
+        }
+
+        .jomu-popup-icon {
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            background: linear-gradient(135deg, #f15a24, #ff8a3d);
+            box-shadow: 0 10px 24px rgba(241, 90, 36, 0.28);
+        }
+
+        .jomu-popup-icon img {
+            margin-left: 8px;
+        }
+
+        .jomu-popup-card.error .jomu-popup-icon {
+            background: linear-gradient(135deg, #c62828, #ef5350);
+            box-shadow: 0 10px 24px rgba(198, 40, 40, 0.22);
+        }
+
+        .jomu-popup-title {
+            margin: 0 0 8px;
+            color: #122033;
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        .jomu-popup-message {
+            margin: 0;
+            color: #425466;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+
+        .jomu-popup-actions {
+            padding: 0 24px 24px;
+        }
+
+        .jomu-popup-button {
+            width: 100%;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #f15a24, #ff7a2f);
+        }
+
+        .jomu-popup-card.error .jomu-popup-button {
+            background: linear-gradient(135deg, #c62828, #ef5350);
+        }
+
+        #listing-not-found-screen {
+            display: none;
+            padding: 48px 20px;
+        }
+
+        #listing-not-found-screen h2 {
+            color: #122033;
+            margin-bottom: 0.8rem;
+        }
+
+        #listing-not-found-screen p {
+            color: #495057;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        body.purchase-listing-purged #selected-product-image {
+            filter: blur(16px);
+            transform: scale(1.02);
+            pointer-events: none;
+        }
+
+        #selected-product-video {
+            width: 100%;
+            max-height: 72vh;
+            object-fit: contain;
+            background: #000;
+        }
+
+        body.purchase-listing-purged .selected-gallery-strip .selected-gallery-thumb {
+            filter: blur(12px);
+            pointer-events: none;
+        }
+
+        .listing-purged-banner {
+            margin: 0 0 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: rgba(17, 17, 17, 0.88);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+    </style>
+</head>
+
+<body class="purchase-page">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-white" id="navbarone">
+            <div class="container">
+                <a class="navbar-brand brand-logos" href="index.php">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                </a>
+            </div>
+            <div style="display: none;">
+                <div class="container d-none d-md-none d-lg-block" style="margin-top: 20px; margin-right: -750px;">
+                    <h3 id="page-heading-lg" style="color: rgb(0, 0, 255);font-weight: 700;">Purchase Wholesale</h3>
+                </div>
+                <div class="container d-none d-md-block d-lg-none" style="margin-top: -30px; margin-right: -110px;">
+                    <h3 id="page-heading-md" style="color: rgb(0, 0, 255);font-weight: 700;">Purchase Wholesale</h3>
+                </div>
+                <div class="container d-block d-md-none d-lg-none" style="margin-top: -30px; margin-right: -120px;">
+                    <h4 id="page-heading-sm" style="color: rgb(0, 0, 255);font-weight: 700;">Purchase Wholesale</h4>
+                </div>
+            </div>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div id="listing-not-found-screen" class="container text-center" style="display: none; padding: 60px 12px;">
+            <h2 id="listing-not-found-title" style="font-size: 1.75rem; margin-bottom: 1rem;">Listing Not Found</h2>
+            <p id="listing-not-found-message"
+                style="font-size: 1rem; color: #495057; max-width: 520px; margin: 0 auto;">
+                The listing you are trying to view is no longer available. Please check with the seller for a current
+                offer.
+            </p>
+        </div>
+        <div class="mt-1 purchases-container" id="purchases-container">
+            <div class="col-12 col-md-4 col-lg-3 owner-listing-column">
+                <div class="seller-brief-top">
+                    <a id="seller-brief-link" class="seller-brief-link" href="#">
+                        <div class="seller-brief">
+                            <img id="seller-brief-dp" src="assets/images/profile.png" alt="Business profile">
+                            <p id="seller-brief-name" class="seller-brief-name">Business</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="card h-100 text-center selected-listing-card">
+                    <div class="selected-listing-left">
+                        <img id="selected-product-image" src="assets/images/Clothes Bale.webp"
+                            class="card-img-top img-fluid" alt="Selected Product">
+                        <div id="selected-gallery-strip" class="selected-gallery-strip" style="display: none;"></div>
+                        <h5 id="selected-product-title" class="card-title">Clothes Bale/Ndiboota</h5>
+                        <p id="selected-product-category" class="card-text mb-1"></p>
+                    </div>
+                    <div class="card-body selected-listing-right">
+                        <h5 id="selected-product-title-owner" class="card-title" style="display: none;"></h5>
+                        <p id="selected-product-category-owner" class="card-text mb-1" style="display: none;"></p>
+                        <p id="selected-product-details" class="card-text mb-1">Ugshs 900k / Bale</p>
+                        <p id="selected-product-price-range" class="card-text mb-1"></p>
+                        <p id="selected-product-description" class="card-text mb-0"></p>
+                        <!-- This tab takes you to the seller businessprofile where showroom also is.  -->
+                    </div>
+                </div>
+            </div>
+            <div class="container" id="interaction-panel">
+                <h5 id="form-intro" style="color: rgb(0, 0, 255);">Kindly answer the following fields.</h5>
+                <hr id="form-divider">
+                <div class="comment-section-bulk-orders">
+                    <div class="container-fluid">
+                        <form action="#" method="POST">
+                            <h5 id="amount-heading" class="mb-1 mt-2">Amount*</h5>
+                            <div class="form-floating">
+                                <input type="text" id="amount" class="form-control" placeholder="amount" maxlength="35"
+                                    required>
+                                <label id="amount-label" for="amount">Enter Amount*</label>
+                            </div>
+                            <h5 id="payment-heading" class="mb-1 mt-2">Mode of Payment*</h5>
+                            <div class="form-floating">
+                                <input type="text" id="payment" class="form-control" placeholder="payment"
+                                    maxlength="35" required>
+                                <label id="payment-label" for="payment">Cash / Credit Card / Mobile Money*</label>
+                            </div>
+                            <h5 id="delivery-heading" class="mb-1 mt-2">Delivery method</h5>
+                            <div class="form-floating">
+                                <input type="text" id="delivery" class="form-control" placeholder="delivery"
+                                    maxlength="35">
+                                <label id="delivery-label" for="amount">Delivery / Self Pick</label>
+                            </div>
+                            <h5 class="mb-1 mt-2">Location</h5>
+                            <div class="form-floating">
+                                <input type="text" id="location" class="form-control" placeholder="location"
+                                    maxlength="35">
+                                <label id="location-label" for="location">Enter your business Location</label>
+                            </div>
+                        </form>
+                        <div class="mt-2" style="display: flex; flex-direction: row; gap: 10px;">
+                            <!-- After submiting purchase the user is informed that the seller business will contact them when request recieved. -->
+                            <p id="submit-action" class="bg-success proceed-btn">
+                                Submit Purchase</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="visit-showroom-btn" class="btn mb-2">Visit
+                    Showroom</button>
+            </div>
+
+        </div>
+        </div>
+    </main>
+
+    <div id="submission-popup" class="jomu-popup-backdrop" aria-hidden="true">
+        <div id="submission-popup-card" class="jomu-popup-card" role="dialog" aria-modal="true"
+            aria-labelledby="submission-popup-title">
+            <div class="jomu-popup-top">
+                <!-- <div class="jomu-popup-icon" aria-hidden="true">✓</div> -->
+                <div class="jomu-popup-icon" aria-hidden="true">
+                    <img id="submission-popup-icon" src="assets/images/icons/tick2.png" width="40" alt="">
+                </div>
+                <h4 id="submission-popup-title" class="jomu-popup-title">Submitted</h4>
+                <p id="submission-popup-message" class="jomu-popup-message"></p>
+            </div>
+            <div class="jomu-popup-actions">
+                <button type="button" id="submission-popup-close" class="jomu-popup-button">Okay</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <footer class=" footer-feedback py-2 text-center bg-white">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        let image = params.get('image');
+        let title = params.get('title');
+        let price = params.get('price');
+        let rawPrice = params.get('raw_price');
+        let priceFrom = params.get('price_from');
+        let priceTo = params.get('price_to');
+        let description = params.get('description');
+        let category = params.get('category');
+        let listingType = (params.get('listing_type') || '').toLowerCase();
+        let sellerBusinessName = params.get('seller_businessname');
+        let sellerProfilePic = params.get('seller_profilepic');
+        let sellerId = params.get('seller_id');
+        let ownerView = params.get('owner_view') === '1';
+        let currentUserId = 0;
+        const listingId = params.get('listing_id');
+        const parsedListingId = Number.parseInt(listingId || '', 10);
+        const requestView = params.get('request_view') === '1';
+        const reqAmount = params.get('req_amount') || '';
+        const reqPaymentMode = params.get('req_payment_mode') || '';
+        const reqDeliveryMethod = params.get('req_delivery_method') || '';
+        const reqLocation = params.get('req_location') || '';
+
+        const imageEl = document.getElementById('selected-product-image');
+        const titleEl = document.getElementById('selected-product-title');
+        const ownerTitleEl = document.getElementById('selected-product-title-owner');
+        const categoryEl = document.getElementById('selected-product-category');
+        const ownerCategoryEl = document.getElementById('selected-product-category-owner');
+        const detailsEl = document.getElementById('selected-product-details');
+        const priceRangeEl = document.getElementById('selected-product-price-range');
+        const descriptionEl = document.getElementById('selected-product-description');
+        const visitShowroomBtn = document.getElementById('visit-showroom-btn');
+        const amountInputEl = document.getElementById('amount');
+        const formIntroEl = document.getElementById('form-intro');
+        const formDividerEl = document.getElementById('form-divider');
+        const amountHeadingEl = document.getElementById('amount-heading');
+        const amountLabelEl = document.getElementById('amount-label');
+        const paymentInputEl = document.getElementById('payment');
+        const paymentHeadingEl = document.getElementById('payment-heading');
+        const paymentLabelEl = document.getElementById('payment-label');
+        const deliveryInputEl = document.getElementById('delivery');
+        const deliveryHeadingEl = document.getElementById('delivery-heading');
+        const deliveryLabelEl = document.getElementById('delivery-label');
+        const locationInputEl = document.getElementById('location');
+        const locationLabelEl = document.getElementById('location-label');
+        const submitActionEl = document.getElementById('submit-action');
+        const purchaseFormEl = document.querySelector('.comment-section-bulk-orders form');
+        const pageHeadingLgEl = document.getElementById('page-heading-lg');
+        const pageHeadingMdEl = document.getElementById('page-heading-md');
+        const pageHeadingSmEl = document.getElementById('page-heading-sm');
+        const sellerBriefDpEl = document.getElementById('seller-brief-dp');
+        const sellerBriefNameEl = document.getElementById('seller-brief-name');
+        const sellerBriefLinkEl = document.getElementById('seller-brief-link');
+        const submissionPopupEl = document.getElementById('submission-popup');
+        const submissionPopupCardEl = document.getElementById('submission-popup-card');
+        const submissionPopupTitleEl = document.getElementById('submission-popup-title');
+        const submissionPopupMessageEl = document.getElementById('submission-popup-message');
+        const submissionPopupIconEl = document.getElementById('submission-popup-icon');
+        const submissionPopupCloseEl = document.getElementById('submission-popup-close');
+        const popupSuccessIcon = 'assets/images/icons/tick2.png';
+        const popupErrorIcon = 'assets/images/icons/wrong2.png';
+        let isService = listingType === 'service';
+        const commentSectionEl = document.querySelector('.comment-section-bulk-orders');
+        const interactionPanelEl = document.getElementById('interaction-panel');
+        const purchasesContainerEl = document.getElementById('purchases-container');
+        const selectedGalleryStripEl = document.getElementById('selected-gallery-strip');
+        const listingNotFoundScreenEl = document.getElementById('listing-not-found-screen');
+        let displayedDescription = (description || '').trim();
+        let selectedListingTracked = false;
+        let jomuUserCsrfToken = '';
+
+        const listingNotFoundTitleEl = document.getElementById('listing-not-found-title');
+        const listingNotFoundMessageEl = document.getElementById('listing-not-found-message');
+
+        function showListingNotFoundScreen(titleText, messageText) {
+            if (listingNotFoundTitleEl && typeof titleText === 'string') {
+                listingNotFoundTitleEl.textContent = titleText;
+            }
+            if (listingNotFoundMessageEl && typeof messageText === 'string') {
+                listingNotFoundMessageEl.textContent = messageText;
+            }
+            if (purchasesContainerEl) purchasesContainerEl.style.display = 'none';
+            if (interactionPanelEl) interactionPanelEl.style.display = 'none';
+            if (listingNotFoundScreenEl) listingNotFoundScreenEl.style.display = 'block';
+        }
+
+        function getDeletedListingNotFoundCopy() {
+            const title = ownerView ? 'Listing not Found!' : 'Listing Not Found';
+            const message = ownerView
+                ? 'You deleted this listing.'
+                : (listingType === 'service'
+                    ? 'The listing you are trying to view is no longer available. Please check with the service provider for a current offer.'
+                    : 'The listing you are trying to view is no longer available. Please check with the seller for a current offer.');
+            return { title, message };
+        }
+
+        async function resolveOwnerViewState() {
+            if (ownerView) return true;
+            const parsedSellerId = Number.parseInt(sellerId || '0', 10);
+            if (!Number.isInteger(parsedSellerId) || parsedSellerId <= 0) {
+                return false;
+            }
+
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return false;
+                const data = await response.json();
+                jomuUserCsrfToken = String(data.csrf_token || jomuUserCsrfToken || '');
+                if (!data || data.signed_in !== true) return false;
+                currentUserId = Number.parseInt(data.user_id || '0', 10);
+                if (!Number.isInteger(currentUserId) || currentUserId <= 0) return false;
+                if (currentUserId === parsedSellerId) {
+                    ownerView = true;
+                    return true;
+                }
+            } catch (error) {
+                // Ignore failure; owner view remains false.
+            }
+
+            return false;
+        }
+
+        const isListingNotFound = params.get('listing_not_found') === '1' || !listingId;
+        if (isListingNotFound) {
+            const notFoundCopy = getDeletedListingNotFoundCopy();
+            showListingNotFoundScreen(notFoundCopy.title, notFoundCopy.message);
+            if (!ownerView) {
+                resolveOwnerViewState().then(() => {
+                    const updatedCopy = getDeletedListingNotFoundCopy();
+                    showListingNotFoundScreen(updatedCopy.title, updatedCopy.message);
+                });
+            }
+        } else if (Number.isInteger(parsedListingId) && parsedListingId > 0 && purchasesContainerEl) {
+            purchasesContainerEl.style.display = 'none';
+        }
+
+        if (ownerView) {
+            if (interactionPanelEl) interactionPanelEl.style.display = 'none';
+            if (purchasesContainerEl) purchasesContainerEl.classList.add('owner-view-mode');
+            sellerBriefLinkEl.removeAttribute('href');
+            sellerBriefLinkEl.style.cursor = 'default';
+            sellerBriefLinkEl.style.pointerEvents = 'none';
+        }
+
+        function normalizeSellerProfilePicUrl(pathValue) {
+            const raw = String(pathValue || '').trim().replace(/\\/g, '/');
+            if (!raw) return '';
+            if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('data:') || raw.startsWith('blob:')) {
+                return raw;
+            }
+            if (raw.startsWith('/')) {
+                return raw;
+            }
+            if (raw.startsWith('assets/')) {
+                return `/${raw}`;
+            }
+            if (raw.startsWith('php/')) {
+                return `/${raw}`;
+            }
+            if (raw.startsWith('uploads/')) {
+                return `/php/${raw}`;
+            }
+            return `/php/${raw}`;
+        }
+
+        function applySellerBrief() {
+            if (sellerBusinessName && sellerBusinessName.trim() !== '') {
+                sellerBriefNameEl.textContent = sellerBusinessName;
+            }
+
+            const normalizedDpPath = normalizeSellerProfilePicUrl(sellerProfilePic);
+            if (normalizedDpPath) {
+                sellerBriefDpEl.src = normalizedDpPath;
+            }
+        }
+
+        function applyListingTypeLabels() {
+            if (listingType === 'services') {
+                listingType = 'service';
+            } else if (listingType === 'products') {
+                listingType = 'product';
+            }
+            isService = listingType === 'service';
+            amountHeadingEl.textContent = isService ? 'Service Requirement*' : 'Amount*';
+            amountLabelEl.textContent = isService ? 'Describe Service Requirement*' : 'Enter Amount*';
+            deliveryHeadingEl.textContent = isService ? 'Timeline' : 'Delivery method';
+            deliveryInputEl.placeholder = isService ? 'Urgent / Flexible' : 'delivery';
+            deliveryLabelEl.textContent = isService ? 'Urgent / Flexible' : 'Delivery / Self Pick';
+            locationInputEl.placeholder = isService ? 'Enter your location' : 'location';
+            locationLabelEl.textContent = isService ? 'Enter your location' : 'Enter your business Location';
+            submitActionEl.textContent = isService ? 'Submit Schedule' : 'Submit Purchase';
+            pageHeadingLgEl.textContent = isService ? 'Schedule Service' : 'Purchase Wholesale';
+            pageHeadingMdEl.textContent = isService ? 'Schedule Service' : 'Purchase Wholesale';
+            pageHeadingSmEl.textContent = isService ? 'Schedule Service' : 'Purchase Wholesale';
+            visitShowroomBtn.textContent = isService ? 'Visit Business' : 'Visit Showroom';
+            amountInputEl.maxLength = isService ? 400 : 35;
+        }
+
+        applySellerBrief();
+        applyListingTypeLabels();
+
+        if (requestView) {
+            if (formIntroEl) {
+                formIntroEl.textContent = 'Submitted details (read-only).';
+            }
+            amountInputEl.value = reqAmount;
+            paymentInputEl.value = reqPaymentMode;
+            deliveryInputEl.value = reqDeliveryMethod;
+            locationInputEl.value = reqLocation;
+
+            amountInputEl.readOnly = true;
+            paymentInputEl.readOnly = true;
+            deliveryInputEl.readOnly = true;
+            locationInputEl.readOnly = true;
+
+            amountInputEl.classList.remove('required-field-error');
+            paymentInputEl.classList.remove('required-field-error');
+            if (amountLabelEl) amountLabelEl.style.color = '';
+            if (paymentLabelEl) paymentLabelEl.style.color = '';
+            if (amountHeadingEl) amountHeadingEl.style.color = '';
+            if (paymentHeadingEl) paymentHeadingEl.style.color = '';
+
+            submitActionEl.style.display = 'none';
+        }
+
+        function normalizeMediaUrl(pathValue) {
+            const raw = String(pathValue || '').trim().replace(/\\/g, '/');
+            if (!raw) return '';
+            if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('/')) {
+                return raw;
+            }
+            if (raw.startsWith('assets/')) {
+                return `/${raw}`;
+            }
+            if (raw.startsWith('php/')) {
+                return `/${raw}`;
+            }
+            if (raw.startsWith('uploads/')) {
+                return `/php/${raw}`;
+            }
+            return `/php/${raw}`;
+        }
+
+        function formatMoneyText(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return '';
+            return raw.replace(/(?<![\d,])\d[\d,]*(?:\.\d+)?(?![\d,])/g, (match) => {
+                const normalized = match.replace(/,/g, '');
+                const numeric = Number(normalized);
+                if (!Number.isFinite(numeric)) return match;
+                const parts = normalized.split('.');
+                const whole = Number(parts[0]).toLocaleString('en-US');
+                return parts.length > 1 ? `${whole}.${parts[1]}` : whole;
+            });
+        }
+
+        function isVideoMedia(pathValue) {
+            return /\.(mp4|mpeg|mpg|avi|3gp|3g2|mov|mkv|webm|wmv|flv|m4v|ogv|ts|mts|m2ts)$/i.test(String(pathValue || ''));
+        }
+
+        function renderSelectedMedia() {
+            const normalizedMedia = normalizeMediaUrl(image || '');
+            let videoEl = document.getElementById('selected-product-video');
+
+            if (isVideoMedia(normalizedMedia)) {
+                if (!videoEl) {
+                    videoEl = document.createElement('video');
+                    videoEl.id = 'selected-product-video';
+                    videoEl.className = 'card-img-top img-fluid';
+                    videoEl.controls = true;
+                    videoEl.muted = true;
+                    imageEl.insertAdjacentElement('afterend', videoEl);
+                }
+                videoEl.src = normalizedMedia;
+                videoEl.style.display = '';
+                imageEl.style.display = 'none';
+                return;
+            }
+
+            if (videoEl) {
+                videoEl.pause();
+                videoEl.removeAttribute('src');
+                videoEl.style.display = 'none';
+            }
+            if (normalizedMedia) {
+                imageEl.src = normalizedMedia;
+            }
+            imageEl.style.display = '';
+        }
+
+        function applySelectedListingData() {
+            applySellerBrief();
+            applyListingTypeLabels();
+            renderSelectedMedia();
+
+            if (title) {
+                titleEl.textContent = title;
+                if (ownerTitleEl) ownerTitleEl.textContent = title;
+            }
+
+            if (category) {
+                categoryEl.textContent = `Category: ${category}`;
+                categoryEl.style.display = '';
+                if (ownerCategoryEl) {
+                    ownerCategoryEl.textContent = `Category: ${category}`;
+                    ownerCategoryEl.style.display = '';
+                }
+            } else {
+                categoryEl.style.display = 'none';
+                if (ownerCategoryEl) ownerCategoryEl.style.display = 'none';
+            }
+
+            if (priceFrom && priceTo) {
+                priceRangeEl.textContent = `Unit Price Range: USh ${formatMoneyText(priceFrom)} - ${formatMoneyText(priceTo)}`;
+                priceRangeEl.style.display = '';
+                detailsEl.style.display = 'none';
+            } else {
+                priceRangeEl.style.display = 'none';
+                const amountLabel = isService ? 'Charge' : 'Price';
+                if (price) {
+                    detailsEl.textContent = `${amountLabel}: ${formatMoneyText(price)}`;
+                    detailsEl.style.display = '';
+                } else if (rawPrice) {
+                    detailsEl.textContent = `${amountLabel}: ${formatMoneyText(rawPrice)}`;
+                    detailsEl.style.display = '';
+                } else {
+                    detailsEl.style.display = 'none';
+                }
+            }
+
+            renderSelectedProductDescription(displayedDescription);
+        }
+
+        function renderSelectedGallery(mainImageSrc, extraImages) {
+            if (!selectedGalleryStripEl) return;
+
+            const normalizedMain = normalizeMediaUrl(mainImageSrc);
+            const normalizedExtras = Array.isArray(extraImages)
+                ? extraImages.map((item) => normalizeMediaUrl(item)).filter(Boolean)
+                : [];
+            const galleryImages = [normalizedMain, ...normalizedExtras].filter(Boolean);
+
+            selectedGalleryStripEl.innerHTML = '';
+            if (galleryImages.length <= 1) {
+                selectedGalleryStripEl.style.display = 'none';
+                return;
+            }
+
+            galleryImages.forEach((galleryImage, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = galleryImage;
+                thumb.alt = index === 0 ? 'Main listing image' : `Additional listing image ${index}`;
+                thumb.className = 'selected-gallery-thumb';
+                if (galleryImage === normalizedMain) {
+                    thumb.classList.add('is-active');
+                }
+                thumb.addEventListener('click', () => {
+                    imageEl.src = galleryImage;
+                    selectedGalleryStripEl.querySelectorAll('.selected-gallery-thumb').forEach((thumbEl) => {
+                        thumbEl.classList.toggle('is-active', thumbEl === thumb);
+                    });
+                });
+                selectedGalleryStripEl.appendChild(thumb);
+            });
+
+            selectedGalleryStripEl.style.display = '';
+        }
+
+        async function loadSelectedListingGallery() {
+            const parsedListingId = Number.parseInt(listingId || '', 10);
+            if (!Number.isInteger(parsedListingId) || parsedListingId <= 0 || selectedGalleryStripEl === null) {
+                return;
+            }
+
+            const normalizedPrimaryImage = normalizeMediaUrl(image || '');
+            if (!normalizedPrimaryImage) {
+                return;
+            }
+
+            try {
+                const galleryParams = new URLSearchParams({ listing_id: String(parsedListingId) });
+                if (ownerView) galleryParams.set('owner_view', '1');
+                const response = await fetch(`/php/get_listing_gallery.php?${galleryParams.toString()}`);
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data || data.success !== true) {
+                    return;
+                }
+
+                if (data.display_blurred === true) {
+                    applyListingPurgedBlurFromApi();
+                    return;
+                }
+
+                renderSelectedGallery(data.main_media || image || '', data.images || []);
+            } catch (error) {
+                // Non-blocking gallery load.
+            }
+        }
+
+        function renderSelectedProductDescription(rawDescription) {
+            const normalized = String(rawDescription || '').trim();
+            displayedDescription = normalized;
+
+            if (!normalized) {
+                descriptionEl.style.display = 'none';
+                descriptionEl.textContent = '';
+                return;
+            }
+
+            descriptionEl.style.display = '';
+            descriptionEl.innerHTML = '';
+
+            const labelEl = document.createElement('span');
+            labelEl.className = 'description-label';
+            labelEl.textContent = 'Description';
+
+            descriptionEl.appendChild(labelEl);
+            descriptionEl.appendChild(document.createTextNode(' ' + normalized));
+        }
+
+        function applyListingPurgedBlurFromApi() {
+            document.body.classList.add('purchase-listing-purged');
+            const leftCol = document.querySelector('.selected-listing-left');
+            if (leftCol && !document.getElementById('listing-purged-banner')) {
+                const banner = document.createElement('p');
+                banner.id = 'listing-purged-banner';
+                banner.className = 'listing-purged-banner';
+                banner.textContent = 'This listing is no longer available on JoMu. Media is shown blurred for privacy.';
+                if (imageEl && imageEl.parentNode === leftCol) {
+                    leftCol.insertBefore(banner, imageEl);
+                } else {
+                    leftCol.insertBefore(banner, leftCol.firstChild);
+                }
+            }
+            if (interactionPanelEl && !ownerView) {
+                interactionPanelEl.style.display = 'none';
+            }
+            if (visitShowroomBtn) {
+                visitShowroomBtn.style.display = 'none';
+            }
+            if (selectedGalleryStripEl) {
+                selectedGalleryStripEl.style.display = 'none';
+            }
+            descriptionEl.style.display = '';
+            descriptionEl.innerHTML = '';
+            const labelEl = document.createElement('span');
+            labelEl.className = 'description-label';
+            labelEl.textContent = 'Notice';
+            descriptionEl.appendChild(labelEl);
+            descriptionEl.appendChild(document.createTextNode(' This listing has been removed from public view. Details are no longer shown.'));
+        }
+
+        async function loadSelectedListingDetails() {
+            const parsedListingId = Number.parseInt(listingId || '', 10);
+            if (!Number.isInteger(parsedListingId) || parsedListingId <= 0) {
+                return;
+            }
+
+            try {
+                const detailParams = new URLSearchParams({ listing_id: String(parsedListingId) });
+                if (ownerView) detailParams.set('owner_view', '1');
+                const response = await fetch(`/php/get_listing_details.php?${detailParams.toString()}`);
+                if (!response.ok) {
+                    resolveOwnerViewState().then(() => {
+                        const copy = getDeletedListingNotFoundCopy();
+                        showListingNotFoundScreen(copy.title, copy.message);
+                    });
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data || data.success !== true || !data.listing) {
+                    resolveOwnerViewState().then(() => {
+                        const copy = getDeletedListingNotFoundCopy();
+                        showListingNotFoundScreen(copy.title, copy.message);
+                    });
+                    return;
+                }
+
+                if (data.listing.display_blurred === true) {
+                    if (purchasesContainerEl) {
+                        purchasesContainerEl.style.display = '';
+                    }
+                    applyListingPurgedBlurFromApi();
+                    return;
+                }
+
+                image = data.listing.media || image || '';
+                title = data.listing.stockname || title || '';
+                price = data.listing.price || price || '';
+                rawPrice = data.listing.price || rawPrice || '';
+                priceFrom = data.listing.price_from || priceFrom || '';
+                priceTo = data.listing.price_to || priceTo || '';
+                description = data.listing.description || description || '';
+                displayedDescription = String(description || '').trim();
+                category = data.listing.category || category || '';
+                listingType = String(data.listing.listing_type || listingType || '').toLowerCase();
+                if (listingType === 'services') {
+                    listingType = 'service';
+                } else if (listingType === 'products') {
+                    listingType = 'product';
+                }
+                if (listingType !== 'service' && listingType !== 'product') {
+                    listingType = String(category || '').toLowerCase().includes('service') ? 'service' : 'product';
+                }
+                sellerBusinessName = data.listing.seller_businessname || sellerBusinessName || '';
+                sellerProfilePic = data.listing.seller_profilepic || sellerProfilePic || '';
+                sellerId = data.listing.seller_id ? String(data.listing.seller_id) : (sellerId || '');
+                applySelectedListingData();
+                configureShowroomLink();
+
+                if (purchasesContainerEl) {
+                    purchasesContainerEl.style.display = '';
+                }
+                if (listingNotFoundScreenEl) {
+                    listingNotFoundScreenEl.style.display = 'none';
+                }
+                trackVerifiedListingView();
+                if (!isVideoMedia(image)) {
+                    loadSelectedListingGallery();
+                }
+            } catch (error) {
+                resolveOwnerViewState().then(() => {
+                    const copy = getDeletedListingNotFoundCopy();
+                    showListingNotFoundScreen(copy.title, copy.message);
+                });
+            }
+        }
+
+        applySelectedListingData();
+
+        function setRequiredErrorState(inputEl, labelEl, headingEl, hasError) {
+            if (!inputEl) return;
+            inputEl.classList.toggle('required-field-error', hasError);
+            if (labelEl) {
+                labelEl.style.color = hasError ? '#dc3545' : '';
+            }
+            if (headingEl) {
+                headingEl.style.color = hasError ? '#dc3545' : '';
+            }
+        }
+
+        function validateRequiredFields() {
+            const amountEmpty = !amountInputEl.value.trim();
+            const paymentEmpty = !paymentInputEl.value.trim();
+
+            setRequiredErrorState(amountInputEl, amountLabelEl, amountHeadingEl, amountEmpty);
+            setRequiredErrorState(paymentInputEl, paymentLabelEl, paymentHeadingEl, paymentEmpty);
+
+            return !amountEmpty && !paymentEmpty;
+        }
+
+        function showSubmissionPopup(title, message, tone = 'success') {
+            const isErrorTone = tone === 'error' || tone === 'failed' || tone === 'failure';
+            submissionPopupTitleEl.textContent = title;
+            submissionPopupMessageEl.textContent = message;
+            if (submissionPopupIconEl) {
+                submissionPopupIconEl.src = isErrorTone ? popupErrorIcon : popupSuccessIcon;
+            }
+            submissionPopupCardEl.classList.toggle('error', isErrorTone);
+            submissionPopupEl.classList.add('show');
+            submissionPopupEl.setAttribute('aria-hidden', 'false');
+            submissionPopupCloseEl.focus();
+        }
+
+        function hideSubmissionPopup() {
+            submissionPopupEl.classList.remove('show');
+            submissionPopupEl.setAttribute('aria-hidden', 'true');
+        }
+
+        amountInputEl.addEventListener('input', () => {
+            if (amountInputEl.value.trim()) {
+                setRequiredErrorState(amountInputEl, amountLabelEl, amountHeadingEl, false);
+            }
+        });
+
+        paymentInputEl.addEventListener('input', () => {
+            if (paymentInputEl.value.trim()) {
+                setRequiredErrorState(paymentInputEl, paymentLabelEl, paymentHeadingEl, false);
+            }
+        });
+
+        async function submitPurchaseRequest() {
+            if (!validateRequiredFields()) {
+                return false;
+            }
+
+            const parsedSellerIdForSubmit = Number.parseInt(sellerId || '', 10);
+            const parsedListingIdForSubmit = Number.parseInt(listingId || '', 10);
+
+            if (!Number.isInteger(parsedSellerIdForSubmit) || parsedSellerIdForSubmit <= 0 || !Number.isInteger(parsedListingIdForSubmit) || parsedListingIdForSubmit <= 0) {
+                showSubmissionPopup('Unable to Submit', 'Listing details are missing right now. Please reopen the listing and try again.', 'error');
+                return false;
+            }
+
+            submitActionEl.style.pointerEvents = 'none';
+            submitActionEl.style.opacity = '0.7';
+
+            try {
+                if (!jomuUserCsrfToken) {
+                    const authResponse = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                    if (authResponse.ok) {
+                        const authData = await authResponse.json();
+                        jomuUserCsrfToken = String(authData.csrf_token || '');
+                    }
+                }
+
+                const payload = new URLSearchParams();
+                payload.set('listing_id', String(parsedListingIdForSubmit));
+                payload.set('seller_id', String(parsedSellerIdForSubmit));
+                payload.set('listing_type', listingType || 'product');
+                payload.set('amount', amountInputEl.value.trim());
+                payload.set('payment', paymentInputEl.value.trim());
+                payload.set('delivery', deliveryInputEl.value.trim());
+                payload.set('location', locationInputEl.value.trim());
+                payload.set('csrf_token', jomuUserCsrfToken);
+
+                const response = await fetch('php/submit_purchase_request.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: payload.toString()
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    showSubmissionPopup('Submission Failed!', (data && data.message) ? data.message : 'Unable to submit request.', 'error');
+                    return false;
+                }
+
+                showSubmissionPopup(
+                    isService ? 'Schedule Submitted' : 'Purchase Submitted',
+                    isService
+                        ? 'Your service schedule has been submitted successfully. The business will review it and get back to you.'
+                        : 'Your purchase request has been submitted successfully. The seller will review it and contact you.'
+                );
+                amountInputEl.value = '';
+                paymentInputEl.value = '';
+                deliveryInputEl.value = '';
+                locationInputEl.value = '';
+                setRequiredErrorState(amountInputEl, amountLabelEl, amountHeadingEl, false);
+                setRequiredErrorState(paymentInputEl, paymentLabelEl, paymentHeadingEl, false);
+                return true;
+            } catch (error) {
+                showSubmissionPopup('Network Error', 'There was a network problem while submitting your request. Please try again.', 'error');
+                return false;
+            } finally {
+                submitActionEl.style.pointerEvents = '';
+                submitActionEl.style.opacity = '';
+            }
+        }
+
+        submitActionEl.addEventListener('click', () => {
+            if (requestView) return;
+            submitPurchaseRequest();
+        });
+
+        if (purchaseFormEl) {
+            purchaseFormEl.addEventListener('submit', (event) => {
+                event.preventDefault();
+                if (requestView) return;
+                submitPurchaseRequest();
+            });
+        }
+
+        submissionPopupCloseEl.addEventListener('click', hideSubmissionPopup);
+
+        submissionPopupEl.addEventListener('click', (event) => {
+            if (event.target === submissionPopupEl) {
+                hideSubmissionPopup();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && submissionPopupEl.classList.contains('show')) {
+                hideSubmissionPopup();
+            }
+        });
+
+        let recentStorageKey = 'jomuRecentlyViewedListings:guest';
+        let recentStorageKeyPromise = null;
+
+        function saveRecentlyViewedListing(item, storageKey) {
+            if (!item || !item.listing_id) return;
+            try {
+                const raw = localStorage.getItem(storageKey);
+                const currentItems = raw ? JSON.parse(raw) : [];
+                const safeItems = Array.isArray(currentItems) ? currentItems : [];
+                const nextItem = {
+                    listing_id: Number(item.listing_id) || 0,
+                    viewed_at: new Date().toISOString(),
+                    media_type: item.media_type === 'video' ? 'video' : 'image',
+                    media_src: String(item.media_src || '').trim(),
+                    title: String(item.title || '').trim(),
+                    description: String(item.description || '').trim(),
+                    price: String(item.price || '').trim(),
+                    action_label: String(item.action_label || 'Purchase Wholesale').trim(),
+                    purchase_url: String(item.purchase_url || window.location.href).trim(),
+                };
+
+                const filteredItems = safeItems.filter((entry) => Number(entry?.listing_id || 0) !== nextItem.listing_id);
+                filteredItems.unshift(nextItem);
+                localStorage.setItem(storageKey, JSON.stringify(filteredItems.slice(0, 20)));
+            } catch (error) {
+                // Non-blocking recent-history update.
+            }
+        }
+
+        async function getRecentStorageKey() {
+            if (recentStorageKeyPromise) {
+                return recentStorageKeyPromise;
+            }
+
+            recentStorageKeyPromise = fetch('php/auth_status.php', { credentials: 'same-origin' })
+                .then((response) => response.ok ? response.json() : null)
+                .then((data) => {
+                    recentStorageKey = data?.signed_in && data?.user_key
+                        ? `jomuRecentlyViewedListings:${data.user_key}`
+                        : 'jomuRecentlyViewedListings:guest';
+                    return recentStorageKey;
+                })
+                .catch(() => recentStorageKey);
+
+            return recentStorageKeyPromise;
+        }
+
+        function storeRecentlyViewedListing(item) {
+            getRecentStorageKey().then((storageKey) => saveRecentlyViewedListing(item, storageKey));
+        }
+
+        function trackVerifiedListingView() {
+            if (selectedListingTracked || !Number.isInteger(parsedListingId) || parsedListingId <= 0) {
+                return;
+            }
+
+            selectedListingTracked = true;
+
+            storeRecentlyViewedListing({
+                listing_id: parsedListingId,
+                media_type: image && isVideoMedia(image) ? 'video' : 'image',
+                media_src: image || '',
+                title: title || '',
+                description: description || '',
+                price: price || '',
+                action_label: isService ? 'Schedule a Service' : 'Purchase Wholesale',
+                purchase_url: window.location.href,
+                seller_name: sellerBusinessName || '',
+            });
+            fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(parsedListingId))}`)
+                .catch(() => {
+                    // Non-blocking analytics update.
+                });
+        }
+
+        function configureShowroomLink() {
+            const parsedSellerId = Number.parseInt(sellerId || '', 10);
+            if (!ownerView && ((Number.isInteger(parsedSellerId) && parsedSellerId > 0) || (Number.isInteger(parsedListingId) && parsedListingId > 0))) {
+                const showroomUrl = new URL('php/visitor_profile.php', window.location.origin);
+
+                if (Number.isInteger(parsedSellerId) && parsedSellerId > 0) {
+                    showroomUrl.searchParams.set('user_id', String(parsedSellerId));
+                }
+                if (Number.isInteger(parsedListingId) && parsedListingId > 0) {
+                    showroomUrl.searchParams.set('listing_id', String(parsedListingId));
+                }
+
+                visitShowroomBtn.disabled = false;
+                visitShowroomBtn.title = '';
+                visitShowroomBtn.onclick = () => {
+                    window.location.href = showroomUrl.toString();
+                };
+                sellerBriefLinkEl.href = showroomUrl.toString();
+                sellerBriefLinkEl.style.cursor = '';
+                sellerBriefLinkEl.style.pointerEvents = '';
+                return;
+            }
+
+            visitShowroomBtn.disabled = true;
+            visitShowroomBtn.title = 'Seller profile unavailable for this listing';
+            visitShowroomBtn.onclick = null;
+            sellerBriefLinkEl.removeAttribute('href');
+            sellerBriefLinkEl.style.cursor = 'default';
+            sellerBriefLinkEl.style.pointerEvents = 'none';
+        }
+
+        configureShowroomLink();
+
+        loadSelectedListingDetails();
+    </script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

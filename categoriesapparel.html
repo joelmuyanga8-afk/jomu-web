@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Apparel</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body.body-one {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding-top: 68px;
+        }
+
+        body.body-one>footer {
+            margin-top: auto;
+        }
+
+        .footer-links {
+            gap: 4px 8px;
+        }
+
+        #mediaPreviewOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 18px;
+        }
+
+        #mediaPreviewOverlay.active {
+            display: flex;
+        }
+
+        .media-preview-panel {
+            max-width: 96vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .media-preview-content {
+            max-width: 96vw;
+            max-height: 72vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            background: #000;
+            z-index: 1;
+        }
+
+        .media-preview-close {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font-size: 2rem;
+            line-height: 1;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .media-preview-details {
+            width: min(96vw, 620px);
+            background: rgba(9, 9, 9, 0.82);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            text-align: left;
+            z-index: 3;
+        }
+
+        .media-preview-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: rgb(241, 90, 36);
+        }
+
+        .media-preview-price,
+        .media-preview-description {
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        .media-preview-watermark {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            max-width: 28vw;
+            opacity: 0.28;
+            pointer-events: none;
+            user-select: none;
+            display: none;
+            z-index: 2;
+        }
+
+        .cards-container {
+            display: block;
+            width: 100%;
+        }
+
+        .card {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .listing-name-top {
+            order: 1;
+        }
+
+        .listing-description {
+            order: 2;
+        }
+
+        .listing-description-link {
+            color: inherit;
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            line-height: 1.25;
+            min-height: 2.5em;
+            cursor: pointer;
+        }
+
+        .listing-description-link:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-price-range {
+            order: 3;
+            font-size: 1.14rem;
+            font-weight: 800;
+        }
+
+        .listing-action-btn {
+            order: 4;
+        }
+
+        .jomu-card-typography {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .jomu-card-typography .card-title {
+            font-weight: 600;
+            letter-spacing: 0;
+        }
+
+        .jomu-card-typography .card-text {
+            font-weight: 500;
+            line-height: 1.25;
+        }
+
+        .jomu-card-typography .product-price-range {
+            font-weight: 800;
+        }
+
+        .jomu-card-typography .product-price-range .price-unit {
+            font-weight: 400;
+        }
+
+        .jomu-card-typography .card-img-button {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .cards-container .listing-card-item {
+            display: block;
+        }
+
+        .cards-container .card.h-100 {
+            width: 100%;
+            height: auto !important;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+
+        .cards-container .row {
+            --bs-gutter-x: 0.25rem;
+            --bs-gutter-y: 0.25rem;
+        }
+
+        .cards-container .card-img-top.media-preview-item {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            background: transparent;
+        }
+
+        .cards-container .card-body {
+            --category-card-body-pad: 0.25rem;
+            padding: var(--category-card-body-pad) !important;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            flex: 0 0 auto;
+            min-height: 0;
+            max-height: none;
+            overflow: visible;
+        }
+
+        .cards-container .listing-name-top {
+            font-size: 1rem;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 1.2em;
+            max-height: 1.2em;
+        }
+
+        .cards-container .listing-description-link {
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            min-height: 1.3em;
+            max-height: 1.3em;
+            font-size: 0.9rem;
+        }
+
+        .cards-container .product-price-range {
+            font-size: 0.95rem;
+            line-height: 1.2;
+            min-height: 1.2em;
+            max-height: 1.2em;
+        }
+
+        .cards-container .listing-action-btn {
+            font-size: 0.85rem;
+            margin-top: auto !important;
+            margin-left: calc(-1 * var(--category-card-body-pad, 0.25rem));
+            margin-right: calc(-1 * var(--category-card-body-pad, 0.25rem));
+            width: calc(100% + (2 * var(--category-card-body-pad, 0.25rem))) !important;
+            min-width: calc(100% + (2 * var(--category-card-body-pad, 0.25rem)));
+            max-width: calc(100% + (2 * var(--category-card-body-pad, 0.25rem)));
+            min-height: 28px;
+            align-self: stretch;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        @media (min-width: 992px) {
+            .cards-container .card-img-top.media-preview-item {
+                height: auto;
+            }
+
+            .cards-container .card-body {
+                min-height: 112px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            main.main-one,
+            main.main-one .container-fluid,
+            #cards-container.container {
+                max-width: 100%;
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            .cards-container .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .cards-container .card-img-top.media-preview-item {
+                height: 120px;
+                object-fit: cover;
+                background: transparent;
+            }
+
+            .cards-container .card-body {
+                --category-card-body-pad: 0.2rem;
+                padding: var(--category-card-body-pad) !important;
+                min-height: 96px;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .footer-feedback br {
+                display: none;
+            }
+
+            .footer-feedback small {
+                display: block;
+                margin-top: 0;
+            }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 0px;
+        }
+
+        .pagination .btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            border: 1px solid rgb(241, 90, 36);
+            color: rgb(0, 0, 255);
+            border-radius: 3px;
+        }
+
+        .pagination .btn:hover {
+            background-color: rgb(241, 90, 36);
+            color: white;
+        }
+
+        .pagination button.btn.active {
+            background-color: rgb(241, 90, 36);
+            color: white;
+        }
+
+        .pagination .btn.prev,
+        .pagination .btn.next {
+            font-weight: bold;
+        }
+
+        @media (max-width: 767.98px) {
+            body.body-one #navbarone {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-left: 0;
+                padding-right: 4px;
+            }
+
+            body.body-one #navbarone>.d-block.d-md-none.d-lg-none.py-0.px-0 {
+                width: auto;
+                margin: 0 0 0 -14px;
+                padding: 0 !important;
+                flex: 0 0 auto;
+            }
+
+            body.body-one #navbarone .brand-logos {
+                display: block;
+                margin: 0;
+                padding-left: 0 !important;
+            }
+
+            body.body-one #navbarone .navbar-brand {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            body.body-one #navbarone .brand-logos .logo {
+                margin-right: 0 !important;
+            }
+
+            body.body-one #navbarone .searching-small {
+                position: absolute;
+                left: calc(50% + 30px);
+                transform: translateX(-50%);
+                width: clamp(165px, calc(100vw - 165px), 265px);
+                max-width: calc(100vw - 165px);
+                min-width: 0;
+                padding: 0;
+            }
+
+            body.body-one #navbarone .searching-small .input-group {
+                width: 100%;
+            }
+
+            body.body-one #navbarone .searching-small .form-control,
+            body.body-one #navbarone .searching-small .btn {
+                margin-top: 0;
+                margin-left: 0;
+            }
+
+            body.body-one #navbarone .searching-small .form-control {
+                border-radius: 10px 0 0 10px;
+            }
+
+            body.body-one #navbarone .navbar-toggler {
+                position: static;
+                right: auto;
+                top: auto;
+                margin: 0;
+                flex: 0 0 auto;
+            }
+
+            body.body-one #navbarone .navbar-toggler.d-lg-none {
+                margin-right: 2px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body.body-one #navbarone .searching-small {
+                left: calc(50% + 34px);
+                width: clamp(153px, calc(100vw - 180px), 245px);
+                max-width: calc(100vw - 180px);
+            }
+        }
+
+        @media (max-width: 360px) {
+            body.body-one #navbarone .searching-small {
+                left: calc(50% + 38px);
+                width: clamp(141px, calc(100vw - 190px), 215px);
+                max-width: calc(100vw - 190px);
+            }
+        }
+
+        .recent-mobile-auth-menu {
+            position: fixed;
+            left: auto !important;
+            right: 10px !important;
+            top: 58px;
+            z-index: 1200;
+            background: rgb(0, 0, 255);
+        }
+
+        .recent-mobile-auth-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 8px;
+            width: 14px;
+            height: 14px;
+            background: rgb(0, 0, 255);
+            transform: rotate(45deg);
+            border-radius: 2px;
+            box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
+            left: auto;
+        }
+    </style>
+
+</head>
+
+<body class="body-one" style=" background-color: #f0ecec;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone bg-white" id="navbarone">
+
+            <!-- Logo for large screens.-->
+            <div class="container d-none d-md-block d-lg-block">
+                <a class="navbar-brand brand-logos" href="index.php">
+                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+
+                </a>
+            </div>
+
+            <!-- Logo for small screens. -->
+            <div class="d-block d-md-none d-lg-none py-0 px-0">
+                <a class="navbar-brand brand-logos px-0" href="index.php">
+                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo"
+                        style="margin-right: 60px;">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo"
+                        style="margin-right: 60px;">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+                </a>
+            </div>
+
+            <!-- Auth actions for small and medium screens -->
+            <button id="newarrivals-mobile-toggler" class="navbar-toggler d-lg-none signin-icon-bg" type="button"
+                aria-expanded="false" aria-label="Open sign in menu">
+                <span>
+                    <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+                </span>
+            </button>
+            <div id="newarrivals-mobile-auth-menu"
+                class="dropdown-menu mobile-auth-menu recent-mobile-auth-menu newarrivals-mobile-auth-menu"
+                aria-labelledby="newarrivals-mobile-toggler">
+                <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="signin.html"
+                    data-mobile-auth-link="signin.html" style="color: white;">Sign In</a>
+                <button id="newarrivals-createaccount-mobile" class="dropdown-item mobile-auth-item mobile-auth-create"
+                    type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+            </div>
+
+            <!-- Navbar links for large screens -->
+            <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+                <!-- Search bar for large screens. -->
+                <div class="container-fluid searching">
+                    <input type="text" id="searchbarInput" class="searchbar" style="border: 1px solid black;"
+                        placeholder="Search...">
+                    <button class="button search" type="submit">
+                        <span><img src="assets/images/icons/Search Icon.png" class="options-icons"></span>
+                        Search</button>
+                </div>
+                <ul class="navbar-nav">
+                    <li class="nav-item active signin">
+                        <a id="apparel-signin-desktop" class="nav-link link-text" href="signin.html"
+                            style="color: rgb(0, 0, 255);">Sign In</a>
+                    </li>
+                </ul>
+                <button id="apparel-createaccount-desktop" class="button button-createaccount"
+                    onclick="location.href='createaccount.html'">Create
+                    account</button>
+            </div>
+            <!-- Search bar for medium screens -->
+            <div class="container-fluid d-none d-md-block d-lg-none searching-medium">
+                <input type="text" id="searchbarInput" class="searchbar-medium" placeholder="Search...">
+                <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+                            class="search-icon-medium search-medium"></span>
+                </button>
+            </div>
+            <!-- Search bar for small screens -->
+            <div class="d-block d-md-none d-lg-none searching-small">
+                <div class="input-group">
+                    <input type="text" id="searchbarInput" class="form-control searchbar-small" placeholder="Search...">
+                    <button class="btn btn-search-small" type="submit"><span><img
+                                src="assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
+                    </button>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+    <main class="main-one">
+        <div class="container-fluid">
+            <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
+                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    style="color: rgb(0,0,255);">&#187;</span>
+                Categories
+                <span style="color: rgb(0,0,255);">&#187;</span>
+                Ndiboota/Apparel
+            </p>
+        </div>
+        <hr class="mt-0 mb-0">
+        <div class="container-fluid mb-3 mt-0 newarrivals-container-one">
+            <p>Browse through a wide array of apparel listings from different businesses. Whether you're looking for
+                trending
+                styles, timeless classics
+                , or seasonal essentials, you'll find the perfect fit for your customers here. Explore and stock up with
+                confidence.
+            </p>
+        </div>
+
+
+        <!-- THIS PAGE'S CSS IS WITHIN AT THE TOP. -->
+
+        <div id="pagination-top" class="pagination mb-2 mt-2">
+            <button class="prev btn" type="button">&laquo;</button>
+            <div class="page-buttons"></div>
+            <button class="next btn" type="button">&raquo;</button>
+        </div>
+
+        <div id="cards-container" class="container cards-container mb-0">
+            <div class="row g-1" id="listings-row">
+                <div class="col-12">
+                    <div class="bg-white rounded p-3 text-center">Loading listings...</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pagination-bottom" class="pagination mt-0">
+            <button class="prev btn" type="button">&laquo;</button>
+            <div class="page-buttons"></div>
+            <button class="next btn" type="button">&raquo;</button>
+        </div>
+    </main>
+
+    <footer class=" footer-feedback py-2 text-center bg-white">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+    <div id="mediaPreviewOverlay" aria-hidden="true">
+        <button type="button" class="media-preview-close" id="mediaPreviewClose"
+            aria-label="Close preview">&times;</button>
+        <div class="media-preview-panel">
+            <img id="mediaPreviewImage" class="media-preview-content" alt="Listing preview" style="display:none;">
+            <video id="mediaPreviewVideo" class="media-preview-content" controls style="display:none;"></video>
+            <div id="mediaPreviewDetails" class="media-preview-details" style="display:none;">
+                <p id="mediaPreviewTitle" class="media-preview-title"></p>
+                <p id="mediaPreviewPrice" class="media-preview-price"></p>
+                <p id="mediaPreviewDescription" class="media-preview-description"></p>
+            </div>
+        </div>
+        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png"
+            alt="JoMu watermark">
+    </div>
+
+    <script>
+        async function syncApparelAuthButtons() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const signInDesktop = document.getElementById('apparel-signin-desktop');
+                const createDesktop = document.getElementById('apparel-createaccount-desktop');
+                const signInMobile = document.getElementById('apparel-signin-mobile');
+                const createMobile = document.getElementById('apparel-createaccount-mobile');
+                const mobileToggler = document.getElementById('apparel-mobile-toggler');
+                const mobileOffcanvas = document.getElementById('offcanvasNav');
+
+                signInDesktop?.closest('li')?.remove();
+                createDesktop?.remove();
+                signInMobile?.closest('li')?.remove();
+                createMobile?.remove();
+                mobileToggler?.remove();
+                mobileOffcanvas?.remove();
+            } catch (error) {
+                // Keep default navbar links when auth check is unavailable.
+            }
+        }
+
+        syncApparelAuthButtons();
+    </script>
+    <script>
+        const cardsPerPage = 12;
+        const listingsRow = document.getElementById('listings-row');
+        const paginationSections = Array.from(document.querySelectorAll('.pagination'));
+        let currentPage = 1;
+        let totalPages = 1;
+        let allListingCards = [];
+        let allApparelListingCards = [];
+        const mediaOverlay = document.getElementById("mediaPreviewOverlay");
+        const mediaClose = document.getElementById("mediaPreviewClose");
+        const mediaPreviewImage = document.getElementById("mediaPreviewImage");
+        const mediaPreviewVideo = document.getElementById("mediaPreviewVideo");
+        const mediaPreviewDetails = document.getElementById("mediaPreviewDetails");
+        const mediaPreviewTitle = document.getElementById("mediaPreviewTitle");
+        const mediaPreviewPrice = document.getElementById("mediaPreviewPrice");
+        const mediaPreviewDescription = document.getElementById("mediaPreviewDescription");
+        const mediaWatermark = document.getElementById("mediaPreviewWatermark");
+        const countedApparelPreviewViews = new Set();
+        let lastTapTime = 0;
+        let lastTapSrc = "";
+
+        function renderPaginationButtons() {
+            paginationSections.forEach((section) => {
+                const host = section.querySelector('.page-buttons');
+                if (!host) return;
+
+                host.innerHTML = '';
+
+                for (let page = 1; page <= totalPages; page += 1) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = `btn${page === currentPage ? ' active' : ''}`;
+                    button.dataset.page = String(page);
+                    button.textContent = String(page);
+                    button.addEventListener('click', () => showPage(page));
+                    host.appendChild(button);
+                }
+            });
+        }
+
+        function syncPaginationState() {
+            paginationSections.forEach((section) => {
+                const prev = section.querySelector('.prev');
+                const next = section.querySelector('.next');
+                if (prev) prev.disabled = currentPage <= 1;
+                if (next) next.disabled = currentPage >= totalPages;
+                section.style.display = totalPages > 1 ? 'flex' : 'none';
+            });
+        }
+
+        function updateMediaPreviewDetails(sourceEl) {
+            if (!mediaPreviewDetails) return;
+            const title = String(sourceEl?.dataset.previewTitle || "").trim();
+            const price = String(sourceEl?.dataset.previewPrice || "").trim();
+            const description = String(sourceEl?.dataset.previewDescription || "");
+            const hasDetails = title !== "" || price !== "" || description !== "";
+
+            mediaPreviewTitle.textContent = title;
+            mediaPreviewTitle.style.display = title ? "block" : "none";
+            mediaPreviewPrice.textContent = price ? `Price: ${price}` : "";
+            mediaPreviewPrice.style.display = price ? "block" : "none";
+            mediaPreviewDescription.textContent = description;
+            mediaPreviewDescription.style.whiteSpace = 'pre-wrap';
+            mediaPreviewDescription.style.wordBreak = 'break-word';
+            mediaPreviewDescription.style.display = description ? 'block' : 'none';
+            mediaPreviewDetails.style.display = hasDetails ? "block" : "none";
+        }
+
+        function closeMediaPreview() {
+            if (!mediaOverlay) return;
+            mediaPreviewVideo.pause();
+            mediaPreviewVideo.removeAttribute("src");
+            mediaPreviewImage.removeAttribute("src");
+            mediaPreviewImage.style.display = "none";
+            mediaPreviewVideo.style.display = "none";
+            if (mediaPreviewDetails) {
+                mediaPreviewDetails.style.display = "none";
+            }
+            mediaOverlay.classList.remove("active");
+            mediaOverlay.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+            if (mediaWatermark) mediaWatermark.style.display = "none";
+        }
+
+        async function incrementPreviewImageView(sourceEl) {
+            const type = String(sourceEl?.dataset.previewType || "").trim();
+            const listingId = Number.parseInt(sourceEl?.dataset.previewListingId || "", 10);
+            if (type !== "image" || !Number.isInteger(listingId) || listingId <= 0 || countedApparelPreviewViews.has(listingId)) {
+                return;
+            }
+
+            countedApparelPreviewViews.add(listingId);
+
+            try {
+                await fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+            } catch (error) {
+                // Non-blocking analytics update.
+            }
+        }
+
+        function openMediaPreview(type, src, sourceEl) {
+            if (!mediaOverlay || !src) return;
+            mediaPreviewImage.style.display = "none";
+            mediaPreviewVideo.style.display = "none";
+            updateMediaPreviewDetails(sourceEl);
+            incrementPreviewImageView(sourceEl);
+
+            if (type === "video") {
+                mediaPreviewVideo.src = src;
+                mediaPreviewVideo.style.display = "block";
+                mediaPreviewVideo.play().catch(() => { });
+                if (mediaWatermark) mediaWatermark.style.display = "none";
+            } else {
+                mediaPreviewImage.src = src;
+                mediaPreviewImage.style.display = "block";
+                if (mediaWatermark) mediaWatermark.style.display = "block";
+            }
+
+            mediaOverlay.classList.add("active");
+            mediaOverlay.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+
+        function openPreviewFromSource(sourceEl) {
+            if (!sourceEl) return;
+            const type = sourceEl.dataset.previewType || (sourceEl.tagName.toLowerCase() === "video" ? "video" : "image");
+            const src = sourceEl.dataset.previewSrc || sourceEl.getAttribute("src") || "";
+            openMediaPreview(type, src, sourceEl);
+        }
+
+        function showPage(page) {
+            totalPages = Math.max(1, Math.ceil(allListingCards.length / cardsPerPage));
+            currentPage = Math.min(Math.max(page, 1), totalPages);
+
+            const start = (currentPage - 1) * cardsPerPage;
+            const end = start + cardsPerPage;
+            const pageCards = allListingCards.slice(start, end);
+
+            listingsRow.innerHTML = '';
+
+            if (pageCards.length === 0) {
+                listingsRow.innerHTML = `
+                    <div class="col-12">
+                        <div class="bg-white rounded p-3 text-center">
+                            No apparel-related listings are available right now.
+                        </div>
+                    </div>
+                `;
+            } else {
+                pageCards.forEach((cardMarkup) => {
+                    listingsRow.insertAdjacentHTML('beforeend', cardMarkup);
+                });
+            }
+
+            renderPaginationButtons();
+            syncPaginationState();
+        }
+
+        function renderNoMatchingListingsMessage() {
+            listingsRow.innerHTML = `
+                <div class="col-12">
+                    <div class="bg-white rounded p-3 text-center">
+                        No Listings Matched.
+                    </div>
+                </div>
+            `;
+            currentPage = 1;
+            totalPages = 1;
+            renderPaginationButtons();
+            syncPaginationState();
+        }
+
+        function getSearchableTextFromCardMarkup(cardMarkup) {
+            const temp = document.createElement('div');
+            temp.innerHTML = cardMarkup;
+            const card = temp.querySelector('.listing-card-item');
+            if (!card) {
+                return '';
+            }
+
+            const title = card.querySelector('.card-title')?.textContent || '';
+            const description = card.querySelector('.listing-description-link')?.textContent || '';
+            const price = card.querySelector('.product-price-range')?.textContent || '';
+
+            return `${title} ${description} ${price}`.toLowerCase().replace(/\s+/g, ' ').trim();
+        }
+
+        function filterApparelCards(rawQuery) {
+            const query = String(rawQuery || '').trim().toLowerCase();
+
+            if (query === '') {
+                allListingCards = [...allApparelListingCards];
+                showPage(1);
+                return;
+            }
+
+            const queryTokens = query.split(/\s+/).filter(Boolean);
+            const matchedCards = allApparelListingCards.filter((cardMarkup) => {
+                const searchableText = getSearchableTextFromCardMarkup(cardMarkup);
+                return queryTokens.every((token) => searchableText.includes(token));
+            });
+
+            if (matchedCards.length === 0) {
+                allListingCards = [];
+                renderNoMatchingListingsMessage();
+                return;
+            }
+
+            allListingCards = matchedCards;
+            showPage(1);
+        }
+
+        paginationSections.forEach((section) => {
+            const prev = section.querySelector('.prev');
+            const next = section.querySelector('.next');
+
+            prev?.addEventListener('click', () => showPage(currentPage - 1));
+            next?.addEventListener('click', () => showPage(currentPage + 1));
+        });
+
+        async function loadApparelListings() {
+            try {
+                const response = await fetch('php/categoriesapparel_results.php', {
+                    credentials: 'same-origin',
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load listings');
+                }
+
+                const html = await response.text();
+                const tempContainer = document.createElement('div');
+                tempContainer.innerHTML = html;
+                allListingCards = Array.from(tempContainer.querySelectorAll('.listing-card-item')).map((card) => card.outerHTML);
+                allApparelListingCards = [...allListingCards];
+
+                if (allListingCards.length === 0) {
+                    listingsRow.innerHTML = html;
+                    currentPage = 1;
+                    totalPages = 1;
+                    renderPaginationButtons();
+                    syncPaginationState();
+                    return;
+                }
+
+                showPage(1);
+            } catch (error) {
+                listingsRow.innerHTML = `
+                    <div class="col-12">
+                        <div class="bg-white rounded p-3 text-center">
+                            Unable to load apparel listings right now.
+                        </div>
+                    </div>
+                `;
+                currentPage = 1;
+                totalPages = 1;
+                renderPaginationButtons();
+                syncPaginationState();
+            }
+        }
+
+        loadApparelListings();
+
+        const apparelSearchInputs = Array.from(document.querySelectorAll('#searchbarInput'));
+        const apparelSearchButtons = Array.from(
+            document.querySelectorAll('.searching button[type="submit"], .searching-medium button[type="submit"], .searching-small button[type="submit"]')
+        );
+
+        function syncApparelSearchInputs(sourceInput) {
+            const sourceValue = sourceInput?.value ?? '';
+            apparelSearchInputs.forEach((input) => {
+                if (input !== sourceInput) {
+                    input.value = sourceValue;
+                }
+            });
+        }
+
+        function getPrimaryApparelSearchInput() {
+            const activeInput = document.activeElement;
+            if (activeInput && apparelSearchInputs.includes(activeInput)) {
+                return activeInput;
+            }
+            return apparelSearchInputs.find((input) => String(input.value || '').trim() !== '') || apparelSearchInputs[0] || null;
+        }
+
+        apparelSearchInputs.forEach((input) => {
+            input.addEventListener('input', () => {
+                syncApparelSearchInputs(input);
+            });
+
+            input.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter') return;
+                event.preventDefault();
+                syncApparelSearchInputs(input);
+                filterApparelCards(input.value);
+            });
+        });
+
+        apparelSearchButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const input = getPrimaryApparelSearchInput();
+                if (!input) return;
+                syncApparelSearchInputs(input);
+                filterApparelCards(input.value);
+            });
+        });
+
+        // Search bar moving texts.
+        const phrases = ["Men's Apparel", "Women's Apparel", "Teens' Apparel", "Kids' Apparel"];
+        let index = 0;
+
+        setInterval(() => {
+            document.getElementById("searchbarInput").setAttribute("placeholder", phrases[index]);
+            index = (index + 1) % phrases.length;
+        }, 2500);
+
+
+
+        // Navbar change.
+        // document.addEventListener('DOMConentLoaded', () => {
+        //     const navbar = document.getElementById('navbarone');
+
+        //     function handleScroll() {
+        //         if (window.scrollY > 100) {
+        //             navbar.classList.add('scrolled');
+        //         } else {
+        //             navbar.classList.remove('scrolled');
+        //         }
+        //     }
+
+        //     handleScroll();
+        //     window.addEventListener('scroll', handleScroll, { passive: true });
+        // });
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        const apparelMainEl = document.querySelector("main");
+
+        apparelMainEl?.addEventListener("click", (event) => {
+            const sourceEl = event.target.closest(".media-preview-source") || event.target.closest(".video-stock-title, .video-description-brief, .video-hashtags, .listing-name-top, .listing-description, .listing-description-link")?.closest(".card")?.querySelector(".media-preview-source");
+            openPreviewFromSource(sourceEl);
+        });
+
+        apparelMainEl?.addEventListener("touchend", (event) => {
+            const sourceEl = event.target.closest(".media-preview-source") || event.target.closest(".video-stock-title, .video-description-brief, .video-hashtags, .listing-name-top, .listing-description, .listing-description-link")?.closest(".card")?.querySelector(".media-preview-source");
+            if (!sourceEl) return;
+            const sourceKey = sourceEl.dataset.previewSrc || sourceEl.getAttribute("src") || "";
+            const now = Date.now();
+            const isDoubleTap = now - lastTapTime < 350 && sourceKey !== "" && sourceKey === lastTapSrc;
+
+            lastTapTime = now;
+            lastTapSrc = sourceKey;
+
+            if (!isDoubleTap) return;
+            event.preventDefault();
+            openPreviewFromSource(sourceEl);
+            lastTapTime = 0;
+            lastTapSrc = "";
+        }, { passive: false });
+
+        document.addEventListener("touchstart", () => {
+            if (Date.now() - lastTapTime > 600) {
+                lastTapTime = 0;
+                lastTapSrc = "";
+            }
+        });
+
+        mediaClose?.addEventListener("click", closeMediaPreview);
+        mediaOverlay?.addEventListener("click", (event) => {
+            if (event.target === mediaOverlay) {
+                closeMediaPreview();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && mediaOverlay?.classList.contains("active")) {
+                closeMediaPreview();
+            }
+        });
+    </script>
+
+    <script>
+        (function () {
+            const mobileAuthButton = document.getElementById('newarrivals-mobile-toggler');
+            const mobileAuthMenu = document.getElementById('newarrivals-mobile-auth-menu');
+            if (!mobileAuthButton || !mobileAuthMenu) {
+                return;
+            }
+
+            function positionMobileAuthMenu() {
+                const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
+                mobileAuthMenu.style.right = `${rightOffset}px`;
+                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+            }
+
+            function setMobileAuthOpen(isOpen) {
+                if (isOpen) {
+                    positionMobileAuthMenu();
+                }
+                mobileAuthMenu.classList.toggle('show', isOpen);
+                mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            mobileAuthButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setMobileAuthOpen(!mobileAuthMenu.classList.contains('show'));
+            });
+
+            document.addEventListener('click', (event) => {
+                if (mobileAuthButton.contains(event.target) || mobileAuthMenu.contains(event.target)) {
+                    return;
+                }
+
+                setMobileAuthOpen(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            });
+        })();
+
+        (function () {
+            const mobileAuthItems = Array.from(document.querySelectorAll('[data-mobile-auth-link]'));
+            if (mobileAuthItems.length === 0) {
+                return;
+            }
+
+            mobileAuthItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const nextUrl = item.getAttribute('data-mobile-auth-link');
+                    if (!nextUrl) {
+                        return;
+                    }
+
+                    window.location.assign(nextUrl);
+                });
+            });
+        })();
+    </script>
+
+    <script>
+        async function syncNewArrivalsAuthButtons() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const signInDesktop = document.getElementById('newarrivals-signin-desktop');
+                const createDesktop = document.getElementById('newarrivals-createaccount-desktop');
+                const signInMobile = document.getElementById('newarrivals-signin-mobile');
+                const createMobile = document.getElementById('newarrivals-createaccount-mobile');
+                const mobileToggler = document.getElementById('newarrivals-mobile-toggler');
+                const mobileOffcanvas = document.getElementById('offcanvasNav');
+
+                signInDesktop?.closest('li')?.remove();
+                createDesktop?.remove();
+                signInMobile?.closest('li')?.remove();
+                createMobile?.remove();
+                mobileToggler?.remove();
+                mobileOffcanvas?.remove();
+            } catch (error) {
+                // Keep default navbar links when auth check is unavailable.
+            }
+        }
+
+        syncNewArrivalsAuthButtons();
+    </script>
+    <script src="assets/listing-preview-modal.js"></script>
+    <script src="assets/listing-preview-gallery.js"></script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

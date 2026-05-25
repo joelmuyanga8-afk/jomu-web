@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Same Category</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        html {
+            background-color: #161515;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main.main-one {
+            flex: 1 0 auto;
+        }
+
+        .footer-feedback {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .footer-links {
+            gap: 4px 8px;
+        }
+
+        .footer-feedback,
+        .footer-feedback .footer-links a,
+        .footer-feedback a:focus,
+        .footer-feedback small {
+            color: #fff;
+        }
+
+        @media (max-width: 767.98px) {
+
+            html,
+            body {
+                overflow-x: hidden;
+            }
+
+            .container-fluid.mt-2.d-block.d-md-none.d-lg-none {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            .container-fluid.mt-2.d-block.d-md-none.d-lg-none>.row {
+                justify-content: center;
+                margin-left: -0.35rem;
+                margin-right: -0.35rem;
+            }
+
+            .container-fluid.mt-2.d-block.d-md-none.d-lg-none>.row>[class*="col-"] {
+                padding-left: 0.35rem;
+                padding-right: 0.35rem;
+                display: flex;
+                justify-content: center;
+            }
+
+            .container-fluid.mt-2.d-block.d-md-none.d-lg-none .card-vendorshops {
+                width: 100%;
+                max-width: 210px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .footer-feedback br {
+                display: none;
+            }
+
+            .footer-feedback small {
+                display: block;
+                margin-top: 0;
+            }
+        }
+
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .recent-mobile-auth-menu {
+            position: fixed;
+            left: auto !important;
+            right: 36px !important;
+            top: 58px;
+            z-index: 1200;
+            background: rgb(0, 0, 255);
+        }
+
+        .recent-mobile-auth-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 12px;
+            width: 14px;
+            height: 14px;
+            background: rgb(0, 0, 255);
+            transform: rotate(45deg);
+            border-radius: 2px;
+            box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
+            left: auto;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f0ecec;">
+    <nav class="navbar navbar-expand-lg navbar-light  sticky-top navbarone navbar-help bg-dark" id="navbarone"
+        style="z-index: 100; margin-top: -6px;">
+        <div class="container">
+            <a class="navbar-brand brand-logos" href="index.php">
+                <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+            </a>
+        </div>
+
+        <!-- Auth actions for small and medium screens -->
+        <button id="newarrivals-mobile-toggler" class="navbar-toggler d-lg-none signin-icon-bg" type="button"
+            aria-expanded="false" aria-label="Open sign in menu">
+            <span>
+                <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+            </span>
+        </button>
+        <div id="newarrivals-mobile-auth-menu"
+            class="dropdown-menu mobile-auth-menu recent-mobile-auth-menu newarrivals-mobile-auth-menu"
+            aria-labelledby="newarrivals-mobile-toggler">
+            <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="signin.html"
+                data-mobile-auth-link="signin.html" style="color: white;">Sign In</a>
+            <button id="newarrivals-createaccount-mobile" class="dropdown-item mobile-auth-item mobile-auth-create"
+                type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+        </div>
+
+        <!-- Navbar links for large screens -->
+        <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active signin">
+                    <a class="nav-link link-text" href="signin.html">Sign In</a>
+                </li>
+            </ul>
+            <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                account</button>
+        </div>
+    </nav>
+    <!-- Newly added listings should not exceed one week and then removed. -->
+    <main class="main-one">
+
+        <div class="container-fluid">
+            <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
+                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    style="color: rgb(0,0,255);">&#187;</span>
+                Suggested
+                <span style="color: rgb(0,0,255);">&#187;</span>
+                Same Category
+            </p>
+        </div>
+        <div class=" mb-3 mt-1 newarrivals-container-one">
+            <h4 style="font-weight: 700; color: rgb(241, 90, 36);">Same Category</h4>
+            <hr>
+            <p><b>Businesses like yours</b>:- Here, you'll find a curated selection of businesses within the same
+                category as yours.
+                Connect, compare, and explore how others in your field are presenting their listings, services, and
+                offers all in one place.
+            </p>
+        </div>
+
+
+
+        <!-- Container for large screens.  -->
+        <div class="container d-none d-md-block d-lg-block">
+            <div id="filter-info"></div>
+        </div>
+        <!-- Container for small screens.  -->
+        <div class="container-fluid mt-2 d-block d-md-none d-lg-none" id="filter-info"></div>
+
+        <div class="container text-center mt-5 px-3.5 py-4 newarrivals-feedback" style="width: 98%;">
+            <h6>We'd love to hear from you! Share your thoughts or suggestions.</h6>
+            <a href="feedback.html"><button class="btn btn-newarrivals">Share Feedback</button></a>
+        </div>
+
+    </main>
+    <footer class="footer-feedback py-2 text-center">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+
+    <script>
+        async function syncAuthCtasForSignedInUser() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const authSelectors = [
+                    "a[href='signin.html']",
+                    "a[href='./signin.html']",
+                    "a[href='/signin.html']",
+                    "a[href='createaccount.html']",
+                    "a[href='./createaccount.html']",
+                    "a[href='/createaccount.html']",
+                    "button[onclick*='createaccount.html']"
+                ];
+
+                document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                    const li = node.closest('li');
+                    if (li) {
+                        li.remove();
+                    } else {
+                        node.remove();
+                    }
+                });
+
+                document.querySelectorAll('.offcanvas').forEach((panel) => {
+                    const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                    if (hasActions) return;
+
+                    const panelId = panel.getAttribute('id');
+                    if (panelId) {
+                        document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                    }
+                    panel.remove();
+                });
+            } catch (error) {
+                // Keep default auth links when auth check is unavailable.
+            }
+        }
+
+        syncAuthCtasForSignedInUser();
+    </script>
+    <script>
+        const filterInfoTargets = () => Array.from(document.querySelectorAll('[id="filter-info"]'));
+
+        function setFilterInfoHtml(html) {
+            filterInfoTargets().forEach((target) => {
+                target.innerHTML = html;
+            });
+        }
+
+        async function loadSameCategoryBusinesses() {
+            setFilterInfoHtml(`
+                <div class="bg-white rounded p-3">
+                    <p class="mb-0">Loading businesses...</p>
+                </div>
+            `);
+
+            try {
+                const response = await fetch('php/suggestedsamecategory_results.php', {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+
+                const html = await response.text();
+                setFilterInfoHtml(html);
+            } catch (error) {
+                setFilterInfoHtml(`
+                    <div class="bg-white rounded p-3">
+                        <p class="mb-0">We could not load businesses right now.</p>
+                    </div>
+                `);
+            }
+        }
+
+        loadSameCategoryBusinesses();
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+    <script>
+        (function () {
+            const mobileAuthButton = document.getElementById('newarrivals-mobile-toggler');
+            const mobileAuthMenu = document.getElementById('newarrivals-mobile-auth-menu');
+            if (!mobileAuthButton || !mobileAuthMenu) {
+                return;
+            }
+
+            function positionMobileAuthMenu() {
+                const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
+                mobileAuthMenu.style.right = `${rightOffset}px`;
+                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+            }
+
+            function setMobileAuthOpen(isOpen) {
+                if (isOpen) {
+                    positionMobileAuthMenu();
+                }
+                mobileAuthMenu.classList.toggle('show', isOpen);
+                mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            mobileAuthButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setMobileAuthOpen(!mobileAuthMenu.classList.contains('show'));
+            });
+
+            document.addEventListener('click', (event) => {
+                if (mobileAuthButton.contains(event.target) || mobileAuthMenu.contains(event.target)) {
+                    return;
+                }
+
+                setMobileAuthOpen(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            });
+        })();
+
+        (function () {
+            const mobileAuthItems = Array.from(document.querySelectorAll('[data-mobile-auth-link]'));
+            if (mobileAuthItems.length === 0) {
+                return;
+            }
+
+            mobileAuthItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const nextUrl = item.getAttribute('data-mobile-auth-link');
+                    if (!nextUrl) {
+                        return;
+                    }
+
+                    window.location.assign(nextUrl);
+                });
+            });
+        })();
+    </script>
+
+    <script>
+        async function syncNewArrivalsAuthButtons() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const signInDesktop = document.getElementById('newarrivals-signin-desktop');
+                const createDesktop = document.getElementById('newarrivals-createaccount-desktop');
+                const signInMobile = document.getElementById('newarrivals-signin-mobile');
+                const createMobile = document.getElementById('newarrivals-createaccount-mobile');
+                const mobileToggler = document.getElementById('newarrivals-mobile-toggler');
+                const mobileOffcanvas = document.getElementById('offcanvasNav');
+
+                signInDesktop?.closest('li')?.remove();
+                createDesktop?.remove();
+                signInMobile?.closest('li')?.remove();
+                createMobile?.remove();
+                mobileToggler?.remove();
+                mobileOffcanvas?.remove();
+            } catch (error) {
+                // Keep default navbar links when auth check is unavailable.
+            }
+        }
+
+        syncNewArrivalsAuthButtons();
+    </script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

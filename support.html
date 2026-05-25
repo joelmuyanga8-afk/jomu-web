@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Support</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .support-social-link {
+            display: block;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="body-support">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
+            <div class="container">
+                <a class="navbar-brand brand-logos" href="index.php">
+                    <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+                </a>
+            </div>
+            <!-- Toggler for small and medium screens -->
+            <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <span>
+                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                </span>
+            </button>
+            <!-- Navbar links for large screens -->
+            <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active signin">
+                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    </li>
+                </ul>
+                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    account</button>
+            </div>
+
+            <!-- offcanvas menu for small and medium screens -->
+            <div class="offcanvas offcanvas-bottom d-lg-none" tabindex="-1" id="offcanvasNav"
+                aria-labelledby="offcanvasNavbarLabel" style="height: 20vh;">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close bg-white " data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        </li>
+                    </ul>
+                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                        account</button>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+        <main style="flex: 1;" class="mt-5">
+            <div class="text-support">
+                <div class="support-container">
+                    <div class="container text-center mt-4 p-1"
+                        style="color: white; background-color: rgb(241, 90, 36); border-radius: 8px;">
+                        <h2>Support Team</h2>
+                    </div>
+                    <div class="container mt-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-5 col-12 text-center">
+                                <div class="blur-container-support mt-2 mx-auto" style="max-width: 350px;">
+                                    <p style="margin: 0;"><strong>Support Hours:</strong></p>
+                                    <p style="margin: 0;">Mon-Fri, 10am-4pm.</p>
+                                </div>
+                                <h4 style="color: white;"><img src="assets/images/icons/Email logo.png"
+                                        class="img-fluid support-logos">
+                                    Email</h4>
+                                <h4 class="support-texts" data-site-contact="support_email">jomumarket@email.com</h4>
+                                <h4 style="color: white;"><img src="assets/images/icons/Phone call logo.png"
+                                        class="img-fluid support-logos">
+                                    Phone Call</h4>
+                                <h4 class="support-texts" data-site-contact="support_phone">+256 708973632</h4>
+                                <h4 style="color: white;"><img src="assets/images/icons/Whatsapp logo.png"
+                                        class="img-fluid support-logos">
+                                    Whatsapp</h4>
+                                <h4 class="support-texts" data-site-contact="support_whatsapp"> +256 708973632</h4>
+                            </div>
+                            <div class="col-lg-2 col-12 text-center mb-lg-0 mb-3 d-none d-lg-block">
+                                <img src="assets/images/Support-white-blue.png" class="img-fluid support-image">
+                            </div>
+                            <div class="col-lg-2 col-12 text-center mb-lg-0 mb-4 mt-4 d-block d-lg-none">
+                                <img src="assets/images/Support-white-blue.png" class="img-fluid support-image"
+                                    style="width: 120px; height: 120px;">
+                            </div>
+
+                            <div class="col-12 col-lg-5 text-center">
+                                <!-- I have to link these directly to inboxes not just the profiles.-->
+                                <a class="support-social-link" data-site-link="facebook" href="#">
+                                    <h4 class="mb-0 mt-0" style="color: white;"><img
+                                            src="assets/images/icons/Facebook-logo.png"
+                                            class=" img-fluid support-logos">
+                                        Facebook</h4>
+                                </a>
+                                <a class="support-social-link" data-site-link="x" href="#">
+                                    <h4 class="mb-0 mt-0" style="color: white;"><img
+                                            src="assets/images/icons/X logo2.png" class="img-fluid support-logos">
+                                        X (Twitter)</h4>
+                                </a>
+                                <a class="support-social-link" data-site-link="instagram" href="#">
+                                    <h4 class="mb-0 mt-0" style="color: white;"><img
+                                            src="assets/images/icons/Instagram-logo.png"
+                                            class="img-fluid support-logos">
+                                        Instagram</h4>
+                                </a>
+                                <a class="support-social-link" data-site-link="tiktok" href="#">
+                                    <h4 class="mb-0 mt-0" style="color: white;"><img
+                                            src="assets/images/icons/Tiktok-Logo.png" class="img-fluid support-logos">
+                                        Tiktok</h4>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer-help py-2 text-center bg-dark">
+            <div class="footer-links">
+                <a href="termsandconditions.html">Terms of Use</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="help.html">Help</a>
+                <a href="feedback.html">Give Feedback</a>
+                <a href="about.html">About JoMu</a>
+            </div>
+            <br>
+            <small>&copy; 2026 JoMu. All rights reserved.</small>
+        </footer>
+    </div>
+    <script>
+        async function syncAuthCtasForSignedInUser() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const authSelectors = [
+                    "a[href='signin.html']",
+                    "a[href='./signin.html']",
+                    "a[href='/signin.html']",
+                    "a[href='createaccount.html']",
+                    "a[href='./createaccount.html']",
+                    "a[href='/createaccount.html']",
+                    "button[onclick*='createaccount.html']"
+                ];
+
+                document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                    const li = node.closest('li');
+                    if (li) {
+                        li.remove();
+                    } else {
+                        node.remove();
+                    }
+                });
+
+                document.querySelectorAll('.offcanvas').forEach((panel) => {
+                    const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                    if (hasActions) return;
+
+                    const panelId = panel.getAttribute('id');
+                    if (panelId) {
+                        document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                    }
+                    panel.remove();
+                });
+            } catch (error) {
+                // Keep default auth links when auth check is unavailable.
+            }
+        }
+
+        syncAuthCtasForSignedInUser();
+
+        async function syncSupportSiteLinks() {
+            try {
+                const response = await fetch('php/site_links.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                const links = data && data.links ? data.links : {};
+
+                document.querySelectorAll('[data-site-link]').forEach((anchor) => {
+                    const key = anchor.getAttribute('data-site-link');
+                    const url = typeof links[key] === 'string' ? links[key].trim() : '';
+                    if (url !== '') {
+                        anchor.href = url;
+                    }
+                });
+
+                document.querySelectorAll('[data-site-contact]').forEach((node) => {
+                    const key = node.getAttribute('data-site-contact');
+                    const value = typeof links[key] === 'string' ? links[key].trim() : '';
+                    if (value !== '') {
+                        node.textContent = value;
+                    }
+                });
+            } catch (error) {
+                // Keep placeholder hrefs if the links cannot be loaded.
+            }
+        }
+
+        syncSupportSiteLinks();
+    </script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+<script src="assets/bootstrap.bundle.min.js"></script>
+
+</html>

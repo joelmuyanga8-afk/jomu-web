@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Bulk Orders</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        .bulk-order-comment-highlight {
+            outline: 3px solid rgba(255, 153, 0, 0.75);
+            border-radius: 10px;
+            background-color: rgba(255, 244, 214, 0.95);
+            /* background-color: rgba(0, 0, 255, 0.2); */
+            transition: background-color 0.4s ease, outline 0.4s ease;
+        }
+
+        .public-bulk-order-post-hidden {
+            border: 1px dashed rgba(220, 38, 38, 0.45);
+            border-radius: 10px;
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+
+        .bulk-order-admin-actions {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .bulk-order-comment-menu-active {
+            background-color: rgba(255, 244, 214, 0.72);
+            box-shadow: 0 0 12px rgba(255, 153, 0, 0.18);
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .bulk-order-like-wrap {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            margin-left: auto;
+            line-height: 1;
+        }
+
+        .bulk-order-like-heart {
+            border: 0;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            font-size: 1.15rem;
+            color: #000000;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .bulk-order-like-heart.bulk-order-like-active {
+            color: #dc3545;
+        }
+
+        .bulk-order-like-count {
+            margin-top: 2px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #6c757d;
+        }
+
+        .profile-name-comment {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .bulk-order-profile-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .bulk-order-profile-link:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .bulk-order-comment-actionable {
+            cursor: context-menu;
+            -webkit-touch-callout: none;
+            user-select: none;
+        }
+
+        .bulk-order-comment-action-menu {
+            position: fixed;
+            min-width: 140px;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+            padding: 6px;
+            z-index: 10060;
+            display: none;
+        }
+
+        .bulk-order-comment-action-menu.active {
+            display: block;
+        }
+
+        .bulk-order-comment-action-btn {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            font-weight: 700;
+            color: rgb(241, 90, 36);
+        }
+
+        .bulk-order-comment-action-btn:hover,
+        .bulk-order-comment-action-btn:focus-visible {
+            background: rgba(241, 90, 36, 0.08);
+            outline: none;
+        }
+
+        .bulk-order-comment-action-btn.delete {
+            color: #dc3545;
+        }
+
+        .bulk-order-comment-action-icon {
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 767.98px) {
+            main>.container-fluid {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .container-one-bulk {
+                margin-left: 10px !important;
+                margin-right: 10px !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            main>.container-fluid:first-of-type {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .bulk-content-container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 16px 10px;
+            }
+
+            .comment-area-div .comment-area-bulk {
+                width: calc(100% - 20px);
+                margin-left: 10px;
+                margin-right: 10px;
+                box-sizing: border-box;
+            }
+
+            .comment-section-bulk-orders {
+                width: 100%;
+                align-items: flex-start;
+            }
+
+            .comment-pic-bulk-orders {
+                width: 52px;
+                height: 52px;
+                flex-shrink: 0;
+            }
+
+            .profile-name-comment {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        .recent-mobile-auth-menu {
+            position: fixed;
+            left: auto !important;
+            right: 35px !important;
+            top: 58px;
+            z-index: 1200;
+            background: rgb(0, 0, 255);
+        }
+
+        .recent-mobile-auth-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 12px;
+            width: 14px;
+            height: 14px;
+            background: rgb(0, 0, 255);
+            transform: rotate(45deg);
+            border-radius: 2px;
+            box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
+            left: auto;
+        }
+
+        .bulk-admin-confirm-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10080;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(17, 17, 17, 0.52);
+        }
+
+        .bulk-admin-confirm-overlay.active {
+            display: flex;
+        }
+
+        .bulk-admin-confirm-panel {
+            width: min(420px, 100%);
+            background: #fff;
+            border-radius: 10px;
+            border-top: 5px solid rgb(241, 90, 36);
+            padding: 18px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+        }
+
+        .bulk-admin-confirm-panel h3 {
+            margin: 0 0 8px;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .bulk-admin-confirm-panel p {
+            margin: 0 0 14px;
+            color: #4b5563;
+            line-height: 1.45;
+        }
+
+        .bulk-admin-confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f0ecec;">
+    <div class="container-fluid" style="z-index: 10; padding: 0px; margin: 0px;">
+        <a href="index.php">
+            <video class="d-none d-md-block d-lg-block" style="height: inherit; width: 100%;" autoplay loop muted
+                src="assets/videos/Over Navbar JoMu 70px.mp4"></video>
+            <video class="d-block d-md-none d-lg-none" style="height: inherit; width: 100%;" autoplay loop muted
+                src="assets/videos/Over Navbar JoMu 1080px.mp4"></video>
+        </a>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light  sticky-top navbarone navbar-help bg-dark" id="navbarone"
+        style="z-index: 100; margin-top: -6px;">
+        <div class="container">
+            <a class="navbar-brand brand-logos" href="index.php">
+                <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+            </a>
+        </div>
+        <!-- Toggler for small and medium screens -->
+        <!-- <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+            <span>
+                <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+            </span>
+        </button> -->
+
+        <!-- Auth actions for small and medium screens -->
+        <button id="newarrivals-mobile-toggler" class="navbar-toggler d-lg-none signin-icon-bg" type="button"
+            aria-expanded="false" aria-label="Open sign in menu">
+            <span>
+                <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+            </span>
+        </button>
+        <div id="newarrivals-mobile-auth-menu"
+            class="dropdown-menu mobile-auth-menu recent-mobile-auth-menu newarrivals-mobile-auth-menu"
+            aria-labelledby="newarrivals-mobile-toggler">
+            <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="signin.html"
+                data-mobile-auth-link="signin.html" style="color: white">Sign In</a>
+            <button id="newarrivals-createaccount-mobile" class="dropdown-item mobile-auth-item mobile-auth-create"
+                type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+        </div>
+
+        <!-- Navbar links for large screens -->
+        <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active signin">
+                    <a class="nav-link link-text" href="signin.html">Sign In</a>
+                </li>
+            </ul>
+            <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                account</button>
+        </div>
+    </nav>
+    <main>
+        <div id="bulk-orders-error"
+            style="display: none; color: red; text-align: center; padding: 10px; font-size: 2rem; font-weight: 700;">
+        </div>
+        <div class="container-fluid">
+            <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
+                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    style="color: rgb(0,0,255);">&#187;</span>
+                Business
+                <span style="color: rgb(0,0,255);">&#187;</span>
+                Bulk Orders
+            </p>
+        </div>
+        <!--Container sticky for large screens. -->
+        <div class="m-2 mt-2 container-one-bulk px-4">
+            <div class="container-two-bulk bg-white d-none d-md-none d-lg-block">
+                <p><strong>
+                        <h4>Didn't find what you were looking for elsewhere?</h4>
+                    </strong> Is it
+                    products or services?
+                    You are in the right place. This page allows you to post specific items you're searching for
+                    but couldn't locate across
+                    the platform. By sharing your request here, potential sellers or service providers can view
+                    your post and respond with the
+                    products, services or offers you need, thereby making it easier for you to connect directly
+                    with suppliers or service providers
+                    who can fulfill your bulk order needs. Sellers and businesses are encouraged to regularly
+                    check this page to discover
+                    potential clients and fulfill demand in real-time.
+                </p>
+            </div>
+
+            <!-- Image container sticky for Medium screens. -->
+            <div class="m-2 mt-0 container-one-about px-4">
+                <div class="container-images-about bg-white d-none d-md-block d-lg-none">
+                    <p><strong>
+                            <h4>Didn't find what you were looking for elsewhere?</h4>
+                        </strong> Is it
+                        products or services?
+                        You are in the right place. This page allows you to post specific items you're searching for
+                        but couldn't locate across
+                        the platform. By sharing your request here, potential sellers or service providers can view
+                        your post and respond with the
+                        products, services or offers you need, thereby making it easier for you to connect directly
+                        with suppliers or service providers
+                        who can fulfill your bulk order needs. Sellers and businesses are encouraged to regularly
+                        check this page to discover
+                        potential clients and fulfill demand in real-time.
+                    </p>
+                </div>
+            </div>
+            <!-- container for large and medium screens.  -->
+            <div class="container bulk-content-container bg-white d-none d-md-block d-lg-block w-100">
+                <h4 class="d-block d-md-none d-lg-none"><strong>Didn't find what you were looking for
+                        elsewhere?</strong></h4>
+                <p class="d-block d-md-none d-lg-none px-3">
+                    Is it products or services?
+                    You are in the right place. This page allows you to post specific items you're searching for
+                    but couldn't locate across
+                    the platform. By sharing your request here, potential sellers or service providers can view
+                    your post and respond with the
+                    products, services or offers you need, thereby making it easier for you to connect directly
+                    with suppliers or service providers
+                    who can fulfill your bulk order needs. Sellers and businesses are encouraged to regularly
+                    check this page to discover
+                    potential clients and fulfill demand in real-time.
+                </p>
+
+
+                <!-- Text area for large screens. -->
+                <div class="comment-area-div text-center d-none d-md-none d-lg-block bg-white py-1">
+                    <textarea id="comment-area-bulk" class="comment-area-bulk bg-white" maxlength="500"
+                        placeholder="Add what you want..."></textarea>
+                    <button type="submit" class="comment-post-btn">Post</button>
+                </div>
+                <!-- Text area for medium screens. -->
+                <div class="comment-area-div text-center mt-1 d-none d-md-block d-lg-none py-1"
+                    style="margin-top: -45px; margin-right: 60px;">
+                    <textarea id="comment-area-bulk" class="comment-area-bulk" maxlength="500"
+                        placeholder="Add what you want..."></textarea>
+                    <button type="submit" class="comment-post-btn">Post</button>
+                </div>
+                <!-- Search Bar for small screens. -->
+                <div class="comment-area-div text-center d-block d-md-none d-lg-none py-1">
+                    <textarea id="comment-area-bulk" class="comment-area-bulk" maxlength="500"
+                        placeholder="Add what you want..."></textarea>
+                    <button type="submit" class="comment-post-btn">Post</button>
+                </div>
+
+
+
+                <hr>
+
+
+            </div>
+
+
+        </div>
+        <!-- Container for small screens.  -->
+        <div class="container-fluid bulk-content-container bg-white d-block d-md-none d-lg-none w-100">
+            <h4 class="d-block d-md-none d-lg-none"><strong>Didn't find what you were looking for
+                    elsewhere?</strong></h4>
+            <p class="d-block d-md-none d-lg-none px-3">
+                Is it products or services?
+                You are in the right place. This page allows you to post specific items you're searching for
+                but couldn't locate across the platform. By sharing your request here, potential sellers or service
+                providers can view
+                your post and respond with the
+                products, services or offers you need, thereby making it easier for you to connect directly
+                with suppliers or service providers
+                who can fulfill your bulk order needs. Sellers and businesses are encouraged to regularly
+                check this page to discover
+                potential clients and fulfill demand in real-time.
+            </p>
+
+
+
+            <!-- Search bar for large screens. -->
+            <div class="comment-area-div text-center d-none d-md-none d-lg-block">
+                <textarea id="comment-area-bulk" class="comment-area-bulk" maxlength="500"
+                    placeholder="Add what you want..."></textarea>
+                <button type="submit" class="comment-post-btn">Post</button>
+            </div>
+            <!-- Search bar for medium screens. -->
+            <div class="comment-area-div text-center mt-1 d-none d-md-block d-lg-none"
+                style="margin-top: -45px; margin-right: 60px;">
+                <textarea id="comment-area-bulk" class="comment-area-bulk" maxlength="500"
+                    placeholder="Add what you want..."></textarea>
+                <button type="submit" class="comment-post-btn">Post</button>
+            </div>
+            <!-- Search Bar for small screens. -->
+            <div class="comment-area-div text-center d-block d-md-none d-lg-none">
+                <textarea id="comment-area-bulk" class="comment-area-bulk" maxlength="500"
+                    placeholder="Add what you want..."></textarea>
+                <button type="submit" class="comment-post-btn">Post</button>
+            </div>
+
+
+
+            <hr>
+
+        </div>
+    </main>
+    <div id="bulk-order-comment-action-menu" class="bulk-order-comment-action-menu" aria-hidden="true">
+        <button type="button" id="bulk-order-comment-copy-btn" class="bulk-order-comment-action-btn">
+            <span class="bulk-order-comment-action-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="9" y="8" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.8" />
+                    <path d="M15 8V6C15 4.9 14.1 4 13 4H7C5.9 4 5 4.9 5 6V14C5 15.1 5.9 16 7 16H9" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+            </span>
+            <span>Copy</span>
+        </button>
+        <button type="button" id="bulk-order-comment-delete-btn" class="bulk-order-comment-action-btn delete">
+            <span class="bulk-order-comment-action-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 7H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M9 4H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M8 10V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M12 10V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M16 10V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M6 7L7 19C7.06 19.7 7.64 20.25 8.34 20.25H15.66C16.36 20.25 16.94 19.7 17 19L18 7"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+            </span>
+            <span>Delete</span>
+        </button>
+    </div>
+
+    <div id="bulkAdminConfirmOverlay" class="bulk-admin-confirm-overlay" aria-hidden="true">
+        <div class="bulk-admin-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="bulkAdminConfirmTitle">
+            <h3 id="bulkAdminConfirmTitle">JoMu Admin</h3>
+            <p id="bulkAdminConfirmMessage"></p>
+            <div class="bulk-admin-confirm-actions">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="bulkAdminConfirmCancel">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm" id="bulkAdminConfirmProceed">Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class=" footer-help py-2 text-center">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+
+    <script>
+        (function () {
+            const defaultBusinessName = 'Guest Business';
+            const defaultProfileImage = 'assets/images/profile.png';
+            let authStatusPromise = null;
+            let currentViewerUserId = 0;
+            let currentViewerBusinessName = '';
+            let bulkOrderViewerIsAdmin = false;
+            let bulkOrderAdminCsrf = '';
+            let bulkOrderUserCsrf = '';
+            const bulkOrderCommentActionMenuEl = document.getElementById('bulk-order-comment-action-menu');
+            const bulkOrderCommentCopyBtnEl = document.getElementById('bulk-order-comment-copy-btn');
+            const bulkOrderCommentDeleteBtnEl = document.getElementById('bulk-order-comment-delete-btn');
+            let activeBulkOrderCommentCard = null;
+            let bulkOrderCommentLongPressTimer = null;
+
+            function resolveBulkOrderProfileImagePath(rawPath) {
+                const normalized = String(rawPath || '').trim().replace(/\\/g, '/');
+                if (normalized === '') return defaultProfileImage;
+                if (/^(https?:)?\/\//i.test(normalized) || normalized.startsWith('data:') || normalized.startsWith('blob:')) {
+                    return normalized;
+                }
+                if (normalized.startsWith('/')) {
+                    return normalized;
+                }
+                if (normalized.startsWith('assets/')) {
+                    return normalized;
+                }
+                if (normalized.startsWith('php/')) {
+                    return '/' + normalized;
+                }
+                if (normalized.startsWith('uploads/')) {
+                    return '/php/' + normalized;
+                }
+                if (!normalized.includes('/')) {
+                    return '/php/uploads/profile/' + normalized;
+                }
+                return '/php/' + normalized.replace(/^\.?\//, '');
+            }
+
+            function showPageError(message) {
+                const errorBox = document.getElementById('bulk-orders-error');
+                if (!errorBox) return;
+
+                const safeMessage = String(message || '').trim();
+                if (safeMessage === '') {
+                    errorBox.textContent = '';
+                    errorBox.style.display = 'none';
+                    return;
+                }
+
+                errorBox.textContent = safeMessage;
+                errorBox.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function renderPageErrorFromQuery() {
+                const errorBox = document.getElementById('bulk-orders-error');
+                if (!errorBox) return;
+
+                const params = new URLSearchParams(window.location.search);
+                const errorMessage = String(params.get('error') || '').trim();
+                if (errorMessage === '') return;
+
+                showPageError(errorMessage);
+            }
+
+            async function getAuthStatus() {
+                if (!authStatusPromise) {
+                    authStatusPromise = fetch('/php/current_business_user.php', { credentials: 'same-origin' })
+                        .then((response) => response.ok ? response.json() : null)
+                        .then((data) => {
+                            bulkOrderUserCsrf = String(data?.csrf_token || bulkOrderUserCsrf || '');
+                            return data;
+                        })
+                        .catch(() => null);
+                }
+
+                return authStatusPromise;
+            }
+
+            function getGuestActionMessage(auth) {
+                const message = String(auth?.guest_action_message || '').trim();
+                return message !== '' ? message : 'Not signed in!';
+            }
+
+            async function ensureSignedInForPosting() {
+                const auth = await getAuthStatus();
+                if (auth?.signed_in === true) {
+                    showPageError('');
+                    return true;
+                }
+
+                showPageError(getGuestActionMessage(auth));
+                return false;
+            }
+
+            function normalizeBulkOrderRefPart(value) {
+                return String(value || '')
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '')
+                    .slice(0, 60);
+            }
+
+            function ensureBulkOrderCommentRef(commentCard, fallbackName, fallbackText, explicitRef) {
+                if (!commentCard) return '';
+                if (commentCard.dataset.commentRef) {
+                    return commentCard.dataset.commentRef;
+                }
+
+                const namePart = normalizeBulkOrderRefPart(fallbackName || commentCard.querySelector('h5')?.textContent || 'business');
+                const textPart = normalizeBulkOrderRefPart(fallbackText || commentCard.querySelector('.profile-name-comment > p')?.textContent || 'request');
+                const generatedRef = explicitRef || `${namePart || 'business'}-${textPart || 'request'}`;
+                commentCard.dataset.commentRef = generatedRef;
+                return generatedRef;
+            }
+
+            function buildBulkOrderCommentUrl(commentRef) {
+                const targetUrl = new URL('/businessbulkorders.html', window.location.origin);
+                if (String(commentRef || '').trim() !== '') {
+                    targetUrl.searchParams.set('comment_ref', commentRef);
+                    targetUrl.searchParams.set('owner_view', '1');
+                }
+                return targetUrl.toString();
+            }
+
+            function buildBulkOrderPrefill(commentText, commentUrl) {
+                const cleanComment = String(commentText || '').trim();
+                const cleanUrl = String(commentUrl || '').trim();
+                if (cleanComment === '') {
+                    return cleanUrl === ''
+                        ? 'Hi, I am reaching out about your bulk order request.'
+                        : `Hi, I am reaching out about your bulk order request.\n\nView request: ${cleanUrl}`;
+                }
+
+                return cleanUrl === ''
+                    ? `Hi, I am reaching out about your bulk order request:\n\n"${cleanComment}"`
+                    : `Hi, I am reaching out about your bulk order request:\n\n"${cleanComment}"\n\nView request: ${cleanUrl}`;
+            }
+
+            function isBulkOrderOwnedByCurrentViewer(postUserId, businessName) {
+                const normalizedPostName = String(businessName || '').trim().toLowerCase();
+                const normalizedViewerName = String(currentViewerBusinessName || '').trim().toLowerCase();
+                return (postUserId > 0 && currentViewerUserId > 0 && postUserId === currentViewerUserId)
+                    || (normalizedPostName !== '' && normalizedViewerName !== '' && normalizedPostName === normalizedViewerName);
+            }
+
+            function closeBulkOrderCommentActionMenu() {
+                if (activeBulkOrderCommentCard instanceof HTMLElement) {
+                    activeBulkOrderCommentCard.classList.remove('bulk-order-comment-menu-active');
+                }
+                activeBulkOrderCommentCard = null;
+                if (bulkOrderCommentActionMenuEl instanceof HTMLElement) {
+                    bulkOrderCommentActionMenuEl.classList.remove('active');
+                    bulkOrderCommentActionMenuEl.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            function openBulkOrderCommentActionMenu(commentCard, clientX, clientY) {
+                if (!(commentCard instanceof HTMLElement) || !(bulkOrderCommentActionMenuEl instanceof HTMLElement)) return;
+
+                activeBulkOrderCommentCard = commentCard;
+                commentCard.classList.add('bulk-order-comment-menu-active');
+                const isOwnComment = commentCard.dataset.isOwnPost === '1';
+                if (bulkOrderCommentDeleteBtnEl instanceof HTMLElement) {
+                    bulkOrderCommentDeleteBtnEl.style.display = isOwnComment ? '' : 'none';
+                }
+
+                bulkOrderCommentActionMenuEl.classList.add('active');
+                bulkOrderCommentActionMenuEl.setAttribute('aria-hidden', 'false');
+
+                requestAnimationFrame(() => {
+                    const menuRect = bulkOrderCommentActionMenuEl.getBoundingClientRect();
+                    const nextLeft = Math.min(Math.max(8, clientX), Math.max(8, window.innerWidth - menuRect.width - 8));
+                    const nextTop = Math.min(Math.max(8, clientY), Math.max(8, window.innerHeight - menuRect.height - 8));
+                    bulkOrderCommentActionMenuEl.style.left = `${nextLeft}px`;
+                    bulkOrderCommentActionMenuEl.style.top = `${nextTop}px`;
+                });
+            }
+
+            function clearBulkOrderCommentLongPressTimer() {
+                if (bulkOrderCommentLongPressTimer) {
+                    window.clearTimeout(bulkOrderCommentLongPressTimer);
+                    bulkOrderCommentLongPressTimer = null;
+                }
+            }
+
+            function getBulkOrderCommentText(commentCard) {
+                if (!(commentCard instanceof HTMLElement)) return '';
+                return String(commentCard.querySelector('.profile-name-comment > p')?.textContent || '').trim();
+            }
+
+            async function copyBulkOrderCommentText(commentCard) {
+                const textToCopy = getBulkOrderCommentText(commentCard);
+                if (textToCopy === '') return;
+
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                } catch (error) {
+                    const fallbackTextarea = document.createElement('textarea');
+                    fallbackTextarea.value = textToCopy;
+                    fallbackTextarea.setAttribute('readonly', 'readonly');
+                    fallbackTextarea.style.position = 'fixed';
+                    fallbackTextarea.style.opacity = '0';
+                    document.body.appendChild(fallbackTextarea);
+                    fallbackTextarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(fallbackTextarea);
+                }
+            }
+
+            async function deleteBulkOrderComment(commentCard) {
+                if (!(commentCard instanceof HTMLElement) || commentCard.dataset.isOwnPost !== '1') return false;
+
+                const postId = Number.parseInt(commentCard.dataset.postId || '', 10);
+                if (postId <= 0) return false;
+
+                const response = await fetch('/php/delete_bulk_order_post.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': bulkOrderUserCsrf },
+                    body: JSON.stringify({ post_id: postId }),
+                });
+
+                if (response.status === 401) {
+                    redirectToNotSignedIn();
+                    return false;
+                }
+
+                if (!response.ok) return false;
+                const data = await response.json();
+                if (!data?.ok) return false;
+
+                document.querySelectorAll(`.comment-section-bulk-orders[data-post-id="${postId}"]`).forEach((card) => card.remove());
+                return true;
+            }
+
+            function getRequestedBulkOrderCommentRef() {
+                const params = new URLSearchParams(window.location.search);
+                return String(params.get('comment_ref') || '').trim();
+            }
+
+            function shouldShowOwnerFulfilledAction(cardOrRef) {
+                const requestedRef = getRequestedBulkOrderCommentRef();
+                if (requestedRef === '') return false;
+
+                let card = null;
+                if (cardOrRef instanceof HTMLElement) {
+                    card = cardOrRef;
+                } else if (typeof cardOrRef === 'string') {
+                    card = document.querySelector(`.comment-section-bulk-orders[data-comment-ref="${cardOrRef}"]`);
+                }
+
+                if (!(card instanceof HTMLElement)) return false;
+
+                const isOwnPost = card.dataset.isOwnPost === '1';
+                const cardRef = String(card.dataset.commentRef || '').trim();
+                return isOwnPost && cardRef === requestedRef;
+            }
+
+            function applyBulkOrderActionState(actionEl, options = {}) {
+                if (!(actionEl instanceof HTMLElement)) return;
+
+                const {
+                    isOwnPost = false,
+                    fulfilled = false,
+                } = options;
+
+                if (isOwnPost) {
+                    actionEl.style.color = fulfilled ? 'blue' : 'red';
+                    actionEl.textContent = fulfilled ? 'Fulfilled' : 'Mark as Fulfilled';
+                    actionEl.style.cursor = 'pointer';
+                    actionEl.style.opacity = fulfilled ? '1' : '0.7';
+                } else {
+                    actionEl.style.color = fulfilled ? 'black' : 'rgb(3, 167, 11)';
+                    actionEl.textContent = 'Do business';
+                    actionEl.style.cursor = 'pointer';
+                    actionEl.style.opacity = '0.7';
+                }
+            }
+
+            async function markBulkOrderAsFulfilled(buttonEl) {
+                const postId = Number.parseInt(buttonEl?.dataset?.postId || '', 10);
+                if (postId <= 0) {
+                    showPageError('Unable to mark this request as fulfilled right now.');
+                    return false;
+                }
+
+                buttonEl.style.pointerEvents = 'none';
+
+                try {
+                    const response = await fetch('/php/mark_bulk_order_fulfilled.php', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': bulkOrderUserCsrf },
+                        body: JSON.stringify({ post_id: postId }),
+                    });
+
+                    const data = await response.json().catch(() => null);
+                    if (response.status === 401) {
+                        showPageError(data?.message || getGuestActionMessage(await getAuthStatus()));
+                        return false;
+                    }
+
+                    if (!response.ok || !data || data.ok !== true) {
+                        // Keep this silent in UI; owner action visibility is already gated in-page.
+                        return false;
+                    }
+
+                    const isFulfilled = data.fulfilled === true;
+
+                    document.querySelectorAll(`.comment-section-bulk-orders[data-post-id="${postId}"]`).forEach((card) => {
+                        card.dataset.fulfilled = isFulfilled ? '1' : '0';
+                        card.querySelectorAll('.comment-btn').forEach((actionEl) => {
+                            const actionPostId = Number.parseInt(actionEl.dataset.postId || '', 10);
+                            if (actionPostId !== postId) return;
+                            const actionIsOwnPost = actionEl.dataset.isOwnPost === '1';
+                            actionEl.dataset.fulfilled = isFulfilled ? '1' : '0';
+                            applyBulkOrderActionState(actionEl, { isOwnPost: actionIsOwnPost, fulfilled: isFulfilled });
+                        });
+                    });
+
+                    showPageError('');
+                    return isFulfilled;
+                } catch (error) {
+                    showPageError('Unable to mark this request as fulfilled right now.');
+                    return false;
+                } finally {
+                    buttonEl.style.pointerEvents = '';
+                }
+            }
+
+            async function resolveBulkOrderPartnerId(buttonEl, businessName) {
+                const explicitUserId = Number.parseInt(buttonEl?.dataset?.userId || '', 10);
+                if (explicitUserId > 0) {
+                    return explicitUserId;
+                }
+
+                const response = await fetch(`/php/resolve_business_user.php?business_name=${encodeURIComponent(businessName)}`, {
+                    credentials: 'same-origin'
+                }).catch(() => null);
+
+                if (!response || !response.ok) {
+                    return 0;
+                }
+
+                const data = await response.json().catch(() => null);
+                return Number.parseInt(data?.user_id || 0, 10) || 0;
+            }
+
+            async function handleBulkOrderBusinessClick(buttonEl) {
+                const canMessage = await ensureSignedInForPosting();
+                if (!canMessage) return;
+
+                const commentCard = buttonEl?.closest('.comment-section-bulk-orders');
+                if (!commentCard) return;
+
+                const businessName = String(commentCard.querySelector('h5')?.textContent || '').trim();
+                const commentText = String(commentCard.querySelector('.profile-name-comment > p')?.textContent || '').trim();
+                const commentRef = ensureBulkOrderCommentRef(commentCard, businessName, commentText, buttonEl?.dataset?.commentRef || '');
+                const commentUrl = buildBulkOrderCommentUrl(commentRef);
+                const partnerId = await resolveBulkOrderPartnerId(buttonEl, businessName);
+                if (partnerId <= 0) {
+                    showPageError('Unable to open that business inbox right now.');
+                    return;
+                }
+
+                const targetUrl = new URL('/php/businessvendordashboard.php', window.location.origin);
+                targetUrl.searchParams.set('section', 'inbox');
+                targetUrl.searchParams.set('partner_id', String(partnerId));
+                targetUrl.searchParams.set('prefill', encodeURIComponent(buildBulkOrderPrefill(commentText, commentUrl)));
+                window.location.href = targetUrl.toString();
+            }
+
+            window.handleBulkOrderBusinessClick = handleBulkOrderBusinessClick;
+
+            async function handleBulkOrderOwnerAction(buttonEl) {
+                if (!(buttonEl instanceof HTMLElement)) return;
+                if (buttonEl.dataset.isOwnPost !== '1') return;
+
+                const canProceed = await ensureSignedInForPosting();
+                if (!canProceed) return;
+
+                const fulfilled = await markBulkOrderAsFulfilled(buttonEl);
+                buttonEl.dataset.fulfilled = fulfilled ? '1' : '0';
+            }
+
+            function applyBulkOrderLikeState(card, likeCount, viewerLiked) {
+                if (!(card instanceof HTMLElement)) return;
+
+                const likeHeart = card.querySelector('.bulk-order-like-heart');
+                const likeCountEl = card.querySelector('.bulk-order-like-count');
+                if (!(likeHeart instanceof HTMLElement) || !(likeCountEl instanceof HTMLElement)) return;
+
+                const safeCount = Math.max(Number.parseInt(likeCount || 0, 10) || 0, 0);
+                likeHeart.classList.toggle('bulk-order-like-active', viewerLiked === true);
+                likeHeart.setAttribute('aria-pressed', viewerLiked === true ? 'true' : 'false');
+                likeHeart.innerHTML = viewerLiked === true ? '&#10084;' : '&#9825;';
+                likeCountEl.textContent = String(safeCount);
+                card.dataset.likeCount = String(safeCount);
+                card.dataset.viewerLiked = viewerLiked === true ? '1' : '0';
+            }
+
+            async function handleBulkOrderLikeClick(buttonEl) {
+                if (!(buttonEl instanceof HTMLElement)) return;
+
+                const canLike = await ensureSignedInForPosting();
+                if (!canLike) return;
+
+                const commentCard = buttonEl.closest('.comment-section-bulk-orders');
+                const postId = Number.parseInt(commentCard?.dataset?.postId || '', 10);
+                if (!commentCard || postId <= 0) return;
+
+                buttonEl.style.pointerEvents = 'none';
+
+                try {
+                    const response = await fetch('/php/toggle_bulk_order_like.php', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': bulkOrderUserCsrf },
+                        body: JSON.stringify({ post_id: postId }),
+                    });
+
+                    const data = await response.json().catch(() => null);
+                    if (response.status === 401) {
+                        showPageError(data?.message || getGuestActionMessage(await getAuthStatus()));
+                        return;
+                    }
+
+                    if (!response.ok || !data || data.ok !== true) {
+                        showPageError(data?.message || 'Unable to update like right now.');
+                        return;
+                    }
+
+                    applyBulkOrderLikeState(commentCard, data.like_count, data.viewer_liked === true);
+                    showPageError('');
+                } catch (error) {
+                    showPageError('Unable to update like right now.');
+                } finally {
+                    buttonEl.style.pointerEvents = '';
+                }
+            }
+
+            function formatPostedTime(dateString) {
+                if (!dateString) return 'Just now';
+                const postedAt = new Date(dateString);
+                if (Number.isNaN(postedAt.getTime())) return 'Just now';
+
+                const diffMs = Date.now() - postedAt.getTime();
+                if (diffMs < 60000) return 'Just now';
+                const diffMinutes = Math.floor(diffMs / 60000);
+                if (diffMinutes < 60) return `${diffMinutes}m Ago`;
+                const diffHours = Math.floor(diffMinutes / 60);
+                if (diffHours < 24) return `${diffHours}h Ago`;
+                const diffDays = Math.floor(diffHours / 24);
+                if (diffDays < 7) return `${diffDays}d Ago`;
+                const diffWeeks = Math.floor(diffDays / 7);
+                if (diffWeeks < 5) return `${diffWeeks}w Ago`;
+                const diffMonths = Math.floor(diffDays / 30);
+                return `${Math.max(diffMonths, 1)}m Ago`;
+            }
+
+            const bulkAdminConfirmOverlay = document.getElementById('bulkAdminConfirmOverlay');
+            const bulkAdminConfirmMessage = document.getElementById('bulkAdminConfirmMessage');
+            const bulkAdminConfirmCancel = document.getElementById('bulkAdminConfirmCancel');
+            const bulkAdminConfirmProceed = document.getElementById('bulkAdminConfirmProceed');
+            let bulkAdminConfirmResolver = null;
+
+            function openBulkAdminConfirm(message, proceedLabel = 'Proceed') {
+                return new Promise((resolve) => {
+                    if (!bulkAdminConfirmOverlay || !bulkAdminConfirmMessage) {
+                        resolve(window.confirm(message));
+                        return;
+                    }
+                    bulkAdminConfirmMessage.textContent = message;
+                    if (bulkAdminConfirmProceed) {
+                        bulkAdminConfirmProceed.textContent = proceedLabel;
+                    }
+                    bulkAdminConfirmOverlay.classList.add('active');
+                    bulkAdminConfirmOverlay.setAttribute('aria-hidden', 'false');
+                    bulkAdminConfirmResolver = resolve;
+                });
+            }
+
+            function closeBulkAdminConfirm(result) {
+                if (bulkAdminConfirmOverlay) {
+                    bulkAdminConfirmOverlay.classList.remove('active');
+                    bulkAdminConfirmOverlay.setAttribute('aria-hidden', 'true');
+                }
+                if (bulkAdminConfirmResolver) {
+                    bulkAdminConfirmResolver(result);
+                    bulkAdminConfirmResolver = null;
+                }
+            }
+
+            bulkAdminConfirmCancel?.addEventListener('click', () => closeBulkAdminConfirm(false));
+            bulkAdminConfirmProceed?.addEventListener('click', () => closeBulkAdminConfirm(true));
+
+            async function adminBulkOrderPostAction(postId, action) {
+                if (!bulkOrderAdminCsrf || postId <= 0) return;
+                const msg = action === 'hide'
+                    ? 'Hide this comment? It will move to Hidden comments in the admin dashboard and will no longer appear on the platform until restored.'
+                    : 'Permanently delete this hidden comment from admin and the platform?';
+                const confirmed = await openBulkAdminConfirm(msg, action === 'hide' ? 'Hide' : 'Delete');
+                if (!confirmed) return;
+                try {
+                    const fd = new FormData();
+                    fd.append('csrf_token', bulkOrderAdminCsrf);
+                    fd.append('post_id', String(postId));
+                    fd.append('action', action);
+                    fd.append('return_to', window.location.href);
+                    const response = await fetch('/php/admin/bulk_order_action.php', {
+                        method: 'POST',
+                        body: fd,
+                        credentials: 'same-origin',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
+                    });
+                    const responseText = await response.text();
+                    let data = {};
+                    try {
+                        data = responseText ? JSON.parse(responseText) : {};
+                    } catch (e) {
+                        data = {};
+                    }
+                    if (!response.ok || data.ok === false) {
+                        throw new Error(data.message || 'Action failed.');
+                    }
+                    document.querySelector(`.public-bulk-order-post[data-post-id="${postId}"]`)?.remove();
+                    showPageError('');
+                } catch (error) {
+                    showPageError(error.message || 'Action failed.');
+                }
+            }
+
+            function buildCommentCard(post) {
+                const name = String(post?.business_name || '').trim() || defaultBusinessName;
+                const imageSrc = resolveBulkOrderProfileImagePath(post?.profilepic);
+                const commentText = String(post?.content || '').trim();
+                const userId = Number.parseInt(post?.user_id || 0, 10) || 0;
+                const postId = Number.parseInt(post?.id || 0, 10) || 0;
+                const isOwnPost = isBulkOrderOwnedByCurrentViewer(userId, name);
+                const isFulfilled = Boolean(post?.fulfilled);
+                const likeCount = Number.parseInt(post?.like_count || 0, 10) || 0;
+                const viewerLiked = Boolean(post?.viewer_liked);
+                const timeLabel = formatPostedTime(post?.created_at || '');
+                const profileUrl = userId > 0
+                    ? (isOwnPost
+                        ? '/php/profile.php'
+                        : `/php/visitor_profile.php?user_id=${encodeURIComponent(String(userId))}`)
+                    : '';
+
+                const card = document.createElement('div');
+                card.className = 'comment-section-bulk-orders public-bulk-order-post';
+                card.dataset.postId = String(postId);
+                card.dataset.fulfilled = isFulfilled ? '1' : '0';
+                card.dataset.likeCount = String(likeCount);
+                card.dataset.viewerLiked = viewerLiked ? '1' : '0';
+                card.dataset.isOwnPost = isOwnPost ? '1' : '0';
+                ensureBulkOrderCommentRef(card, name, commentText, postId > 0 ? `post-${postId}` : '');
+
+                const isHidden = Boolean(post?.is_hidden);
+                if (isHidden) {
+                    card.classList.add('public-bulk-order-post-hidden');
+                }
+
+                const image = document.createElement('img');
+                image.src = imageSrc;
+                image.className = 'img-fluid comment-pic-bulk-orders';
+                image.alt = `${name} profile`;
+                image.onerror = () => {
+                    if (!image.dataset.fallbackApplied) {
+                        image.dataset.fallbackApplied = '1';
+                        image.src = defaultProfileImage;
+                    }
+                };
+
+                const profileWrap = document.createElement('div');
+                profileWrap.className = 'profile-name-comment';
+
+                const title = document.createElement('h5');
+                title.className = 'mb-0';
+                title.textContent = name;
+
+                let imageNode = image;
+                let titleNode = title;
+
+                if (profileUrl !== '') {
+                    const imageLink = document.createElement('a');
+                    imageLink.className = 'bulk-order-profile-link';
+                    imageLink.href = profileUrl;
+                    imageLink.setAttribute('aria-label', `View ${name} profile`);
+                    imageLink.appendChild(image);
+                    imageNode = imageLink;
+
+                    const titleLink = document.createElement('a');
+                    titleLink.className = 'bulk-order-profile-link';
+                    titleLink.href = profileUrl;
+                    titleLink.appendChild(title);
+                    titleNode = titleLink;
+                }
+
+                const requestText = document.createElement('p');
+                requestText.className = 'mt-0 mb-0 bulk-order-comment-actionable';
+                requestText.textContent = commentText;
+
+                const metaRow = document.createElement('div');
+                metaRow.style.display = 'flex';
+                metaRow.style.flexDirection = 'row';
+                metaRow.style.width = '100%';
+                metaRow.style.alignItems = 'flex-start';
+                metaRow.style.gap = '20px';
+
+                const time = document.createElement('p');
+                time.className = 'mt-0 comment-time';
+                time.textContent = timeLabel;
+                metaRow.appendChild(time);
+
+                const likeWrap = document.createElement('div');
+                likeWrap.className = 'bulk-order-like-wrap';
+
+                const likeHeart = document.createElement('button');
+                likeHeart.type = 'button';
+                likeHeart.className = 'bulk-order-like-heart';
+                likeHeart.innerHTML = '&#9825;';
+                likeHeart.setAttribute('aria-label', 'Like this bulk order');
+                likeHeart.addEventListener('click', () => handleBulkOrderLikeClick(likeHeart));
+
+                const likeCountEl = document.createElement('span');
+                likeCountEl.className = 'bulk-order-like-count';
+                likeCountEl.textContent = String(likeCount);
+
+                likeWrap.appendChild(likeHeart);
+                likeWrap.appendChild(likeCountEl);
+
+                const shouldShowOwnerAction = shouldShowOwnerFulfilledAction(card);
+
+                if (!isOwnPost || shouldShowOwnerAction) {
+                    const action = document.createElement('p');
+                    action.className = 'comment-btn py-0 px-1';
+                    action.dataset.postId = String(postId);
+                    action.dataset.isOwnPost = shouldShowOwnerAction ? '1' : '0';
+                    action.dataset.fulfilled = isFulfilled ? '1' : '0';
+                    if (userId > 0) {
+                        action.dataset.userId = String(userId);
+                    }
+                    if (card.dataset.commentRef) {
+                        action.dataset.commentRef = card.dataset.commentRef;
+                    }
+                    if (shouldShowOwnerAction) {
+                        action.addEventListener('click', () => handleBulkOrderOwnerAction(action));
+                    } else {
+                        action.addEventListener('click', () => handleBulkOrderBusinessClick(action));
+                    }
+                    applyBulkOrderActionState(action, { isOwnPost: shouldShowOwnerAction, fulfilled: isFulfilled });
+                    metaRow.appendChild(action);
+                }
+
+                metaRow.appendChild(likeWrap);
+
+                profileWrap.appendChild(titleNode);
+                profileWrap.appendChild(requestText);
+                profileWrap.appendChild(metaRow);
+
+                if (bulkOrderViewerIsAdmin && postId > 0) {
+                    const adminWrap = document.createElement('div');
+                    adminWrap.className = 'bulk-order-admin-actions';
+                    if (!isHidden) {
+                        const hideBtn = document.createElement('button');
+                        hideBtn.type = 'button';
+                        hideBtn.className = 'btn btn-danger btn-sm';
+                        hideBtn.textContent = 'Hide';
+                        hideBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            adminBulkOrderPostAction(postId, 'hide');
+                        });
+                        adminWrap.appendChild(hideBtn);
+                    } else {
+                        const delBtn = document.createElement('button');
+                        delBtn.type = 'button';
+                        delBtn.className = 'btn btn-outline-secondary btn-sm';
+                        delBtn.textContent = 'Delete';
+                        delBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            adminBulkOrderPostAction(postId, 'purge');
+                        });
+                        adminWrap.appendChild(delBtn);
+                    }
+                    profileWrap.appendChild(adminWrap);
+                }
+
+                card.appendChild(imageNode);
+                card.appendChild(profileWrap);
+                applyBulkOrderLikeState(card, likeCount, viewerLiked);
+
+                return card;
+            }
+
+            function updateStaticDoBusinessButtons() {
+                const normalizedViewerName = currentViewerBusinessName.trim().toLowerCase();
+                if (normalizedViewerName === '') return;
+
+                document.querySelectorAll('.comment-section-bulk-orders').forEach((card) => {
+                    const businessNameRaw = String(card.querySelector('h5')?.textContent || '').trim();
+                    const businessName = businessNameRaw.toLowerCase();
+                    const commentTextEl = card.querySelector('.profile-name-comment > p');
+                    commentTextEl?.classList.add('bulk-order-comment-actionable');
+                    const commentText = String(commentTextEl?.textContent || '').trim();
+                    const commentRef = ensureBulkOrderCommentRef(card, businessNameRaw, commentText, '');
+                    const action = card.querySelector('.comment-btn');
+
+                    if (action) {
+                        action.dataset.commentRef = commentRef;
+                    }
+
+                    const postId = Number.parseInt(card.dataset.postId || action?.dataset?.postId || '', 10) || 0;
+                    const isFulfilled = card.dataset.fulfilled === '1' || action?.dataset?.fulfilled === '1';
+                    const isOwnPost = businessName === normalizedViewerName;
+                    card.dataset.isOwnPost = isOwnPost ? '1' : '0';
+                    const shouldShowOwnerAction = shouldShowOwnerFulfilledAction(card);
+
+                    if (isOwnPost && action) {
+                        if (!shouldShowOwnerAction) {
+                            action.remove();
+                            return;
+                        }
+
+                        action.dataset.isOwnPost = '1';
+                        action.dataset.postId = String(postId);
+                        action.dataset.fulfilled = isFulfilled ? '1' : '0';
+                        action.onclick = () => handleBulkOrderOwnerAction(action);
+                        applyBulkOrderActionState(action, { isOwnPost: true, fulfilled: isFulfilled });
+                    } else if (shouldShowOwnerAction && action) {
+                        action.dataset.isOwnPost = '1';
+                        action.dataset.postId = String(postId);
+                        action.dataset.fulfilled = isFulfilled ? '1' : '0';
+                        action.onclick = () => handleBulkOrderOwnerAction(action);
+                        applyBulkOrderActionState(action, { isOwnPost: true, fulfilled: isFulfilled });
+                    } else if (action) {
+                        action.dataset.isOwnPost = '0';
+                        action.dataset.postId = String(postId);
+                        action.dataset.fulfilled = isFulfilled ? '1' : '0';
+                        action.onclick = () => handleBulkOrderBusinessClick(action);
+                        applyBulkOrderActionState(action, { isOwnPost: false, fulfilled: isFulfilled });
+                    }
+                });
+            }
+
+            function focusBulkOrderCommentFromQuery() {
+                const params = new URLSearchParams(window.location.search);
+                const commentRef = String(params.get('comment_ref') || '').trim();
+                if (commentRef === '') return;
+
+                const matchingCards = Array.from(document.querySelectorAll(`.comment-section-bulk-orders[data-comment-ref="${commentRef}"]`));
+                if (!matchingCards.length) {
+                    return;
+                }
+
+                const visibleCard = matchingCards.find((card) => card.offsetParent !== null) || matchingCards[0];
+                showPageError('');
+                visibleCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                visibleCard.classList.add('bulk-order-comment-highlight');
+                window.setTimeout(() => {
+                    visibleCard.classList.remove('bulk-order-comment-highlight');
+                }, 4000);
+            }
+
+            async function initializeCurrentViewer() {
+                const auth = await getAuthStatus();
+                currentViewerUserId = Number.parseInt(auth?.user_id || 0, 10) || 0;
+                currentViewerBusinessName = String(auth?.business_name || '').trim();
+                updateStaticDoBusinessButtons();
+            }
+
+            function renderPublicPosts(posts) {
+                const rootContainers = Array.from(document.querySelectorAll('.bulk-content-container'));
+                rootContainers.forEach((container) => {
+                    container.querySelectorAll('.public-bulk-order-post').forEach((node) => node.remove());
+                    const divider = container.querySelector('hr');
+                    if (!divider) return;
+                    const safePosts = Array.isArray(posts) ? posts : [];
+                    for (let i = safePosts.length - 1; i >= 0; i -= 1) {
+                        const card = buildCommentCard(safePosts[i]);
+                        divider.insertAdjacentElement('afterend', card);
+                    }
+                });
+                focusBulkOrderCommentFromQuery();
+            }
+
+            async function loadPublicPosts() {
+                try {
+                    const response = await fetch('/php/list_bulk_order_posts.php', { credentials: 'same-origin' });
+                    if (!response.ok) return;
+                    const data = await response.json();
+                    bulkOrderViewerIsAdmin = Boolean(data?.viewer_is_admin);
+                    bulkOrderAdminCsrf = String(data?.admin_csrf || '').trim();
+                    renderPublicPosts(data?.posts || []);
+                } catch (error) {
+                    // Keep default static posts when public post feed cannot load.
+                }
+            }
+
+            async function createPublicPost(content) {
+                const response = await fetch('/php/create_bulk_order_post.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': bulkOrderUserCsrf },
+                    body: JSON.stringify({ content }),
+                });
+                if (response.status === 401) {
+                    redirectToNotSignedIn();
+                    return null;
+                }
+                if (!response.ok) {
+                    return null;
+                }
+                const data = await response.json();
+                if (!data || data.ok !== true || !data.post) {
+                    return null;
+                }
+                return data.post;
+            }
+
+            function bindPostActions() {
+                const postAreas = Array.from(document.querySelectorAll('.comment-area-div'));
+                postAreas.forEach((postArea) => {
+                    const input = postArea.querySelector('.comment-area-bulk');
+                    const button = postArea.querySelector('.comment-post-btn');
+                    if (!input || !button) return;
+
+                    button.addEventListener('click', async (event) => {
+                        event.preventDefault();
+                        const text = String(input.value || '').trim();
+                        if (text === '') return;
+                        const canPost = await ensureSignedInForPosting();
+                        if (!canPost) return;
+
+                        button.disabled = true;
+                        const newPost = await createPublicPost(text);
+                        button.disabled = false;
+                        if (!newPost) return;
+
+                        const rootContainers = Array.from(document.querySelectorAll('.bulk-content-container'));
+                        rootContainers.forEach((container) => {
+                            const divider = container.querySelector('hr');
+                            if (!divider) return;
+                            const card = buildCommentCard(newPost);
+                            divider.insertAdjacentElement('afterend', card);
+                        });
+
+                        document.querySelectorAll('.comment-area-bulk').forEach((textarea) => {
+                            textarea.value = '';
+                        });
+                    });
+                });
+            }
+
+            function bindBulkOrderCommentActionMenu() {
+                document.addEventListener('contextmenu', (event) => {
+                    const textEl = event.target.closest('.bulk-order-comment-actionable');
+                    if (!textEl) {
+                        closeBulkOrderCommentActionMenu();
+                        return;
+                    }
+
+                    const commentCard = textEl.closest('.comment-section-bulk-orders');
+                    if (!commentCard) return;
+
+                    event.preventDefault();
+                    openBulkOrderCommentActionMenu(commentCard, event.clientX, event.clientY);
+                });
+
+                document.addEventListener('touchstart', (event) => {
+                    const textEl = event.target.closest('.bulk-order-comment-actionable');
+                    if (!textEl) {
+                        closeBulkOrderCommentActionMenu();
+                        return;
+                    }
+
+                    const commentCard = textEl.closest('.comment-section-bulk-orders');
+                    if (!commentCard || event.touches.length !== 1) {
+                        clearBulkOrderCommentLongPressTimer();
+                        return;
+                    }
+
+                    const touchPoint = event.touches[0];
+                    clearBulkOrderCommentLongPressTimer();
+                    bulkOrderCommentLongPressTimer = window.setTimeout(() => {
+                        openBulkOrderCommentActionMenu(commentCard, touchPoint.clientX, touchPoint.clientY);
+                    }, 520);
+                }, { passive: true });
+
+                document.addEventListener('touchend', clearBulkOrderCommentLongPressTimer, { passive: true });
+                document.addEventListener('touchcancel', clearBulkOrderCommentLongPressTimer, { passive: true });
+                document.addEventListener('touchmove', clearBulkOrderCommentLongPressTimer, { passive: true });
+
+                bulkOrderCommentCopyBtnEl?.addEventListener('click', async () => {
+                    const activeCard = activeBulkOrderCommentCard;
+                    closeBulkOrderCommentActionMenu();
+                    if (!activeCard) return;
+                    await copyBulkOrderCommentText(activeCard);
+                });
+
+                bulkOrderCommentDeleteBtnEl?.addEventListener('click', async () => {
+                    const activeCard = activeBulkOrderCommentCard;
+                    closeBulkOrderCommentActionMenu();
+                    if (!activeCard) return;
+                    await deleteBulkOrderComment(activeCard);
+                });
+
+                document.addEventListener('pointerdown', (event) => {
+                    if (!(bulkOrderCommentActionMenuEl instanceof HTMLElement) || !bulkOrderCommentActionMenuEl.classList.contains('active')) return;
+                    if (bulkOrderCommentActionMenuEl.contains(event.target)) return;
+                    if (activeBulkOrderCommentCard instanceof HTMLElement && activeBulkOrderCommentCard.contains(event.target)) return;
+                    closeBulkOrderCommentActionMenu();
+                });
+
+                window.addEventListener('scroll', closeBulkOrderCommentActionMenu, true);
+                window.addEventListener('resize', closeBulkOrderCommentActionMenu);
+            }
+
+            renderPageErrorFromQuery();
+            initializeCurrentViewer().finally(() => {
+                loadPublicPosts();
+            });
+            bindPostActions();
+            bindBulkOrderCommentActionMenu();
+            updateStaticDoBusinessButtons();
+            focusBulkOrderCommentFromQuery();
+        })();
+    </script>
+
+    <script>
+        async function syncAuthCtasForSignedInUser() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const authSelectors = [
+                    "a[href='signin.html']",
+                    "a[href='./signin.html']",
+                    "a[href='/signin.html']",
+                    "a[href='createaccount.html']",
+                    "a[href='./createaccount.html']",
+                    "a[href='/createaccount.html']",
+                    "button[onclick*='createaccount.html']"
+                ];
+
+                document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                    const li = node.closest('li');
+                    if (li) {
+                        li.remove();
+                    } else {
+                        node.remove();
+                    }
+                });
+
+                document.querySelectorAll('.offcanvas').forEach((panel) => {
+                    const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                    if (hasActions) return;
+
+                    const panelId = panel.getAttribute('id');
+                    if (panelId) {
+                        document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                    }
+                    panel.remove();
+                });
+            } catch (error) {
+                // Keep default auth links when auth check is unavailable.
+            }
+        }
+
+        syncAuthCtasForSignedInUser();
+    </script>
+    <script>
+        // Image container upon opening page functionality.
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const ticket = document.getElementById('floating-ticket');
+                ticket.style.display = 'none';
+            }, 6000);
+
+        });
+
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+    <script>
+        (function () {
+            const mobileAuthButton = document.getElementById('newarrivals-mobile-toggler');
+            const mobileAuthMenu = document.getElementById('newarrivals-mobile-auth-menu');
+            if (!mobileAuthButton || !mobileAuthMenu) {
+                return;
+            }
+
+            function positionMobileAuthMenu() {
+                const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
+                mobileAuthMenu.style.right = `${rightOffset}px`;
+                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+            }
+
+            function setMobileAuthOpen(isOpen) {
+                if (isOpen) {
+                    positionMobileAuthMenu();
+                }
+                mobileAuthMenu.classList.toggle('show', isOpen);
+                mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            mobileAuthButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setMobileAuthOpen(!mobileAuthMenu.classList.contains('show'));
+            });
+
+            document.addEventListener('click', (event) => {
+                if (mobileAuthButton.contains(event.target) || mobileAuthMenu.contains(event.target)) {
+                    return;
+                }
+
+                setMobileAuthOpen(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            });
+        })();
+
+        (function () {
+            const mobileAuthItems = Array.from(document.querySelectorAll('[data-mobile-auth-link]'));
+            if (mobileAuthItems.length === 0) {
+                return;
+            }
+
+            mobileAuthItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const nextUrl = item.getAttribute('data-mobile-auth-link');
+                    if (!nextUrl) {
+                        return;
+                    }
+
+                    window.location.assign(nextUrl);
+                });
+            });
+        })();
+    </script>
+
+    <script>
+        async function syncNewArrivalsAuthButtons() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const signInDesktop = document.getElementById('newarrivals-signin-desktop');
+                const createDesktop = document.getElementById('newarrivals-createaccount-desktop');
+                const signInMobile = document.getElementById('newarrivals-signin-mobile');
+                const createMobile = document.getElementById('newarrivals-createaccount-mobile');
+                const mobileToggler = document.getElementById('newarrivals-mobile-toggler');
+                const mobileOffcanvas = document.getElementById('offcanvasNav');
+
+                signInDesktop?.closest('li')?.remove();
+                createDesktop?.remove();
+                signInMobile?.closest('li')?.remove();
+                createMobile?.remove();
+                mobileToggler?.remove();
+                mobileOffcanvas?.remove();
+            } catch (error) {
+                // Keep default navbar links when auth check is unavailable.
+            }
+        }
+
+        syncNewArrivalsAuthButtons();
+    </script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>

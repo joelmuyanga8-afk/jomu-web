@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoMu | Wholesale & Retail</title>
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cardone {
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid black;
+            background-color: white;
+
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 0px;
+        }
+
+        .pagination .btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            border: 1px solid rgb(241, 90, 36);
+            color: rgb(0, 0, 255);
+            border-radius: 3px;
+        }
+
+        .pagination .btn:hover {
+            background-color: rgb(241, 90, 36);
+            color: white;
+        }
+
+        .pagination button.btn.active {
+            background-color: rgb(241, 90, 36);
+            color: white;
+        }
+
+        .pagination .btn.prev,
+        .pagination .btn.next {
+            font-weight: bold;
+        }
+
+        /* Sticky footer fix */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>footer {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body class="body-one" style=" background-color: #f0ecec;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone bg-white" id="navbarone">
+
+            <!-- Logo for large screens.-->
+            <div class="container d-none d-md-block d-lg-block">
+                <a class="navbar-brand brand-logos" href="index.php">
+                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+
+                </a>
+            </div>
+
+            <!-- Logo for small screens. -->
+            <div class="d-block d-md-none d-lg-none py-0 px-0">
+                <a class="navbar-brand brand-logos px-0" href="index.php">
+                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo"
+                        style="margin-right: 60px;">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo"
+                        style="margin-right: 60px;">
+                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+
+                </a>
+            </div>
+
+
+            <!-- Toggler for small and medium screens -->
+            <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <span>
+                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                </span>
+            </button>
+            <!-- Navbar links for large screens -->
+            <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
+
+                <!-- Search bar for large screens. -->
+                <div class="container-fluid searching">
+                    <input type="text" id="searchbarInput" class="searchbar" style="border: 1px solid black;"
+                        placeholder="Search...">
+                    <button class="button search" type="submit">
+                        <span><img src="assets/images/icons/Search Icon.png" class="options-icons"></span>
+                        Search</button>
+                </div>
+                <ul class="navbar-nav">
+                    <li class="nav-item active signin">
+                        <a class="nav-link link-text" href="signin.html" style="color: rgb(0, 0, 255);">Sign In</a>
+                    </li>
+                </ul>
+                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    account</button>
+            </div>
+            <!-- Search bar for medium screens -->
+            <div class="container-fluid d-none d-md-block d-lg-none searching-medium">
+                <input type="text" id="searchbarInput" class="searchbar-medium" placeholder="Search...">
+                <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+                            class="search-icon-medium search-medium"></span>
+                </button>
+            </div>
+            <!-- Search bar for small screens -->
+            <div class="d-block d-md-none d-lg-none searching-small">
+                <div class="input-group">
+                    <input type="text" id="searchbarInput" class="form-control searchbar-small" placeholder="Search...">
+                    <button class="btn btn-search-small" type="submit"><span><img
+                                src="assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- offcanvas menu for small and medium screens -->
+            <div class="offcanvas offcanvas-bottom d-lg-none" tabindex="-1" id="offcanvasNav"
+                aria-labelledby="offcanvasNavbarLabel" style="height: 25vh;">
+                <div class="offcanvas-header">
+                    <!-- <h5 class="offcanvas-title" id="offcanvasNavbarLabel">ALL</h5> -->
+                    <button type="button" class="btn-close bg-white " data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        </li>
+                    </ul>
+                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                        account</button>
+                </div>
+            </div>
+            </div>
+        </nav>
+
+        <!-- Navbar two for large screens -->
+        <nav class="navbar navbar-expand-lg navbar-light navbartw bg-dark">
+            <div class="containerone">
+                <div class="dropdown">
+                    <button class="button nav-options hover-underline filterpointvendorshops" id="friday"
+                        onclick="location.href='trendinghotdeals.html'">Black Friday</button>
+                </div>
+                <div class="dropdown">
+                    <button class="button nav-options hover-underline filterpointvendorshops" id="november"
+                        onclick="showContent('blacknovember')">Black November</button>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Black Friday Content -->
+    <main class="main-one" id="filter-info">
+        <hr class="mt-0 mb-0">
+        <div class="container-fluid mb-3 mt-0 newarrivals-container-one">
+            <p>Discover the freshest Wholesale <b style="color: rgb(241, 90, 36);">Black Friday Deals</b> from various
+                businesses. This is the perfect time to take advantage of limited-time deals and unbeatable prices. Act
+                fast; these deals wont last!</p>
+            </p>
+        </div>
+        <!-- THIS PAGE'S CSS IS WITHIN AT THE TOP. -->
+
+        <div id="pagination top" class="pagination mb-1 mt-1">
+            <button class="prev btn">&laquo;</button>
+            <button data-page="1" class="btn active">1</button>
+            <button data-page="2" class="btn">2</button>
+            <button data-page="3" class="btn">3</button>
+            <button data-page="4" class="btn">4</button>
+            <button class="next btn">&raquo;</button>
+        </div>
+
+        <div id="cards-container" class="container cards-container mb-0">
+            <div class="row g-1">
+                <!-- Product Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">Clothes Bale/Ndiboota</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Watermelons</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Curtains</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mt-0 mb-0">Watermelons</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Curtains</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button ">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Clothes Bale/Ndiboota</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <phodiv class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Watermelons</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Curtains</h5>
+                        <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                            Price</p>
+                        <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                            Shs.10,000</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Smartphones</h5>
+                        <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Watermelons</h5>
+                        <p class="card-text">Shs.800 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Curtains</h5>
+                        <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Clothes Bale/Ndiboota</h5>
+                        <p class="card-text">Shs.9,000 - Shs.20,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Smartphones</h5>
+                        <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Smartphones</h5>
+                        <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Watermelons</h5>
+                        <p class="card-text">Shs.800 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Curtains</h5>
+                        <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Smartphones</h5>
+                        <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Watermelons</h5>
+                        <p class="card-text">Shs.800 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <div class="card-body">
+                        <h5 class="card-title">Curtains</h5>
+                        <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
+                        <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="pagination bottom" class="pagination mt-0">
+            <button class="prev btn">&laquo;</button>
+            <button data-page="1" class="btn active">1</button>
+            <button data-page="2" class="btn">2</button>
+            <button data-page="3" class="btn">3</button>
+            <button data-page="4" class="btn">4</button>
+            <button class="next btn">&raquo;</button>
+        </div>
+    </main>
+    <!-- Black November Content  -->
+    <main class="main-one" id="blacknovember-content" style="display: none;">
+
+        <hr class="mt-0 mb-0">
+        <div class="container-fluid mb-3 mt-0 newarrivals-container-one">
+            <p>Discover the freshest Wholesale <b style="color: rgb(241, 90, 36);">Black November Deals</b> from various
+                businesses. This is the perfect time to take advantage of limited-time deals and unbeatable prices. Act
+                fast; these deals wont last!</p>
+            </p>
+        </div>
+        <!-- THIS PAGE'S CSS IS WITHIN AT THE TOP. -->
+        <div id="pagination top" class="pagination mb-1 mt-1">
+            <button class="prev btn">&laquo;</button>
+            <button data-page="1" class="btn active">1</button>
+            <button data-page="2" class="btn">2</button>
+            <button data-page="3" class="btn">3</button>
+            <button data-page="4" class="btn">4</button>
+            <button class="next btn">&raquo;</button>
+        </div>
+
+        <div id="cards-container" class="container cards-container mb-0">
+            <div class="row g-1">
+                <!-- Product Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">Clothes Bale/Ndiboota</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Watermelons</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Curtains</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mt-0 mb-0">Watermelons</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Curtains</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button ">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Clothes Bale/Ndiboota</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0 mt-0">Smartphones</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Watermelons</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Curtains</h5>
+                            <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
+                                Price</p>
+                            <p class="card-text mb-1 mt-0" style="font-size: 1.2rem;">Shs.6,000 -
+                                Shs.10,000</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Smartphones</h5>
+                            <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Watermelons</h5>
+                            <p class="card-text">Shs.800 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Curtains</h5>
+                            <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Clothes Bale/Ndiboota</h5>
+                            <p class="card-text">Shs.9,000 - Shs.20,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Smartphones</h5>
+                            <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Smartphones</h5>
+                            <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Watermelons</h5>
+                            <p class="card-text">Shs.800 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Curtains</h5>
+                            <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Smartphones</h5>
+                            <p class="card-text">Starting Shs.150,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Watermelons</h5>
+                            <p class="card-text">Shs.800 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <div class="card-body">
+                            <h5 class="card-title">Curtains</h5>
+                            <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
+                            <a href="" class="btn card-img-button">Purchase Wholesale</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pagination bottom" class="pagination mt-0">
+            <button class="prev btn">&laquo;</button>
+            <button data-page="1" class="btn active">1</button>
+            <button data-page="2" class="btn">2</button>
+            <button data-page="3" class="btn">3</button>
+            <button data-page="4" class="btn">4</button>
+            <button class="next btn">&raquo;</button>
+        </div>
+    </main>
+
+    <footer class=" footer-feedback py-2 text-center bg-white">
+        <div class="footer-links">
+            <a href="termsandconditions.html">Terms of Use</a>
+            <a href="privacypolicy.html">Privacy Policy</a>
+            <a href="help.html">Help</a>
+            <a href="support.html">Support</a>
+            <a href="feedback.html">Give Feedback</a>
+            <a href="about.html">About JoMu</a>
+        </div>
+        <br>
+        <small>&copy; 2026 JoMu. All rights reserved.</small>
+    </footer>
+    <!-- Back to top button -->
+    <button id="backToTop">&#8593;</button>
+    <script>
+        async function syncAuthCtasForSignedInUser() {
+            try {
+                const response = await fetch('/php/auth_status.php', { credentials: 'same-origin' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                if (!data || data.signed_in !== true) return;
+
+                const authSelectors = [
+                    "a[href='signin.html']",
+                    "a[href='./signin.html']",
+                    "a[href='/signin.html']",
+                    "a[href='createaccount.html']",
+                    "a[href='./createaccount.html']",
+                    "a[href='/createaccount.html']",
+                    "button[onclick*='createaccount.html']"
+                ];
+
+                document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
+                    const li = node.closest('li');
+                    if (li) {
+                        li.remove();
+                    } else {
+                        node.remove();
+                    }
+                });
+
+                document.querySelectorAll('.offcanvas').forEach((panel) => {
+                    const hasActions = panel.querySelector("a[href], button:not(.btn-close)");
+                    if (hasActions) return;
+
+                    const panelId = panel.getAttribute('id');
+                    if (panelId) {
+                        document.querySelectorAll(`[data-bs-target='#${panelId}']`).forEach((btn) => btn.remove());
+                    }
+                    panel.remove();
+                });
+            } catch (error) {
+                // Keep default auth links when auth check is unavailable.
+            }
+        }
+
+        syncAuthCtasForSignedInUser();
+    </script>
+    <script>
+        // Filters keypoints active functionality.
+        const items = document.querySelectorAll('.filterpointvendorshops');
+        items.forEach(filterpointvendorshops => {
+            filterpointvendorshops.addEventListener('click', () => {
+                items.forEach(i => i.classList.remove('active'));
+                filterpointvendorshops.classList.add('active');
+            });
+        });
+
+
+        // Filters keypoints functionality.
+        window.showContent = function (type) {
+            const target = document.getElementById("filter-info");
+            if (type === "blacknovember") {
+                target.innerHTML = document.getElementById("blacknovember-content").innerHTML;
+            }
+        };
+
+        // Filter list functionality.
+        function toggleAnswer(element) {
+            const faqanswer = element.nextElementSibling;
+            const isOpen = faqanswer.style.maxHeight;
+        };
+
+
+
+
+
+
+        // Cards Pagination Functionality. 
+        const cardsPerPage = 12;
+        const cards = document.querySelectorAll('.card');
+        const paginationButtons = document.querySelectorAll('.pagination button[data-page]');
+        const prevButtons = document.querySelectorAll('.pagination .prev');
+        const nextButtons = document.querySelectorAll('.pagination .next');
+
+        let currentPage = 1;
+        const totalPages = Math.ceil(cards.length / cardsPerPage);
+
+        function showPage(page) {
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            currentPage = page;
+
+            const start = (page - 1) * cardsPerPage;
+            const end = start + cardsPerPage;
+
+            cards.forEach((card, index) => {
+                card.style.display = (index >= start && index < end) ? 'block' : 'none';
+            });
+
+            paginationButtons.forEach(btn => btn.classList.remove('active'));
+
+            document.querySelectorAll('[data-page="${page}"]')
+                .forEach(btn => btn.classList.add('active'));
+        }
+        showPage(1);
+
+        paginationButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = parseInt(btn.getAttribute('data-page'));
+                showPage(page);
+            });
+        });
+        // Prev Buttons 
+        prevButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                showPage(currentPage - 1);
+            });
+        });
+        // Next Buttons 
+        nextButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                showPage(currentPage + 1);
+            });
+        });
+
+        // Back to top functionality.
+        const btn = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none"
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+    <script src="assets/listing-preview-modal.js"></script>
+    <script src="assets/listing-preview-gallery.js"></script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/cookie-consent.js"></script>
+</body>
+
+</html>
