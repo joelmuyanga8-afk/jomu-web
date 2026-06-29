@@ -225,7 +225,7 @@
       <h3 class="jomu-cookie-title">This website uses Cookies</h3>
       <p class="jomu-cookie-text">JoMu uses cookies to keep the platform secure, improve performance, and personalize your experience.</p>
       <div class="jomu-cookie-links">
-        <a href="${linkTo("privacypolicy.html")}#cookie-policy-settings">Privacy & Cookie Settings</a>
+        <a href="${linkTo("/privacy-policy")}#cookie-policy-settings">Privacy & Cookie Settings</a>
       </div>
       <div class="jomu-cookie-actions">
         <button type="button" class="jomu-cookie-btn" id="jomuCookieManage">Manage Preferences</button>

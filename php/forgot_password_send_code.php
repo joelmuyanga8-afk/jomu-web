@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 
 require_once __DIR__ . '/connection/env.php';
 require_once __DIR__ . '/partials/helpers.php';
+require_once __DIR__ . '/partials/smtp_mailer.php';
 load_env_file(dirname(__DIR__) . '/.env');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -138,7 +139,8 @@ $otp = (string) random_int(100000, 999999);
 $otpHash = password_hash($otp, PASSWORD_DEFAULT);
 
 $_SESSION['forgot_password'] = [
-    'identifier' => $accountIdentifier,
+    'identifier' => $identifier,
+    'account_identifier' => $accountIdentifier,
     'method' => $method,
     'otp_hash' => $otpHash,
     'expires_at' => time() + (10 * 60),
@@ -149,52 +151,15 @@ $_SESSION['forgot_password'] = [
 $message = '';
 $deliveryOk = false;
 
-function send_mailgun_otp(string $to, string $otp, ?string &$reason): bool
+function send_smtp_otp(string $to, string $otp, ?string &$reason): bool
 {
-    $apiKey = env_value('MAILGUN_API_KEY');
-    $domain = env_value('MAILGUN_DOMAIN');
-    $from = env_value('MAILGUN_FROM', 'JoMu <no-reply@jomu.ug>');
+    $subject = 'JoMu Password Reset Code';
+    $textBody = "Your JoMu verification code is: {$otp}\n\nThis code expires in 10 minutes.";
 
-    if (!$apiKey || !$domain) {
-        $reason = 'Mailgun credentials are missing in .env.';
-        return false;
-    }
-
-    if (!function_exists('curl_init')) {
-        $reason = 'cURL extension is required for Mailgun API calls.';
-        return false;
-    }
-
-    $endpoint = 'https://api.mailgun.net/v3/' . rawurlencode($domain) . '/messages';
-    $postFields = [
-        'from' => $from,
-        'to' => $to,
-        'subject' => 'JoMu Password Reset Code',
-        'text' => "Your JoMu verification code is: {$otp}\n\nThis code expires in 10 minutes."
-    ];
-
-    $ch = curl_init($endpoint);
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $postFields,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 20,
-        CURLOPT_USERPWD => 'api:' . $apiKey,
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC
+    return jomu_send_smtp_mail($to, $subject, $textBody, '', $reason, [
+        'from_email' => env_value('SMTP_RESET_FROM_EMAIL', env_value('SMTP_FROM_EMAIL', '')),
+        'from_name' => env_value('SMTP_RESET_FROM_NAME', env_value('SMTP_FROM_NAME', 'JoMu')),
     ]);
-
-    $response = curl_exec($ch);
-    $curlError = curl_error($ch);
-    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($response === false || $httpCode < 200 || $httpCode >= 300) {
-        $reason = 'Mailgun request failed.';
-        error_log('Mailgun OTP error. HTTP: ' . $httpCode . '; cURL: ' . $curlError);
-        return false;
-    }
-
-    return true;
 }
 
 function format_ug_phone_to_e164(string $phone): ?string
@@ -291,7 +256,7 @@ function send_meta_whatsapp_otp(string $phone, string $otp, ?string &$reason): b
 $reason = '';
 
 if ($method === 'email') {
-    $deliveryOk = send_mailgun_otp($accountIdentifier, $otp, $reason);
+    $deliveryOk = send_smtp_otp($accountIdentifier, $otp, $reason);
     if ($deliveryOk) {
         $message = $genericResetMessage;
     } else {

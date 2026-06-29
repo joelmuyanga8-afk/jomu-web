@@ -25,7 +25,7 @@ function resolveVendorProfilePicPath(string $path): string
     if (strpos($normalized, '/') === 0) {
         return $normalized;
     }
-    if (strpos($normalized, 'assets/') === 0 || strpos($normalized, 'php/') === 0) {
+    if (strpos($normalized, 'assets/') === 0 || strpos($normalized, '/php/') === 0) {
         return '/' . ltrim($normalized, '/');
     }
     if (strpos($normalized, 'uploads/') === 0) {
@@ -151,8 +151,8 @@ function renderCard(array $business, int $currentUserId): string
 
     $businessUserId = (int) ($business['id'] ?? 0);
     $profileUrl = ($currentUserId > 0 && $businessUserId === $currentUserId)
-        ? 'php/profile.php'
-        : ('php/visitor_profile.php?user_id=' . $businessUserId);
+        ? '/profile'
+        : ('/visitor-profile?user_id=' . $businessUserId);
 
     return '
         <div class="col-6 col-md-4 col-lg-3">

@@ -31,8 +31,10 @@ if (!$outOfStockColumnCheck || $outOfStockColumnCheck->num_rows === 0) {
  $stmt->execute();
  $user = $stmt->get_result()->fetch_assoc();
  if (!empty($user['profilepic'])) {
-    $profileImage = $user['profilepic'];
+    $profileImage = jomu_resolve_public_profile_image_path((string) $user['profilepic']);
  }
+
+$jomuDashboardUrl = jomu_page_url('dashboard');
 
 $profileUserId = (int) ($user['id'] ?? 0);
 
@@ -252,7 +254,7 @@ foreach ($allListingsForTypeCount as $listingForType) {
 }
 
 $showShowroomTitle = $productListingsCount > $serviceListingsCount;
-$visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['id'] ?? 0);
+$visitorProfileSharePath = '/visitor-profile?user_id=' . (int) ($user['id'] ?? 0);
 
 ?>
 
@@ -265,6 +267,11 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
     <title>Business Profile</title>
     <link rel="stylesheet" href="/assets/bootstrap.css">
     <link rel="stylesheet" href="/assets/style.css">
+        <link rel="icon" type="image/png" sizes="16x16" href="/./assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/./assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/./assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/./assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/./assets/images/jomu_favicon_orange-512.png">
     <style>
         body.profile-page {
             min-height: 100svh;
@@ -279,6 +286,56 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
 
         body.profile-page > footer {
             margin-top: auto;
+        }
+
+        @media (max-width: 767.98px) {
+            body.profile-page {
+                padding-top: 45px;
+            }
+
+            body.profile-page #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            body.profile-page #navbarone .profile-nav-inner {
+                min-height: 45px;
+                align-items: center;
+            }
+        }
+
+        .profile-business-summary {
+            --profile-summary-gap: 0.75rem;
+            margin-bottom: var(--profile-summary-gap) !important;
+        }
+
+        .profile-page .business-name-wrapper h2 {
+            margin: 0;
+            line-height: 1;
+        }
+
+        .profile-page #business-name-input {
+            display: block;
+            min-height: 0 !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            line-height: 1.08;
+        }
+
+        .business-bio-wrapper {
+            margin-top: var(--profile-summary-gap);
+        }
+
+        .profile-page #business-bio-input {
+            margin: 0 auto;
+        }
+
+        .profile-page #business-profile-status {
+            margin-top: 4px !important;
         }
 
         .profile-showroom-grid .owner-hidden-card {
@@ -536,16 +593,16 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
             <div class="container-fluid profile-nav-inner">
-                <a class="mobile-profile-back d-flex d-md-none" href="/php/businessvendordashboard.php" aria-label="Go back">←</a>
+                <a class="mobile-profile-back d-flex d-md-none" href="<?php echo htmlspecialchars($jomuDashboardUrl); ?>" aria-label="Go back">←</a>
                 <h2 id="nav-business-name-mobile" class="mobile-profile-title d-block d-md-none"><?php echo htmlspecialchars($businessName !== '' ? $businessName : ($_SESSION['emailormobilenumber'] ?? 'Business')); ?></h2>
-                <a class="navbar-brand brand-logos d-none d-md-inline-block" href="/index.php">
+                <a class="navbar-brand brand-logos d-none d-md-inline-block" href="/">
                     <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
                     <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
                 </a>
                 <!-- <h2 class="d-none d-md-block d-lg-block" style="color: white;">M&M Cleaning Company Ltd</h2> -->
                  <h2 id="nav-business-name" class="d-none d-md-block d-lg-block" style="color: white;"><?php echo htmlspecialchars($businessName !== '' ? $businessName : ($_SESSION['emailormobilenumber'] ?? 'Business')); ?></h2>
                 <button class="button button-createaccount d-none d-md-inline-block"
-                    onclick="location.href='/php/businessvendordashboard.php'">Dashboard</button>
+                    onclick="location.href='<?php echo htmlspecialchars($jomuDashboardUrl, ENT_QUOTES); ?>'">Dashboard</button>
                 <div class="mobile-nav-spacer d-md-none" aria-hidden="true"></div>
             </div>
             </div>
@@ -555,14 +612,14 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
 
     <div class="container text-center mt-2">
         <div class="profile-pic-container position-relative d-inline-block">
-            <img id="profile-pic-preview" src="<?php echo $profileImage; ?>" class="img-fluid profile-img" alt="Profile Picture">
+            <img id="profile-pic-preview" src="<?php echo htmlspecialchars($profileImage); ?>" class="img-fluid profile-img" alt="Profile Picture">
             <input type="file" id="profile-pic" name="profile-pic" accept="image/*" style="display:none;">
             <button class=" rounded-circle position-absolute bottom-0 end-0 translate-middle p-0 text-center add-icon-btn" id="add-icon"
             ><span class="add-icon-glyph">+</span></button>
         </div>
     </div>
 
-        <div class="container text-center mt-2 mb-4">
+        <div class="container text-center mt-2 profile-business-summary">
             <div class="business-name-wrapper">
                 <h2>
                     <textarea
@@ -590,7 +647,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
                 </small>
             </div>
 
-            <div class="mt-2">
+            <div class="business-bio-wrapper">
                 <h6
                     id="business-bio-input"
                     contenteditable="false"
@@ -668,7 +725,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
                             $shareSellerBusinessName = $businessName;
                             $shareSellerProfilePic = $profileImage;
                             $ownerHiddenShowroomCard = strtolower((string) ($listing['moderation_status'] ?? 'visible')) === 'hidden';
-                            include '../components/list_item.php';
+                            include __DIR__ . '/../components/list_item.php';
                         ?>
                     </div>
                 <?php } ?>
@@ -808,12 +865,12 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
     </div>
     <footer class=" footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="/termsandconditions.html">Terms of Use</a>
-            <a href="/privacypolicy.html">Privacy Policy</a>
-            <a href="/help.html">Help</a>
-            <a href="/support.html">Support</a>
-            <a href="/feedback.html">Give Feedback</a>
-            <a href="/about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -821,6 +878,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
 
     <script>
         const jomuUserCsrfToken = <?php echo json_encode(jomu_csrf_token(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+        const JOMU_PHP_ROOT = '/php/';
         // Profile pic change functionality. 
         const profilePicInput = document.getElementById('profile-pic');
         const profilePicPreview = document.getElementById('profile-pic-preview');
@@ -839,7 +897,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
             formData.append('profile-pic',file);
             formData.append('csrf_token', jomuUserCsrfToken);
 
-            fetch('upload_profile.php', {
+            fetch(JOMU_PHP_ROOT + 'upload_profile.php', {
                 method: 'POST',
                 body: formData,
             })
@@ -885,7 +943,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
             countedProfilePreviewViews.add(listingId);
 
             try {
-                const response = await fetch('increment_listing_view.php?listing_id=' + encodeURIComponent(String(listingId)));
+                const response = await fetch(JOMU_PHP_ROOT + 'increment_listing_view.php?listing_id=' + encodeURIComponent(String(listingId)));
                 if (!response.ok) return;
                 const data = await response.json();
                 if (data?.success && typeof data.label === 'string') {
@@ -904,7 +962,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
             countedProfileVideoViews.add(listingId);
 
             try {
-                const response = await fetch('increment_listing_view.php?listing_id=' + encodeURIComponent(String(listingId)));
+                const response = await fetch(JOMU_PHP_ROOT + 'increment_listing_view.php?listing_id=' + encodeURIComponent(String(listingId)));
                 if (!response.ok) return;
                 const data = await response.json();
                 if (data?.success && typeof data.label === 'string') {
@@ -1192,7 +1250,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
 
                 try {
                     pinLink.style.pointerEvents = 'none';
-                    const response = await fetch('profile.php', {
+                    const response = await fetch(JOMU_PHP_ROOT + 'profile.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1253,7 +1311,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
                 const body = new URLSearchParams();
                 body.set('listing_id', String(profilePendingDeleteListingId));
                 body.set('csrf_token', jomuUserCsrfToken);
-                const response = await fetch('delete_listing.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'delete_listing.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
                     body: body.toString()
@@ -1589,7 +1647,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
 
             try {
                 saveBusinessProfileBtn.disabled = true;
-                const response = await fetch('update_business_profile.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'update_business_profile.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1653,7 +1711,7 @@ $visitorProfileSharePath = '/php/visitor_profile.php?user_id=' . (int) ($user['i
     <script src="/assets/listing-preview-modal.js"></script>
     <script src="/assets/listing-preview-gallery.js"></script>
     <script src="/assets/bootstrap.bundle.min.js"></script>
-    <script src="../assets/cookie-consent.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

@@ -41,6 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <link rel="stylesheet"  href="/assets/bootstrap.min.css">
     <link rel="stylesheet" href="admin.css">
+        <link rel="icon" type="image/png" sizes="16x16" href="/./assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/./assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/./assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/./assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/./assets/images/jomu_favicon_orange-512.png">
 </head>
 <body class="admin-auth-page">
     <main class="admin-auth-card">

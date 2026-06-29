@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu | Bulk Orders</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="descrption" content="View bulk order requests from businesses across Uganda. Businesses can
+    browse unmet demands and offer products or services directly on JoMu.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
     <style>
         /* Sticky footer fix */
         body {
@@ -56,6 +63,7 @@
             justify-content: center;
             min-width: 28px;
             margin-left: auto;
+            margin-top: -4px;
             line-height: 1;
         }
 
@@ -64,14 +72,23 @@
             background: transparent;
             padding: 0;
             margin: 0;
-            font-size: 1.15rem;
-            color: #000000;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             line-height: 1;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .bulk-order-like-heart.bulk-order-like-active {
-            color: #dc3545;
+        .bulk-order-like-icon {
+            width: 22px;
+            height: 22px;
+            display: block;
+            object-fit: contain;
+            pointer-events: none;
         }
 
         .bulk-order-like-count {
@@ -100,6 +117,24 @@
             cursor: context-menu;
             -webkit-touch-callout: none;
             user-select: none;
+        }
+
+        .bulk-order-comment-text {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .bulk-order-comment-toggle {
+            border: 0;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+            font-size: 0.9em;
+            font-weight: 400;
+            color: rgb(241, 90, 36);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .bulk-order-comment-action-menu {
@@ -152,6 +187,59 @@
         }
 
         @media (max-width: 767.98px) {
+            #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            #navbarone>.container {
+                min-height: 45px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+
+            #navbarone .navbar-brand,
+            #navbarone .brand-logos {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+            }
+
+            #navbarone .logo {
+                width: clamp(88px, 26vw, 112px);
+                display: block;
+            }
+
+            #newarrivals-mobile-toggler {
+                position: absolute;
+                top: 50%;
+                right: 26px;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                margin: 0;
+                padding: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #newarrivals-mobile-toggler .signin-icon {
+                width: 21px;
+                height: 21px;
+                margin-bottom: 0;
+            }
+
+            #newarrivals-mobile-auth-menu {
+                top: 48px;
+            }
+
             main>.container-fluid {
                 padding-left: 0;
                 padding-right: 0;
@@ -176,6 +264,11 @@
                 padding: 16px 10px;
             }
 
+            .bulk-content-container>h4.d-block.d-md-none.d-lg-none {
+                padding-left: 16px;
+                padding-right: 10px;
+            }
+
             .comment-area-div .comment-area-bulk {
                 width: calc(100% - 20px);
                 margin-left: 10px;
@@ -186,12 +279,16 @@
             .comment-section-bulk-orders {
                 width: 100%;
                 align-items: flex-start;
+                box-sizing: border-box;
+                padding-left: 8px;
+                padding-right: 6px;
             }
 
             .comment-pic-bulk-orders {
                 width: 52px;
                 height: 52px;
                 flex-shrink: 0;
+                margin-left: 2px;
             }
 
             .profile-name-comment {
@@ -200,27 +297,32 @@
             }
         }
 
-        .recent-mobile-auth-menu {
-            position: fixed;
-            left: auto !important;
-            right: 35px !important;
-            top: 58px;
-            z-index: 1200;
-            background: rgb(0, 0, 255);
-        }
+        @media (max-width: 991.98px) {
+            .recent-mobile-auth-menu {
+                position: fixed;
+                left: auto !important;
+                right: var(--mobile-auth-menu-right, 24px) !important;
+                top: var(--mobile-auth-menu-top, 38px) !important;
+                margin-top: 0 !important;
+                transform: none !important;
+                z-index: 1200;
+                background: rgb(0, 0, 255);
+                --mobile-auth-tail-size: 14px;
+            }
 
-        .recent-mobile-auth-menu::before {
-            content: "";
-            position: absolute;
-            top: -7px;
-            right: 12px;
-            width: 14px;
-            height: 14px;
-            background: rgb(0, 0, 255);
-            transform: rotate(45deg);
-            border-radius: 2px;
-            box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
-            left: auto;
+            .recent-mobile-auth-menu::before {
+                content: "";
+                position: absolute;
+                top: -7px;
+                right: var(--mobile-auth-tail-right, 11px);
+                width: var(--mobile-auth-tail-size, 14px);
+                height: var(--mobile-auth-tail-size, 14px);
+                background: rgb(0, 0, 255);
+                transform: rotate(45deg);
+                border-radius: 2px;
+                box-shadow: -2px -2px 8px rgba(17, 24, 39, 0.04);
+                left: auto;
+            }
         }
 
         .bulk-admin-confirm-overlay {
@@ -269,19 +371,19 @@
 
 <body style="background-color: #f0ecec;">
     <div class="container-fluid" style="z-index: 10; padding: 0px; margin: 0px;">
-        <a href="index.php">
+        <a href="/">
             <video class="d-none d-md-block d-lg-block" style="height: inherit; width: 100%;" autoplay loop muted
-                src="assets/videos/Over Navbar JoMu 70px.mp4"></video>
+                src="/assets/videos/Over Navbar JoMu 70px.mp4"></video>
             <video class="d-block d-md-none d-lg-none" style="height: inherit; width: 100%;" autoplay loop muted
-                src="assets/videos/Over Navbar JoMu 1080px.mp4"></video>
+                src="/assets/videos/Over Navbar JoMu 1080px.mp4"></video>
         </a>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light  sticky-top navbarone navbar-help bg-dark" id="navbarone"
         style="z-index: 100; margin-top: -6px;">
         <div class="container">
-            <a class="navbar-brand brand-logos" href="index.php">
-                <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-                <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+            <a class="navbar-brand brand-logos" href="/">
+                <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+                <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
             </a>
         </div>
@@ -289,7 +391,7 @@
         <!-- <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
             <span>
-                <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                <img src="/assets/images/icons/Toggler Icon personal.png" class="options-icons">
             </span>
         </button> -->
 
@@ -297,26 +399,26 @@
         <button id="newarrivals-mobile-toggler" class="navbar-toggler d-lg-none signin-icon-bg" type="button"
             aria-expanded="false" aria-label="Open sign in menu">
             <span>
-                <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+                <img src="/assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
             </span>
         </button>
         <div id="newarrivals-mobile-auth-menu"
             class="dropdown-menu mobile-auth-menu recent-mobile-auth-menu newarrivals-mobile-auth-menu"
             aria-labelledby="newarrivals-mobile-toggler">
-            <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="signin.html"
-                data-mobile-auth-link="signin.html" style="color: white">Sign In</a>
+            <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="/sign-in"
+                data-mobile-auth-link="/sign-in" style="color: white">Sign In</a>
             <button id="newarrivals-createaccount-mobile" class="dropdown-item mobile-auth-item mobile-auth-create"
-                type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+                type="button" data-mobile-auth-link="/create-account">Create account</button>
         </div>
 
         <!-- Navbar links for large screens -->
         <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active signin">
-                    <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    <a class="nav-link link-text" href="/sign-in">Sign In</a>
                 </li>
             </ul>
-            <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+            <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                 account</button>
         </div>
     </nav>
@@ -326,7 +428,7 @@
         </div>
         <div class="container-fluid">
             <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
-                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    href="/" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
                     style="color: rgb(0,0,255);">&#187;</span>
                 Business
                 <span style="color: rgb(0,0,255);">&#187;</span>
@@ -495,7 +597,8 @@
             <h3 id="bulkAdminConfirmTitle">JoMu Admin</h3>
             <p id="bulkAdminConfirmMessage"></p>
             <div class="bulk-admin-confirm-actions">
-                <button type="button" class="btn btn-outline-secondary btn-sm" id="bulkAdminConfirmCancel">Cancel</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm"
+                    id="bulkAdminConfirmCancel">Cancel</button>
                 <button type="button" class="btn btn-danger btn-sm" id="bulkAdminConfirmProceed">Proceed</button>
             </div>
         </div>
@@ -503,11 +606,11 @@
 
     <footer class=" footer-help py-2 text-center">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -519,7 +622,9 @@
     <script>
         (function () {
             const defaultBusinessName = 'Guest Business';
-            const defaultProfileImage = 'assets/images/profile.png';
+            const defaultProfileImage = '/assets/images/profile.png';
+            const bulkOrderLikeIconBlank = '/assets/images/icons/like-icon-blank.png';
+            const bulkOrderLikeIconFull = '/assets/images/icons/like-icon-full.png';
             let authStatusPromise = null;
             let currentViewerUserId = 0;
             let currentViewerBusinessName = '';
@@ -602,6 +707,121 @@
                 return message !== '' ? message : 'Not signed in!';
             }
 
+            function getBulkOrderCommentElementText(commentTextEl) {
+                if (!(commentTextEl instanceof HTMLElement)) return '';
+                return String(
+                    commentTextEl.dataset.fullCommentText ||
+                    commentTextEl.querySelector('.bulk-order-comment-copy')?.textContent ||
+                    commentTextEl.textContent ||
+                    ''
+                ).trim();
+            }
+
+            function getBulkOrderCommentLineLimit() {
+                return window.matchMedia('(max-width: 767.98px)').matches ? 3 : 2;
+            }
+
+            function getBulkOrderCommentMaxHeight(commentTextEl, lineLimit) {
+                const style = window.getComputedStyle(commentTextEl);
+                const parsedLineHeight = Number.parseFloat(style.lineHeight);
+                const parsedFontSize = Number.parseFloat(style.fontSize);
+                const lineHeight = Number.isFinite(parsedLineHeight)
+                    ? parsedLineHeight
+                    : (Number.isFinite(parsedFontSize) ? parsedFontSize * 1.35 : 19);
+                return Math.ceil(lineHeight * lineLimit) + 1;
+            }
+
+            function createBulkOrderCommentToggle(commentTextEl, expanded) {
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'bulk-order-comment-toggle';
+                toggle.textContent = expanded ? '...see less' : '...see more';
+                toggle.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    commentTextEl.dataset.commentExpanded = expanded ? '0' : '1';
+                    renderBulkOrderCommentText(commentTextEl);
+                });
+                toggle.addEventListener('touchstart', (event) => {
+                    event.stopPropagation();
+                }, { passive: true });
+                toggle.addEventListener('contextmenu', (event) => {
+                    event.stopPropagation();
+                });
+                return toggle;
+            }
+
+            function setBulkOrderCommentDisplay(commentTextEl, visibleText, expanded, showToggle) {
+                commentTextEl.textContent = '';
+                const textSpan = document.createElement('span');
+                textSpan.className = 'bulk-order-comment-copy';
+                textSpan.textContent = visibleText;
+                commentTextEl.appendChild(textSpan);
+
+                if (showToggle) {
+                    commentTextEl.appendChild(document.createTextNode(' '));
+                    commentTextEl.appendChild(createBulkOrderCommentToggle(commentTextEl, expanded));
+                }
+            }
+
+            function renderBulkOrderCommentText(commentTextEl) {
+                if (!(commentTextEl instanceof HTMLElement)) return;
+
+                const fullText = getBulkOrderCommentElementText(commentTextEl);
+                commentTextEl.dataset.fullCommentText = fullText;
+
+                if (commentTextEl.getBoundingClientRect().width <= 0) {
+                    setBulkOrderCommentDisplay(commentTextEl, fullText, false, false);
+                    return;
+                }
+
+                if (commentTextEl.dataset.commentExpanded === '1') {
+                    setBulkOrderCommentDisplay(commentTextEl, fullText, true, true);
+                    return;
+                }
+
+                const lineLimit = getBulkOrderCommentLineLimit();
+                const maxHeight = getBulkOrderCommentMaxHeight(commentTextEl, lineLimit);
+                setBulkOrderCommentDisplay(commentTextEl, fullText, false, false);
+
+                if (commentTextEl.scrollHeight <= maxHeight) {
+                    return;
+                }
+
+                let low = 0;
+                let high = fullText.length;
+                let best = 0;
+
+                while (low <= high) {
+                    const mid = Math.floor((low + high) / 2);
+                    setBulkOrderCommentDisplay(commentTextEl, fullText.slice(0, mid).trimEnd(), false, true);
+                    if (commentTextEl.scrollHeight <= maxHeight) {
+                        best = mid;
+                        low = mid + 1;
+                    } else {
+                        high = mid - 1;
+                    }
+                }
+
+                setBulkOrderCommentDisplay(commentTextEl, fullText.slice(0, best).trimEnd(), false, true);
+            }
+
+            function refreshBulkOrderCommentTruncation(scope) {
+                const root = scope instanceof Element ? scope : document;
+                const textEls = root.matches?.('.bulk-order-comment-actionable')
+                    ? [root]
+                    : Array.from(root.querySelectorAll('.bulk-order-comment-actionable'));
+                textEls.forEach(renderBulkOrderCommentText);
+            }
+
+            function bindBulkOrderCommentTruncation() {
+                let resizeTimer = null;
+                window.addEventListener('resize', () => {
+                    window.clearTimeout(resizeTimer);
+                    resizeTimer = window.setTimeout(() => refreshBulkOrderCommentTruncation(), 120);
+                }, { passive: true });
+            }
+
             async function ensureSignedInForPosting() {
                 const auth = await getAuthStatus();
                 if (auth?.signed_in === true) {
@@ -628,14 +848,14 @@
                 }
 
                 const namePart = normalizeBulkOrderRefPart(fallbackName || commentCard.querySelector('h5')?.textContent || 'business');
-                const textPart = normalizeBulkOrderRefPart(fallbackText || commentCard.querySelector('.profile-name-comment > p')?.textContent || 'request');
+                const textPart = normalizeBulkOrderRefPart(fallbackText || getBulkOrderCommentElementText(commentCard.querySelector('.profile-name-comment > p')) || 'request');
                 const generatedRef = explicitRef || `${namePart || 'business'}-${textPart || 'request'}`;
                 commentCard.dataset.commentRef = generatedRef;
                 return generatedRef;
             }
 
             function buildBulkOrderCommentUrl(commentRef) {
-                const targetUrl = new URL('/businessbulkorders.html', window.location.origin);
+                const targetUrl = new URL('/bulk-orders', window.location.origin);
                 if (String(commentRef || '').trim() !== '') {
                     targetUrl.searchParams.set('comment_ref', commentRef);
                     targetUrl.searchParams.set('owner_view', '1');
@@ -706,7 +926,7 @@
 
             function getBulkOrderCommentText(commentCard) {
                 if (!(commentCard instanceof HTMLElement)) return '';
-                return String(commentCard.querySelector('.profile-name-comment > p')?.textContent || '').trim();
+                return getBulkOrderCommentElementText(commentCard.querySelector('.profile-name-comment > p'));
             }
 
             async function copyBulkOrderCommentText(commentCard) {
@@ -722,7 +942,9 @@
                     fallbackTextarea.style.position = 'fixed';
                     fallbackTextarea.style.opacity = '0';
                     document.body.appendChild(fallbackTextarea);
+                    fallbackTextarea.focus();
                     fallbackTextarea.select();
+                    fallbackTextarea.setSelectionRange(0, fallbackTextarea.value.length);
                     document.execCommand('copy');
                     document.body.removeChild(fallbackTextarea);
                 }
@@ -875,7 +1097,7 @@
                 if (!commentCard) return;
 
                 const businessName = String(commentCard.querySelector('h5')?.textContent || '').trim();
-                const commentText = String(commentCard.querySelector('.profile-name-comment > p')?.textContent || '').trim();
+                const commentText = getBulkOrderCommentElementText(commentCard.querySelector('.profile-name-comment > p'));
                 const commentRef = ensureBulkOrderCommentRef(commentCard, businessName, commentText, buttonEl?.dataset?.commentRef || '');
                 const commentUrl = buildBulkOrderCommentUrl(commentRef);
                 const partnerId = await resolveBulkOrderPartnerId(buttonEl, businessName);
@@ -884,7 +1106,7 @@
                     return;
                 }
 
-                const targetUrl = new URL('/php/businessvendordashboard.php', window.location.origin);
+                const targetUrl = new URL('/business-vendor-dashboard', window.location.origin);
                 targetUrl.searchParams.set('section', 'inbox');
                 targetUrl.searchParams.set('partner_id', String(partnerId));
                 targetUrl.searchParams.set('prefill', encodeURIComponent(buildBulkOrderPrefill(commentText, commentUrl)));
@@ -912,12 +1134,23 @@
                 if (!(likeHeart instanceof HTMLElement) || !(likeCountEl instanceof HTMLElement)) return;
 
                 const safeCount = Math.max(Number.parseInt(likeCount || 0, 10) || 0, 0);
-                likeHeart.classList.toggle('bulk-order-like-active', viewerLiked === true);
-                likeHeart.setAttribute('aria-pressed', viewerLiked === true ? 'true' : 'false');
-                likeHeart.innerHTML = viewerLiked === true ? '&#10084;' : '&#9825;';
+                const viewerHasLiked = viewerLiked === true;
+                let likeIcon = likeHeart.querySelector('.bulk-order-like-icon');
+                if (!(likeIcon instanceof HTMLImageElement)) {
+                    likeHeart.textContent = '';
+                    likeIcon = document.createElement('img');
+                    likeIcon.className = 'bulk-order-like-icon';
+                    likeIcon.alt = '';
+                    likeIcon.setAttribute('aria-hidden', 'true');
+                    likeHeart.appendChild(likeIcon);
+                }
+                likeHeart.classList.toggle('bulk-order-like-active', viewerHasLiked);
+                likeHeart.setAttribute('aria-pressed', viewerHasLiked ? 'true' : 'false');
+                likeHeart.setAttribute('aria-label', viewerHasLiked ? 'Unlike this bulk order' : 'Like this bulk order');
+                likeIcon.src = viewerHasLiked ? bulkOrderLikeIconFull : bulkOrderLikeIconBlank;
                 likeCountEl.textContent = String(safeCount);
                 card.dataset.likeCount = String(safeCount);
-                card.dataset.viewerLiked = viewerLiked === true ? '1' : '0';
+                card.dataset.viewerLiked = viewerHasLiked ? '1' : '0';
             }
 
             async function handleBulkOrderLikeClick(buttonEl) {
@@ -1064,8 +1297,8 @@
                 const timeLabel = formatPostedTime(post?.created_at || '');
                 const profileUrl = userId > 0
                     ? (isOwnPost
-                        ? '/php/profile.php'
-                        : `/php/visitor_profile.php?user_id=${encodeURIComponent(String(userId))}`)
+                        ? '/profile'
+                        : `/visitor-profile?user_id=${encodeURIComponent(String(userId))}`)
                     : '';
 
                 const card = document.createElement('div');
@@ -1119,7 +1352,8 @@
                 }
 
                 const requestText = document.createElement('p');
-                requestText.className = 'mt-0 mb-0 bulk-order-comment-actionable';
+                requestText.className = 'mt-0 mb-0 bulk-order-comment-actionable bulk-order-comment-text';
+                requestText.dataset.fullCommentText = commentText;
                 requestText.textContent = commentText;
 
                 const metaRow = document.createElement('div');
@@ -1140,9 +1374,15 @@
                 const likeHeart = document.createElement('button');
                 likeHeart.type = 'button';
                 likeHeart.className = 'bulk-order-like-heart';
-                likeHeart.innerHTML = '&#9825;';
                 likeHeart.setAttribute('aria-label', 'Like this bulk order');
                 likeHeart.addEventListener('click', () => handleBulkOrderLikeClick(likeHeart));
+
+                const likeIcon = document.createElement('img');
+                likeIcon.className = 'bulk-order-like-icon';
+                likeIcon.src = bulkOrderLikeIconBlank;
+                likeIcon.alt = '';
+                likeIcon.setAttribute('aria-hidden', 'true');
+                likeHeart.appendChild(likeIcon);
 
                 const likeCountEl = document.createElement('span');
                 likeCountEl.className = 'bulk-order-like-count';
@@ -1222,8 +1462,12 @@
                     const businessNameRaw = String(card.querySelector('h5')?.textContent || '').trim();
                     const businessName = businessNameRaw.toLowerCase();
                     const commentTextEl = card.querySelector('.profile-name-comment > p');
-                    commentTextEl?.classList.add('bulk-order-comment-actionable');
-                    const commentText = String(commentTextEl?.textContent || '').trim();
+                    commentTextEl?.classList.add('bulk-order-comment-actionable', 'bulk-order-comment-text');
+                    const commentText = getBulkOrderCommentElementText(commentTextEl);
+                    if (commentTextEl) {
+                        commentTextEl.dataset.fullCommentText = commentText;
+                        renderBulkOrderCommentText(commentTextEl);
+                    }
                     const commentRef = ensureBulkOrderCommentRef(card, businessNameRaw, commentText, '');
                     const action = card.querySelector('.comment-btn');
 
@@ -1300,6 +1544,7 @@
                     for (let i = safePosts.length - 1; i >= 0; i -= 1) {
                         const card = buildCommentCard(safePosts[i]);
                         divider.insertAdjacentElement('afterend', card);
+                        refreshBulkOrderCommentTruncation(card);
                     }
                 });
                 focusBulkOrderCommentFromQuery();
@@ -1364,6 +1609,7 @@
                             if (!divider) return;
                             const card = buildCommentCard(newPost);
                             divider.insertAdjacentElement('afterend', card);
+                            refreshBulkOrderCommentTruncation(card);
                         });
 
                         document.querySelectorAll('.comment-area-bulk').forEach((textarea) => {
@@ -1389,6 +1635,11 @@
                 });
 
                 document.addEventListener('touchstart', (event) => {
+                    if (bulkOrderCommentActionMenuEl instanceof HTMLElement && bulkOrderCommentActionMenuEl.contains(event.target)) {
+                        clearBulkOrderCommentLongPressTimer();
+                        return;
+                    }
+
                     const textEl = event.target.closest('.bulk-order-comment-actionable');
                     if (!textEl) {
                         closeBulkOrderCommentActionMenu();
@@ -1443,7 +1694,9 @@
             });
             bindPostActions();
             bindBulkOrderCommentActionMenu();
+            bindBulkOrderCommentTruncation();
             updateStaticDoBusinessButtons();
+            refreshBulkOrderCommentTruncation();
             focusBulkOrderCommentFromQuery();
         })();
     </script>
@@ -1458,13 +1711,13 @@
                 if (!data || data.signed_in !== true) return;
 
                 const authSelectors = [
-                    "a[href='signin.html']",
-                    "a[href='./signin.html']",
-                    "a[href='/signin.html']",
-                    "a[href='createaccount.html']",
-                    "a[href='./createaccount.html']",
-                    "a[href='/createaccount.html']",
-                    "button[onclick*='createaccount.html']"
+                    "a[href='/sign-in']",
+                    "a[href='./sign-in']",
+                    "a[href='/sign-in']",
+                    "a[href='/create-account']",
+                    "a[href='./create-account']",
+                    "a[href='/create-account']",
+                    "button[onclick*='/create-account']"
                 ];
 
                 document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
@@ -1529,9 +1782,17 @@
 
             function positionMobileAuthMenu() {
                 const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const tailSize = 14;
+                const tailTipReach = Math.round((tailSize * Math.SQRT2) / 2);
                 const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
-                mobileAuthMenu.style.right = `${rightOffset}px`;
-                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+                const buttonCenterX = buttonRect.left + (buttonRect.width / 2);
+                const tailRight = Math.max(8, Math.round(window.innerWidth - rightOffset - buttonCenterX - (tailSize / 2)));
+                const menuTop = Math.round(buttonRect.bottom + tailTipReach - 1);
+                mobileAuthMenu.style.setProperty('right', `${rightOffset}px`, 'important');
+                mobileAuthMenu.style.setProperty('top', `${menuTop}px`, 'important');
+                mobileAuthMenu.style.setProperty('--mobile-auth-menu-right', `${rightOffset}px`);
+                mobileAuthMenu.style.setProperty('--mobile-auth-menu-top', `${menuTop}px`);
+                mobileAuthMenu.style.setProperty('--mobile-auth-tail-right', `${tailRight}px`);
             }
 
             function setMobileAuthOpen(isOpen) {
@@ -1539,6 +1800,9 @@
                     positionMobileAuthMenu();
                 }
                 mobileAuthMenu.classList.toggle('show', isOpen);
+                if (isOpen) {
+                    window.requestAnimationFrame(positionMobileAuthMenu);
+                }
                 mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             }
 
@@ -1561,6 +1825,12 @@
                     positionMobileAuthMenu();
                 }
             });
+
+            window.addEventListener('scroll', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            }, { passive: true });
         })();
 
         (function () {
@@ -1613,8 +1883,8 @@
 
         syncNewArrivalsAuthButtons();
     </script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

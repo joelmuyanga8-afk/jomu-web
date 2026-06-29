@@ -7,7 +7,7 @@ require __DIR__ . '/connection/dbconn.php';
 $default = [
     'signed_in' => false,
     'businessname' => 'Business',
-    'profilepic' => 'assets/images/profile.png',
+    'profilepic' => '/assets/images/profile.png',
 ];
 
 $emailOrMobile = trim((string) ($_SESSION['emailormobilenumber'] ?? ''));
@@ -33,5 +33,5 @@ $profilePic = trim((string) ($row['profilepic'] ?? ''));
 echo json_encode([
     'signed_in' => true,
     'businessname' => $businessName !== '' ? $businessName : 'Business',
-    'profilepic' => $profilePic !== '' ? $profilePic : 'assets/images/profile.png',
+    'profilepic' => $profilePic !== '' ? $profilePic : '/assets/images/profile.png',
 ]);

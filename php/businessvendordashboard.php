@@ -8,6 +8,11 @@
     <title>Vendor Dashboard</title>
     <link rel="stylesheet" href="/assets/bootstrap.css">
     <link rel="stylesheet" href="/assets/style.css">
+     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_white-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_white-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_white-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_white-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_white-512.png">
     <style>
         html,
         body.vendor-dashboard-page,
@@ -1489,13 +1494,13 @@
             }
 
             #dashboard-listings .showroom-container {
-                --bs-gutter-x: 1px;
-                --bs-gutter-y: 1px;
+                --bs-gutter-x: 0.25rem;
+                --bs-gutter-y: 0.25rem;
             }
 
             #dashboard-listings .dashboard-showroom-grid {
-                --bs-gutter-x: 1px;
-                --bs-gutter-y: 1px;
+                --bs-gutter-x: 0.25rem;
+                --bs-gutter-y: 0.25rem;
                 margin-top: 0;
             }
 
@@ -1854,7 +1859,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['badge_counts'])) {
         exit;
     }
 
-    header('Location: businessvendordashboard.php');
+    header('Location: ' . jomu_page_url('dashboard'));
     exit;
  }
 
@@ -1886,7 +1891,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['badge_counts'])) {
         exit;
     }
 
-    header('Location: businessvendordashboard.php');
+    header('Location: ' . jomu_page_url('dashboard'));
     exit;
  }
 
@@ -1920,7 +1925,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['badge_counts'])) {
         exit;
     }
 
-    header('Location: businessvendordashboard.php');
+    header('Location: ' . jomu_page_url('dashboard'));
     exit;
  }
 
@@ -2264,7 +2269,9 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
     }
  }
 
- $dashboardLogoHref = !empty($accountSuspended) ? '/index.php?jomu_suspended_browse=1' : '/index.php';
+ $dashboardLogoHref = !empty($accountSuspended) ? '/?jomu_suspended_browse=1' : '/';
+ $jomuProfileUrl = jomu_page_url('profile');
+ $jomuAddListingUrl = jomu_page_url('add-listing');
  if (!empty($accountSuspended)) {
     $_SESSION['jomu_suspended_browse'] = true;
     $_SESSION['jomu_suspended_until'] = trim((string) ($dashboardUser['inactive_until'] ?? ''));
@@ -2302,7 +2309,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                         <?php if (!empty($accountSuspended)) { ?>
                         <button class="button button-createaccount vendor-dashboard-suspended-disabled" style="min-width: 100px;" type="button" disabled>Profile</button>
                         <?php } else { ?>
-                        <button class="button button-createaccount" style="min-width: 100px;" onclick="location.href='profile.php'">Profile</button>
+                        <button class="button button-createaccount" style="min-width: 100px;" onclick="location.href='<?php echo htmlspecialchars($jomuProfileUrl, ENT_QUOTES); ?>'">Profile</button>
                         <?php } ?>
                         <!-- <hr> -->
                         <ul class="navbar-nav ms-auto">
@@ -2319,7 +2326,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 <?php if (!empty($accountSuspended)) { ?>
                 <button class="button button-createaccount vendor-dashboard-suspended-disabled" type="button" disabled>Profile</button>
                 <?php } else { ?>
-                <button class="button button-createaccount" onclick="location.href='profile.php'">Profile</button>
+                <button class="button button-createaccount" onclick="location.href='<?php echo htmlspecialchars($jomuProfileUrl, ENT_QUOTES); ?>'">Profile</button>
                 <?php } ?>
 
                 <ul class="navbar-nav">
@@ -2339,7 +2346,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                     <?php if (!empty($accountSuspended)) { ?>
                     <button class="button button-createaccount vendor-dashboard-suspended-disabled" type="button" disabled>Profile</button>
                     <?php } else { ?>
-                    <button class="button button-createaccount" onclick="location.href='profile.php'">Profile</button>
+                    <button class="button button-createaccount" onclick="location.href='<?php echo htmlspecialchars($jomuProfileUrl, ENT_QUOTES); ?>'">Profile</button>
                     <?php } ?>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
@@ -2403,7 +2410,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
         <div class="container my-2 cards-container dashboard-listings-shell">
             <div class="row g-1 justify-content-center mb-2">
                 <div class="col-auto add-listing-card-wrap">
-                    <div class="card add-listing-card" onclick="location.href='addnewlisting.php'" role="button" tabindex="0" style="cursor: pointer;">
+                    <div class="card add-listing-card" onclick="location.href='<?php echo htmlspecialchars($jomuAddListingUrl, ENT_QUOTES); ?>'" role="button" tabindex="0" style="cursor: pointer;">
                         <img src="/assets/images/icons/Add listing icon.png" class="card-img-top img-fluid add-listing-card-icon" alt="Add listing" draggable="false">
                         <div class="card text-center add-listing-card-caption">
                             <p class="add-listing-card-label mb-0">Add new listing</p>
@@ -2469,7 +2476,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                                         <a
                                             class="dropdown-item manage-listing-share"
                                             href="#"
-                                            data-share-url="/purchasewholesale.html?<?php echo htmlspecialchars($shareParams); ?>"
+                                            data-share-url="<?php echo htmlspecialchars(jomu_page_url('purchase-wholesale') . '?' . $shareParams); ?>"
                                         >Share</a>
                                     </li>
                                     <?php endif; ?>
@@ -2483,21 +2490,19 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                                 </ul>
                             </div>
 
-                            <div class="showroom-media-frame">
-                                <?php if ($type === 'video'): ?>
-                                    <div class="video-wrapper">
-                                        <video class="video-content media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>" data-preview-title="<?php echo htmlspecialchars($previewTitle); ?>" data-preview-description="<?php echo htmlspecialchars($previewDescription); ?>" data-preview-price="<?php echo htmlspecialchars($previewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
-                                            <source src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>">
-                                        </video>
-                                    </div>
-                                <?php else: ?>
-                                    <img src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>" class="card-img-showroom img-fluid media-preview-source" alt="<?php echo htmlspecialchars((string) ($listing['stockname'] ?? 'Listing')); ?>" data-preview-type="image" data-preview-src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>" data-preview-title="<?php echo htmlspecialchars($previewTitle); ?>" data-preview-description="<?php echo htmlspecialchars($previewDescription); ?>" data-preview-price="<?php echo htmlspecialchars($previewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
-                                <?php endif; ?>
-
-                                <div class="card-views">
-                                    <img src="/assets/images/icons/View icon white.png" class="img-fluid view-icon">
-                                    <p data-listing-view-label="<?php echo (int) ($listing['listing_id'] ?? 0); ?>"><?php echo htmlspecialchars($viewsLabel); ?></p>
+                            <?php if ($type === 'video'): ?>
+                                <div class="video-wrapper">
+                                    <video class="video-content media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>" data-preview-title="<?php echo htmlspecialchars($previewTitle); ?>" data-preview-description="<?php echo htmlspecialchars($previewDescription); ?>" data-preview-price="<?php echo htmlspecialchars($previewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
+                                        <source src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>">
+                                    </video>
                                 </div>
+                            <?php else: ?>
+                                <img src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>" class="card-img-showroom img-fluid media-preview-source" alt="<?php echo htmlspecialchars((string) ($listing['stockname'] ?? 'Listing')); ?>" data-preview-type="image" data-preview-src="<?php echo htmlspecialchars(getMediaPath($media, '')); ?>" data-preview-title="<?php echo htmlspecialchars($previewTitle); ?>" data-preview-description="<?php echo htmlspecialchars($previewDescription); ?>" data-preview-price="<?php echo htmlspecialchars($previewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
+                            <?php endif; ?>
+
+                            <div class="card-views">
+                                <img src="/assets/images/icons/View icon white.png" class="img-fluid view-icon">
+                                <p data-listing-view-label="<?php echo (int) ($listing['listing_id'] ?? 0); ?>"><?php echo htmlspecialchars($viewsLabel); ?></p>
                             </div>
                         </div>
                     </div>
@@ -2626,7 +2631,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                                         $buyerName = 'Business';
                                     }
                                     $buyerUserId = (int) ($request['buyer_user_id'] ?? 0);
-                                    $buyerProfileUrl = '/php/visitor_profile.php?user_id=' . $buyerUserId;
+                                    $buyerProfileUrl = jomu_page_url('visitor-profile') . '?user_id=' . $buyerUserId;
                                     $buyerProfilePic = trim((string) ($request['buyer_profilepic'] ?? ''));
                                     $buyerPicPath = $buyerProfilePic !== '' ? getMediaPath($buyerProfilePic, '') : '/assets/images/profile.png';
                                     $timeAgo = formatRequestTimeAgo(
@@ -2672,7 +2677,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                                             <div class="mt-2 purchase-request-actions">
                                                 <?php
                                                     $listingSharePath = $listingDeleted
-                                                        ? '/purchasewholesale.html?' . http_build_query([
+                                                        ? '/purchase-wholesale?' . http_build_query([
                                                             'listing_not_found' => '1',
                                                             'seller_businessname' => (string) ($dashboardUser['businessname'] ?? ''),
                                                             'seller_profilepic' => (string) ($dashboardUser['profilepic'] ?? ''),
@@ -2681,7 +2686,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                                                             'listing_type' => $listingType,
                                                             'request_view' => '1'
                                                         ])
-                                                        : '/purchasewholesale.html?' . http_build_query([
+                                                        : '/purchase-wholesale?' . http_build_query([
                                                             'image' => formatInboxMediaPath($listingMedia),
                                                             'title' => $listingStockName,
                                                             'price' => $listingPriceLabel,
@@ -2871,12 +2876,12 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
     <div id="dashboardLightPopup" role="status" aria-live="polite"></div>
     <footer class=" footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="/termsandconditions.html">Terms of Use</a>
-            <a href="/privacypolicy.html">Privacy Policy</a>
-            <a href="/help.html">Help</a>
-            <a href="/support.html">Support</a>
-            <a href="/feedback.html">Give Feedback</a>
-            <a href="/about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -2953,6 +2958,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
         const inboxConversations = <?php echo json_encode($inboxConversations, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
         const dashboardInitialSection = <?php echo json_encode($initialDashboardSection, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
         const jomuUserCsrfToken = <?php echo json_encode(jomu_csrf_token(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+        const JOMU_PHP_ROOT = '/php/';
         const requestedInboxPartnerId = <?php echo (int) $requestedInboxPartnerId; ?>;
         const inboxPrefillParam = new URLSearchParams(window.location.search).get('prefill') || '';
         const dashboardMobileAuthButton = document.getElementById('dashboardMobileAuthMenuButton');
@@ -3238,7 +3244,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
             const activeBusinessName = activeConversation.partner_name || 'Business';
             const activeBusinessPic = activeConversation.partner_profilepic || '/assets/images/profile.png';
             const isSystemConversation = !!activeConversation.is_system_conversation;
-            const activeBusinessLink = isSystemConversation ? '#' : `/php/visitor_profile.php?user_id=${Number.parseInt(activeConversation.partner_id || 0, 10)}`;
+            const activeBusinessLink = isSystemConversation ? '#' : `${<?php echo json_encode(jomu_page_url('visitor-profile')); ?>}?user_id=${Number.parseInt(activeConversation.partner_id || 0, 10)}`;
             const toggleInboxProfilePicFit = (imgEl) => {
                 if (!imgEl) {
                     return;
@@ -3576,7 +3582,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 body.set('message_id', String(safeMessageId));
                 body.set('csrf_token', jomuUserCsrfToken);
 
-                const response = await fetch('delete_business_message_for_me.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'delete_business_message_for_me.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -3604,7 +3610,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 body.set('partner_id', String(safePartnerId));
                 body.set('csrf_token', jomuUserCsrfToken);
 
-                const response = await fetch('delete_business_conversation_for_me.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'delete_business_conversation_for_me.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -3716,7 +3722,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
             buttonEl.disabled = true;
 
             try {
-                const response = await fetch('send_business_message.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'send_business_message.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -3975,7 +3981,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
             if (safeCommentRef === '') return true;
 
             try {
-                const targetUrl = new URL('check_bulk_order_comment.php', window.location.href);
+                const targetUrl = new URL(JOMU_PHP_ROOT + 'check_bulk_order_comment.php', window.location.origin);
                 targetUrl.searchParams.set('comment_ref', safeCommentRef);
 
                 const response = await fetch(targetUrl.toString(), {
@@ -4033,7 +4039,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 body.set('partner_id', String(safePartnerId));
                 body.set('csrf_token', jomuUserCsrfToken);
 
-                const response = await fetch('mark_business_conversation_checked.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'mark_business_conversation_checked.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -4062,7 +4068,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
 
         async function fetchDashboardBadgeCounts() {
             try {
-                const response = await fetch('businessvendordashboard.php?badge_counts=1', {
+                const response = await fetch(JOMU_PHP_ROOT + 'businessvendordashboard.php?badge_counts=1', {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
@@ -4087,7 +4093,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
         function buildProceedPrefillPayload() {
             if (!selectedProceedPayload) return null;
 
-            const listingUrlObj = new URL(selectedProceedPayload.listingUrl || '/purchasewholesale.html', window.location.origin);
+            const listingUrlObj = new URL(selectedProceedPayload.listingUrl || <?php echo json_encode(jomu_page_url('purchase-wholesale')); ?>, window.location.origin);
             // Always force read-only submitted-details view when opening from chat links.
             listingUrlObj.searchParams.set('request_view', '1');
             const listingAbsoluteUrl = listingUrlObj.toString();
@@ -4111,7 +4117,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 const body = new URLSearchParams();
                 body.set('mark_purchase_request_proceeded_id', String(requestId));
                 body.set('csrf_token', jomuUserCsrfToken);
-                const response = await fetch('businessvendordashboard.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'businessvendordashboard.php', {
                     method: 'POST',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',
@@ -4368,7 +4374,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
             countedDashboardPreviewViews.add(listingId);
 
             try {
-                const response = await fetch(`increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                const response = await fetch(JOMU_PHP_ROOT + `increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
                 if (!response.ok) return;
                 const data = await response.json();
                 if (data?.success && typeof data.label === 'string') {
@@ -4387,7 +4393,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
             countedDashboardVideoViews.add(listingId);
 
             try {
-                const response = await fetch(`increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                const response = await fetch(JOMU_PHP_ROOT + `increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
                 if (!response.ok) return;
                 const data = await response.json();
                 if (data?.success && typeof data.label === 'string') {
@@ -4761,7 +4767,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 const body = new URLSearchParams();
                 body.set('mark_out_of_stock_listing_id', String(listingId));
 
-                const response = await fetch('toggle_out_of_stock.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'toggle_out_of_stock.php', {
                     method: 'POST',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',
@@ -4816,7 +4822,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                     const body = new URLSearchParams();
                     body.set('listing_id', String(pendingDeleteListingId));
                     body.set('csrf_token', jomuUserCsrfToken);
-                    const response = await fetch('delete_listing.php', {
+                    const response = await fetch(JOMU_PHP_ROOT + 'delete_listing.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
                         body: body.toString()
@@ -4858,7 +4864,7 @@ while ($purchaseRow = $purchaseRes->fetch_assoc()) {
                 const body = new URLSearchParams();
                 body.set('decline_purchase_request_id', String(pendingDeclineRequestId));
                 body.set('csrf_token', jomuUserCsrfToken);
-                const response = await fetch('businessvendordashboard.php', {
+                const response = await fetch(JOMU_PHP_ROOT + 'businessvendordashboard.php', {
                     method: 'POST',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',

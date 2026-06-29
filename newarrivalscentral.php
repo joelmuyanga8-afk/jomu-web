@@ -75,22 +75,31 @@ $desktop_video_listings = $video_listings;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Arrivals | Central Uganda</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="descrption" content="Discover latest products, suppliers, businesses, and services
+    in Central Uganda on JoMu. Explore new opportunities and connections.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_white-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_white-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_white-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_white-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_white-512.png">
     <style>
         .newarrivals-mobile-auth-menu {
             position: fixed;
             left: auto !important;
-            right: 35px !important;
-            top: 58px;
+            right: var(--mobile-auth-menu-right, 35px) !important;
+            top: var(--mobile-auth-menu-top, 48px) !important;
             z-index: 1200;
+            margin-top: 0 !important;
+            transform: none !important;
         }
 
         .newarrivals-mobile-auth-menu::before {
             content: "";
             position: absolute;
             top: -7px;
-            right: 10px;
+            right: var(--mobile-auth-tail-right, 10px);
             width: 14px;
             height: 14px;
             background: #fff;
@@ -431,24 +440,6 @@ $desktop_video_listings = $video_listings;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-         main > .container-fluid,
-            main > .container-fluid > .d-block.d-md-none.d-lg-none,
-            main .newarrivals-container-one,
-            main .videos-images-container-newarrivals-small,
-            main .videos-images-container-newarrivals-small .images-container-newarrivals,
-            main .videos-images-container-newarrivals-small .videos-container-newarrivals,
-            main .videos-images-container-newarrivals-small .newarrivals-feedback
-             {
-                width: 100% !important;
-                max-width: none !important;
-                margin-left: 0 !important;
-                margin-right: 0 !important;
-                padding-left: 2px !important;
-                padding-right: 2px !important;
-                padding-bottom: 4px !important;
-                box-sizing: border-box !important;
-            }
-
         @media (min-width: 992px) {
             .videos-images-container-newarrivals {
                 gap: 0 !important;
@@ -469,6 +460,69 @@ $desktop_video_listings = $video_listings;
         }
 
         @media (max-width: 767.98px) {
+            #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            #navbarone>.container {
+                min-height: 45px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+
+            #navbarone .navbar-brand,
+            #navbarone .brand-logos {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+            }
+
+            #navbarone .logo {
+                width: clamp(88px, 26vw, 112px);
+                display: block;
+            }
+
+            #newarrivals-mobile-toggler {
+                position: absolute;
+                top: 50%;
+                right: 26px;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                margin: 0;
+                padding: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #newarrivals-mobile-toggler .signin-icon {
+                width: 21px;
+                height: 21px;
+                margin-bottom: 0;
+            }
+
+            #navbarone + main.main-one {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            #navbarone + main.main-one > .container-fluid {
+                padding-top: 0 !important;
+                margin-top: 0 !important;
+            }
+
+            #navbarone + main.main-one > .container-fluid > .newarrivals-container-one {
+                margin-top: 0 !important;
+            }
+
             html {
                 background-color: #161515;
             }
@@ -491,9 +545,26 @@ $desktop_video_listings = $video_listings;
                 margin-top: 0;
             }
 
+            main > .container-fluid,
+            main > .container-fluid > .d-block.d-md-none.d-lg-none,
+            main .newarrivals-container-one,
+            main .videos-images-container-newarrivals-small,
+            main .videos-images-container-newarrivals-small .images-container-newarrivals,
+            main .videos-images-container-newarrivals-small .videos-container-newarrivals,
+            main .videos-images-container-newarrivals-small .newarrivals-feedback {
+                width: 100% !important;
+                max-width: none !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+                padding-bottom: 4px !important;
+                box-sizing: border-box !important;
+            }
+
             main .videos-images-container-newarrivals-small {
-                padding-left: 0 !important;
-                padding-right: 0 !important;
+                padding-left: 4px !important;
+                padding-right: 4px !important;
             }
 
             main .videos-images-container-newarrivals-small .images-container-newarrivals,
@@ -523,6 +594,11 @@ $desktop_video_listings = $video_listings;
             .images-container-newarrivals .row > * {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
+            }
+
+            .cards-container {
+                padding-left: 4px;
+                padding-right: 4px;
             }
 
             .cards-container .card-newarrivals.h-100 {
@@ -571,19 +647,19 @@ $desktop_video_listings = $video_listings;
 
 <body class="newarrivals-page" style="background-color: #f0ecec;">
     <div class="container-fluid" style="z-index: 10; padding: 0px; margin: 0px;">
-        <a href="index.php">
+        <a href="/">
             <video class="d-none d-md-block d-lg-block" style="height: inherit; width: 100%;" autoplay loop muted
-                src="assets/videos/Over Navbar JoMu 70px.mp4"></video>
+                src="/assets/videos/Over Navbar JoMu 70px.mp4"></video>
                  <video class="d-block d-md-none d-lg-none"  style="height: inherit; width: 100%;" autoplay loop muted
-                src="assets/videos/Over Navbar JoMu 1080px.mp4"></video>
+                src="/assets/videos/Over Navbar JoMu 1080px.mp4"></video>
         </a>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light  sticky-top navbarone navbar-help bg-dark" id="navbarone"
         style="z-index: 100; margin-top: -6px;">
         <div class="container">
-            <a class="navbar-brand brand-logos" href="index.php">
-                <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-                <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+            <a class="navbar-brand brand-logos" href="/">
+                <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+                <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
             </a>
         </div>
@@ -591,25 +667,25 @@ $desktop_video_listings = $video_listings;
         <button id="newarrivals-mobile-toggler" class="navbar-toggler d-lg-none signin-icon-bg" type="button"
             aria-expanded="false" aria-label="Open sign in menu">
             <span>
-                <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+                <img src="/assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
             </span>
         </button>
         <div id="newarrivals-mobile-auth-menu" class="dropdown-menu mobile-auth-menu newarrivals-mobile-auth-menu"
             aria-labelledby="newarrivals-mobile-toggler">
-            <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="signin.html"
-                data-mobile-auth-link="signin.html">Sign In</a>
+            <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="/sign-in"
+                data-mobile-auth-link="/sign-in">Sign In</a>
             <button id="newarrivals-createaccount-mobile" class="dropdown-item mobile-auth-item mobile-auth-create"
-                type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+                type="button" data-mobile-auth-link="/create-account">Create account</button>
         </div>
 
         <!-- Navbar links for large screens -->
         <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active signin">
-                    <a id="newarrivals-signin-desktop" class="nav-link link-text" href="signin.html">Sign In</a>
+                    <a id="newarrivals-signin-desktop" class="nav-link link-text" href="/sign-in">Sign In</a>
                 </li>
             </ul>
-            <button id="newarrivals-createaccount-desktop" class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+            <button id="newarrivals-createaccount-desktop" class="button button-createaccount" onclick="location.href='/create-account'">Create
                 account</button>
         </div>
     </nav>
@@ -653,8 +729,8 @@ $desktop_video_listings = $video_listings;
                                         $sellerInitial = 'B';
                                     }
                                     $sellerProfileUrl = ((int) ($listing['user_id'] ?? 0) === $currentUserId && $currentUserId > 0)
-                                        ? 'php/profile.php'
-                                        : ('php/visitor_profile.php?user_id=' . urlencode((string) ($listing['user_id'] ?? '')));
+                                        ? '/profile'
+                                        : ('/visitor-profile?user_id=' . urlencode((string) ($listing['user_id'] ?? '')));
                                     $savedHashtags = trim((string) ($listing['hashtags'] ?? ''));
                                     if ($savedHashtags !== '') {
                                         $savedHashtags = preg_replace('/\s+/', ' ', $savedHashtags);
@@ -703,14 +779,14 @@ $desktop_video_listings = $video_listings;
                                                     $videoPreviewPrice = formatPriceText(trim((string) ($listing['price'] ?? '')));
                                                 }
                                             ?>
-                                            <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($videoPreviewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
-                                                <source src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" type="video/mp4">
+                                            <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($videoPreviewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
+                                                <source src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" type="video/mp4">
                                             </video>
                                         </div>
                                         <div class="card-body p-2 video-card-body">
                                             <a href="<?php echo htmlspecialchars($sellerProfileUrl); ?>" class="video-seller-row video-seller-link">
                                                 <?php if ($sellerProfile !== '') { ?>
-                                                    <img src="<?php echo htmlspecialchars(getMediaPath($sellerProfile, 'php/')); ?>" alt="<?php echo htmlspecialchars($sellerName); ?>" class="video-seller-dp">
+                                                    <img src="<?php echo htmlspecialchars(getMediaPath($sellerProfile, '/php/')); ?>" alt="<?php echo htmlspecialchars($sellerName); ?>" class="video-seller-dp">
                                                 <?php } else { ?>
                                                     <span class="video-seller-dp video-seller-dp-fallback"><?php echo htmlspecialchars($sellerInitial); ?></span>
                                                 <?php } ?>
@@ -760,7 +836,7 @@ $desktop_video_listings = $video_listings;
                                             $displayPriceLabel = formatPriceText(trim((string) ($listing['price'] ?? '')));
                                         }
                                         $purchaseParams = http_build_query([
-                                            'image' => getMediaPath($listing['media'], 'php/'),
+                                            'image' => getMediaPath($listing['media'], '/php/'),
                                             'title' => $listing['stockname'] ?? '',
                                             'price' => $productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? ''),
                                             'raw_price' => $listing['price'] ?? '',
@@ -775,15 +851,15 @@ $desktop_video_listings = $video_listings;
                                             'listing_type' => $listingType,
                                             'owner_view' => $isOwnListing ? '1' : '0',
                                         ]);
-                                        $purchaseUrl = 'purchasewholesale.html?' . $purchaseParams;
+                                        $purchaseUrl = '/purchase-wholesale?' . $purchaseParams;
                                         $actionUrl = (!$isOwnListing && $currentUserId <= 0) ? '/?error=Not+Signed+In!' : $purchaseUrl;
                                     ?>
                                     <div class="col-6 col-md-3 custom-lg-newarrivals">
                                         <div class="card h-100 card-newarrivals">
-                                            <img src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" class="card-img-top img-fluid media-preview-item media-preview-source"
+                                            <img src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" class="card-img-top img-fluid media-preview-item media-preview-source"
                                                 alt="<?php echo htmlspecialchars($listing['stockname'] ?? 'Listing image'); ?>"
                                                 data-preview-type="image"
-                                                data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>"
+                                                data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>"
                                                 data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>"
                                                 data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>"
                                                 data-preview-price="<?php echo htmlspecialchars($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')); ?>"
@@ -820,7 +896,7 @@ $desktop_video_listings = $video_listings;
                         </div>
                         <div class="container text-center mt-5 px-5 py-4 newarrivals-feedback">
                             <h6>We'd love to hear from you! Share your thoughts or suggestions.</h6>
-                            <a href="feedback.html"><button class="btn btn-newarrivals">Share Feedback</button></a>
+                            <a href="/feedback"><button class="btn btn-newarrivals">Share Feedback</button></a>
                         </div>
                     </div>
                 </div>
@@ -853,7 +929,7 @@ $desktop_video_listings = $video_listings;
                                             $displayPriceLabel = formatPriceText(trim((string) ($listing['price'] ?? '')));
                                         }
                                         $purchaseParams = http_build_query([
-                                            'image' => getMediaPath($listing['media'], 'php/'),
+                                            'image' => getMediaPath($listing['media'], '/php/'),
                                             'title' => $listing['stockname'] ?? '',
                                             'price' => $productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? ''),
                                             'raw_price' => $listing['price'] ?? '',
@@ -868,15 +944,15 @@ $desktop_video_listings = $video_listings;
                                             'listing_type' => $listingType,
                                             'owner_view' => $isOwnListing ? '1' : '0',
                                         ]);
-                                        $purchaseUrl = 'purchasewholesale.html?' . $purchaseParams;
+                                        $purchaseUrl = '/purchase-wholesale?' . $purchaseParams;
                                         $actionUrl = (!$isOwnListing && $currentUserId <= 0) ? '/?error=Not+Signed+In!' : $purchaseUrl;
                                     ?>
                                     <div class="col-6 col-md-3 custom-lg-newarrivals">
                                         <div class="card h-100 card-newarrivals">
-                                            <img src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" class="card-img-top img-fluid media-preview-item media-preview-source"
+                                            <img src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" class="card-img-top img-fluid media-preview-item media-preview-source"
                                                 alt="<?php echo htmlspecialchars($listing['stockname'] ?? 'Listing image'); ?>"
                                                 data-preview-type="image"
-                                                data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>"
+                                                data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>"
                                                 data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>"
                                                 data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>"
                                                 data-preview-price="<?php echo htmlspecialchars($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')); ?>"
@@ -929,8 +1005,8 @@ $desktop_video_listings = $video_listings;
                                         $sellerInitial = 'B';
                                     }
                                     $sellerProfileUrl = ((int) ($listing['user_id'] ?? 0) === $currentUserId && $currentUserId > 0)
-                                        ? 'php/profile.php'
-                                        : ('php/visitor_profile.php?user_id=' . urlencode((string) ($listing['user_id'] ?? '')));
+                                        ? '/profile'
+                                        : ('/visitor-profile?user_id=' . urlencode((string) ($listing['user_id'] ?? '')));
                                     $savedHashtags = trim((string) ($listing['hashtags'] ?? ''));
                                     if ($savedHashtags !== '') {
                                         $savedHashtags = preg_replace('/\s+/', ' ', $savedHashtags);
@@ -979,14 +1055,14 @@ $desktop_video_listings = $video_listings;
                                                     $videoPreviewPrice = formatPriceText(trim((string) ($listing['price'] ?? '')));
                                                 }
                                             ?>
-                                            <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($videoPreviewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
-                                                <source src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" type="video/mp4">
+                                            <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($videoPreviewPrice); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>">
+                                                <source src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" type="video/mp4">
                                             </video>
                                         </div>
                                         <div class="card-body p-2 video-card-body">
                                             <a href="<?php echo htmlspecialchars($sellerProfileUrl); ?>" class="video-seller-row video-seller-link">
                                                 <?php if ($sellerProfile !== '') { ?>
-                                                    <img src="<?php echo htmlspecialchars(getMediaPath($sellerProfile, 'php/')); ?>" alt="<?php echo htmlspecialchars($sellerName); ?>" class="video-seller-dp">
+                                                    <img src="<?php echo htmlspecialchars(getMediaPath($sellerProfile, '/php/')); ?>" alt="<?php echo htmlspecialchars($sellerName); ?>" class="video-seller-dp">
                                                 <?php } else { ?>
                                                     <span class="video-seller-dp video-seller-dp-fallback"><?php echo htmlspecialchars($sellerInitial); ?></span>
                                                 <?php } ?>
@@ -1012,7 +1088,7 @@ $desktop_video_listings = $video_listings;
                         </div>
                         <div class="container text-center mb-2 mt-5 px-5 py-4 newarrivals-feedback w-100">
                             <h6>We'd love to hear from you! Share your thoughts or suggestions.</h6>
-                            <a href="feedback.html"><button class="btn btn-newarrivals" style="margin-bottom: 13px;">Share Feedback</button></a>
+                            <a href="/feedback"><button class="btn btn-newarrivals" style="margin-bottom: 13px;">Share Feedback</button></a>
                         </div>
                     </div>
                 </div>
@@ -1021,12 +1097,12 @@ $desktop_video_listings = $video_listings;
     </main>
     <footer class="footer-feedback py-2 text-center">
         <div class="footer-links">
-            <a href="termsandconditions.html" style="color:white;">Terms of Use</a>
-            <a href="privacypolicy.html" style="color:white;">Privacy Policy</a>
-            <a href="help.html" style="color:white;">Help</a>
-            <a href="support.html" style="color:white;">Support</a>
-            <a href="feedback.html" style="color:white;">Give Feedback</a>
-            <a href="about.html" style="color:white;">About JoMu</a>
+            <a href="/terms-and-conditions" style="color:white;">Terms of Use</a>
+            <a href="/privacy-policy" style="color:white;">Privacy Policy</a>
+            <a href="/help" style="color:white;">Help</a>
+            <a href="/support" style="color:white;">Support</a>
+            <a href="/feedback" style="color:white;">Give Feedback</a>
+            <a href="/about" style="color:white;">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -1045,7 +1121,7 @@ $desktop_video_listings = $video_listings;
                 <p id="mediaPreviewDescription" class="media-preview-description"></p>
             </div>
         </div>
-        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png" alt="JoMu watermark">
+        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="/assets/images/JoMu logo redesigned.png" alt="JoMu watermark">
     </div>
 
     <script>
@@ -1058,9 +1134,17 @@ $desktop_video_listings = $video_listings;
 
             function positionMobileAuthMenu() {
                 const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const tailSize = 14;
+                const tailTipReach = Math.round((tailSize * Math.SQRT2) / 2);
                 const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
-                mobileAuthMenu.style.right = `${rightOffset}px`;
-                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+                const buttonCenterX = buttonRect.left + (buttonRect.width / 2);
+                const tailRight = Math.max(8, Math.round(window.innerWidth - rightOffset - buttonCenterX - (tailSize / 2)));
+                const menuTop = Math.round(buttonRect.bottom + tailTipReach - 1);
+                mobileAuthMenu.style.setProperty('right', `${rightOffset}px`, 'important');
+                mobileAuthMenu.style.setProperty('top', `${menuTop}px`, 'important');
+                mobileAuthMenu.style.setProperty('--mobile-auth-menu-right', `${rightOffset}px`);
+                mobileAuthMenu.style.setProperty('--mobile-auth-menu-top', `${menuTop}px`);
+                mobileAuthMenu.style.setProperty('--mobile-auth-tail-right', `${tailRight}px`);
             }
 
             function setMobileAuthOpen(isOpen) {
@@ -1068,6 +1152,9 @@ $desktop_video_listings = $video_listings;
                     positionMobileAuthMenu();
                 }
                 mobileAuthMenu.classList.toggle('show', isOpen);
+                if (isOpen) {
+                    window.requestAnimationFrame(positionMobileAuthMenu);
+                }
                 mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             }
 
@@ -1090,6 +1177,12 @@ $desktop_video_listings = $video_listings;
                     positionMobileAuthMenu();
                 }
             });
+
+            window.addEventListener('scroll', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            }, { passive: true });
         })();
 
         (function () {
@@ -1289,7 +1382,7 @@ $desktop_video_listings = $video_listings;
                 return recentStorageKeyPromise;
             }
 
-            recentStorageKeyPromise = fetch("php/auth_status.php", { credentials: "same-origin" })
+            recentStorageKeyPromise = fetch("/php/auth_status.php", { credentials: "same-origin" })
                 .then((response) => response.ok ? response.json() : null)
                 .then((data) => {
                     recentStorageKey = data?.signed_in && data?.user_key
@@ -1312,7 +1405,7 @@ $desktop_video_listings = $video_listings;
 
             const cardEl = sourceEl.closest(".card");
             const columnEl = sourceEl.closest(".col-6.col-md-4.col-lg-3");
-            const actionLink = cardEl?.querySelector('a[href*="purchasewholesale.html"]');
+            const actionLink = cardEl?.querySelector('a[href*="/purchase-wholesale"]');
             storeRecentlyViewedListing({
                 listing_id: listingId,
                 media_type: sourceEl?.dataset.previewType || "image",
@@ -1337,7 +1430,7 @@ $desktop_video_listings = $video_listings;
             storeRecentListingFromSource(sourceEl);
 
             try {
-                await fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                await fetch(`/php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
             } catch (error) {
                 // Non-blocking analytics update.
             }
@@ -1353,7 +1446,7 @@ $desktop_video_listings = $video_listings;
             storeRecentListingFromSource(sourceEl);
 
             try {
-                await fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                await fetch(`/php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
             } catch (error) {
                 // Non-blocking analytics update.
             }
@@ -1530,10 +1623,10 @@ $desktop_video_listings = $video_listings;
             });
         }, true);
     </script>
-    <script src="assets/listing-preview-modal.js"></script>
-    <script src="assets/listing-preview-gallery.js"></script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/listing-preview-modal.js"></script>
+    <script src="/assets/listing-preview-gallery.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

@@ -76,14 +76,14 @@ if ($recentStmt) {
             'listing_id' => (int) ($listing['listing_id'] ?? 0),
             'viewed_at' => (string) ($listing['viewed_at'] ?? ''),
             'media_type' => getMediaType($media) === 'video' ? 'video' : 'image',
-            'media_src' => getMediaPath($media, 'php/'),
+            'media_src' => getMediaPath($media, '/php/'),
             'title' => (string) ($listing['stockname'] ?? ''),
             'description' => (string) ($listing['description'] ?? ''),
             'price' => $priceLabel !== '' ? $priceLabel : (string) ($listing['price'] ?? ''),
             'listing_type' => $listingType,
             'action_label' => $listingType === 'service' ? 'Schedule a Service' : 'Purchase Wholesale',
-            'purchase_url' => 'purchasewholesale.html?' . http_build_query([
-                'image' => getMediaPath($media, 'php/'),
+            'purchase_url' => '/purchase-wholesale?' . http_build_query([
+                'image' => getMediaPath($media, '/php/'),
                 'title' => $listing['stockname'] ?? '',
                 'price' => $priceLabel !== '' ? $priceLabel : ($listing['price'] ?? ''),
                 'raw_price' => $listing['price'] ?? '',

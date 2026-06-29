@@ -45,7 +45,7 @@
             'listing_id' => $listing['listing_id'] ?? '',
             'listing_type' => $listingType,
         ]);
-        $purchaseUrl = '/purchasewholesale.html?' . $shareParams;
+        $purchaseUrl = '/purchase-wholesale?' . $shareParams;
         $previewTitle = trim((string) ($listing['stockname'] ?? ''));
         $previewDescription = trim((string) ($listing['description'] ?? ''));
         $previewPrice = trim((string) ($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')));
@@ -77,7 +77,7 @@
             <?php } ?>
             <?php if (!$isListingHidden) { ?>
             <li class="li-1">
-                <a class="dropdown-item manage-listing-share" href="#" data-share-url="/purchasewholesale.html?<?php echo htmlspecialchars($shareParams); ?>">Share</a>
+                <a class="dropdown-item manage-listing-share" href="#" data-share-url="/purchase-wholesale?<?php echo htmlspecialchars($shareParams); ?>">Share</a>
             </li>
             <?php } ?>
             <li class="li-1">

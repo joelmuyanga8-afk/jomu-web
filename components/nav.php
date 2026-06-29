@@ -5,7 +5,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 $isLogged = isset($_SESSION['emailormobilenumber']);
 $isAdminLogged = isset($_SESSION['admin_id']) && (int) $_SESSION['admin_id'] > 0;
-$dashboardHref = $isAdminLogged ? '/php/admin/dashboard.php' : '/php/businessvendordashboard.php';
+$dashboardHref = $isAdminLogged ? '/php/admin/dashboard.php' : '/business-vendor-dashboard';
 $dashboardLabel = $isAdminLogged ? 'Admin dashboard' : 'Dashboard';
 $popularSearchTerms = [];
 $siteLinks = [
@@ -129,6 +129,8 @@ if (isset($conn) && $conn instanceof mysqli) {
             box-sizing: border-box;
             overflow-x: hidden;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
 
         .navbartwo .mobile-viewport-dropdown > .container {
@@ -138,6 +140,13 @@ if (isset($conn) && $conn instanceof mysqli) {
             margin-right: 0;
             box-sizing: border-box;
         }
+
+        .navbartwo .mobile-why-choose-dropdown {
+            top: 112px !important;
+            bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+            max-height: none;
+            padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+        }
        }
 </style>
 
@@ -146,8 +155,8 @@ if (isset($conn) && $conn instanceof mysqli) {
     <!-- Logo for large screens.-->
     <div class="container d-none d-md-block d-lg-block">
         <a class="navbar-brand brand-logos" href="#">
-            <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-            <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+            <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+            <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
         </a>
     </div>
@@ -155,9 +164,9 @@ if (isset($conn) && $conn instanceof mysqli) {
     <!-- Logo for small screens. -->
     <div class="d-block d-md-none d-lg-none py-0 px-0">
         <a class="navbar-brand brand-logos px-0" href="#">
-            <img src="assets/images/JoMu black and white.png" class="img-fluid logo"
+            <img src="/assets/images/JoMu black and white.png" class="img-fluid logo"
                 style="margin-right: 60px;">
-            <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+            <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
         </a>
     </div>
@@ -168,20 +177,20 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown d-lg-none mobile-auth-dropdown">
             <button class="btn mobile-auth-trigger" type="button" id="mobileAuthMenuButton"
                 data-bs-toggle="dropdown" aria-expanded="false" aria-label="Open sign in menu">
-                <img src="assets/images/icons/Signin.png" class="mobile-auth-icon" alt="Sign in">
+                <img src="/assets/images/icons/Signin.png" class="mobile-auth-icon" alt="Sign in">
             </button>
             <div class="dropdown-menu dropdown-menu-end mobile-auth-menu" aria-labelledby="mobileAuthMenuButton">
-                <a class="dropdown-item mobile-auth-item" href="signin.html" data-mobile-auth-link="signin.html" style="color:
+                <a class="dropdown-item mobile-auth-item" href="/sign-in" data-mobile-auth-link="/sign-in" style="color:
                 rgb(0,0,255);">Sign In</a>
                 <button class="dropdown-item mobile-auth-item mobile-auth-create" type="button"
-                    data-mobile-auth-link="createaccount.html">Create account</button>
+                    data-mobile-auth-link="/create-account">Create account</button>
             </div>
         </div>
     <?php } else { ?>
         <a class="navbar-toggler d-lg-none" href="<?php echo htmlspecialchars($dashboardHref); ?>"
             aria-label="Open dashboard">
             <span>
-                <img src="assets/images/icons/Container orange.png" style="width: 45px; height: 45px; margin-right: -15px;">
+                <img src="/assets/images/icons/Container orange.png" style="width: 43px; height: 43px; margin-right: -15px;">
             </span>
         </a>
     <?php } ?>
@@ -192,14 +201,14 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="container-fluid searching">
             <input type="text" id="searchbarInput" class="searchbar" placeholder="Search...">
             <button class="button search" type="submit">
-                <span><img src="assets/images/icons/Search Icon.png" class="options-icons"></span>
+                <span><img src="/assets/images/icons/Search Icon.png" class="options-icons"></span>
                 Search</button>
         </div>
         <!-- <li class="nav-item dropdown">
             <button class="button language dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true"
                 aria-haspopup="true" aria-expanded="false">
                 <span>
-                    <img src="assets/images/icons/Language Icon 2.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Language Icon 2.png" class="img-fluid options-icons">
                 </span>ENG</button>
             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                 <li><a class="dropdown-item" href="#">Swahili</a></li>
@@ -215,14 +224,14 @@ if (isset($conn) && $conn instanceof mysqli) {
                 <?php
                     }else {
                 ?>
-                    <a class="nav-link link-text" href="signin.html">Sign In</a>
+                    <a class="nav-link link-text" href="/sign-in">Sign In</a>
                 <?php        
                     }
                 ?>
             </li>
         </ul>
     <?php if (!$isLogged && !$isAdminLogged) { ?>
-            <button class="button button-createaccount" onclick="location.href='createaccount.html'">
+            <button class="button button-createaccount" onclick="location.href='/create-account'">
                 Create account
             </button>
         <?php } ?>
@@ -230,7 +239,7 @@ if (isset($conn) && $conn instanceof mysqli) {
     <!-- Search bar for medium screens -->
     <div class="container-fluid d-none d-md-block d-lg-none searching-medium">
         <input type="text" id="searchbarInput" class="searchbar-medium" placeholder="Search...">
-        <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+        <button class="btn" type="submit"><span><img src="/assets/images/icons/Search Icon.png"
                     class="search-icon-medium search-medium"></span>
         </button>
     </div>
@@ -239,7 +248,7 @@ if (isset($conn) && $conn instanceof mysqli) {
         <input type="text" id="searchbar" class="searchbar-small"
             placeholder="Search businesses, deals and clients">
         <input type="text" id="searchbarInput" class="searchbar-small" placeholder="Search...">
-        <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+        <button class="btn" type="submit"><span><img src="/assets/images/icons/Search Icon.png"
                     class="search-icon-small search-small"></span>
         </button>
     </div> -->
@@ -247,7 +256,7 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="input-group">
             <input type="text" id="searchbarInput" class="form-control searchbar-small" placeholder="Search...">
             <button class="btn btn-search-small" type="submit"><span><img
-                        src="assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
+                        src="/assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
             </button>
         </div>
     </div>
@@ -277,7 +286,7 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="all">
                 <span>
-                    <img src="assets/images/icons/All icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/All icon.png" class="img-fluid options-icons">
                 </span>All</button>
             <ul class="dropdown-content" aria-labelledby="all">
                 <div class="dropdown-two">
@@ -286,13 +295,13 @@ if (isset($conn) && $conn instanceof mysqli) {
                             class="dropdown-item">New
                             Arrivals</a></li>
                     <ul class="dropdown-content-two" aria-labelledby="newarrivals">
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalscentral.html">Central</a>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/central">Central</a>
                         </li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalseastern.html">Eastern</a>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/eastern">Eastern</a>
                         </li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalswestern.html">Western</a>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/western">Western</a>
                         </li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalsnorthern.html">Northern</a></li>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/northern">Northern</a></li>
                     </ul>
                 </div>
                 <div class="dropdown-two">
@@ -301,9 +310,9 @@ if (isset($conn) && $conn instanceof mysqli) {
                             class="dropdown-item">Vendors/Shops</a>
                     </li>
                     <ul class="dropdown-content-two" aria-labelledby="vendors">
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="vendorshops-apparel.html">Apparel &
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/vendor-shops/apparel">Apparel &
                                 Accessories</a></li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="vendorshops-shoes.html">Shoes</a></li>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/vendor-shops/shoes">Shoes</a></li>
                         <!-- <li class="li-2"><a class="dropdown-item-two" href=""> Kids & Toys</a></li> -->
                         <!-- <li class="li-2"><a class="dropdown-item-two" href="">Lights & Lighting</a></li> -->
                         <!-- <li class="li-2"><a class="dropdown-item-two" href="">Medical Supplies</a></li> -->
@@ -315,10 +324,10 @@ if (isset($conn) && $conn instanceof mysqli) {
                     </ul>
                 </div>
                 <!-- Products with ongoing promotions. -->
-                <li class="li-1"><a class="dropdown-item" href="offers&discounts.html">Offers & Discounts</a>
+                <li class="li-1"><a class="dropdown-item" href="/offers-discounts">Offers & Discounts</a>
                 </li>
                 <!-- Items the user previously clicked on.   -->
-                <li class="li-1"><a class="dropdown-item" href="recentlyviewed.html">Recently Viewed</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/recently-viewed">Recently Viewed</a></li>
                 <!-- Hot items currently gaining attention. -->
                 <div class="dropdown-two">
                     <li class="li-1 submenu-trigger" style="cursor: pointer;"><a class="dropdown-item">Popular Searches</a></li>
@@ -332,7 +341,7 @@ if (isset($conn) && $conn instanceof mysqli) {
                                 <?php if ($popularSearchTerms !== []) { ?>
                                     <?php foreach ($popularSearchTerms as $popularSearchTerm) { ?>
                                         <p class="mb-0 mt-0" style="color: rgb(0, 0, 255); cursor: pointer;"
-                                            onclick="location.href='<?php echo htmlspecialchars('index.php?search=' . urlencode($popularSearchTerm), ENT_QUOTES, 'UTF-8'); ?>'">
+                                            onclick="location.href='<?php echo htmlspecialchars('/?search=' . urlencode($popularSearchTerm), ENT_QUOTES, 'UTF-8'); ?>'">
                                             <?php echo htmlspecialchars(jomuTruncatePopularSearchLabel(ucwords($popularSearchTerm))); ?>
                                         </p>
                                     <?php } ?>
@@ -349,24 +358,24 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="home">
                 <span>
-                    <img src="assets/images/icons/Home icon 2.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Home icon 2.png" class="img-fluid options-icons">
                 </span>Home</button>
             <ul class="dropdown-content" aria-labelledby="home">
                 <?php if (!$isLogged && !$isAdminLogged) { ?>
-                    <li class="li-1"><a class="dropdown-item" href="createaccount.html">Join as Seller</a></li>
+                    <li class="li-1"><a class="dropdown-item" href="/create-account">Join as Seller</a></li>
                 <?php } ?>
                 <!-- <div class="dropdown-two">
                     <li class="li-1" style="cursor: pointer;"><a class="dropdown-item">Top-Rated Sellers</a>
                     </li>
                     <ul class="dropdown-content-two" aria-labelledby="top-rated">
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellerscentral.html">Central</a></li>
+                                href="/top-rated-sellers/central">Central</a></li>
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellerseastern.html">Eastern</a></li>
+                                href="/top-rated-sellers/eastern">Eastern</a></li>
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellerswestern.html">Western</a></li>
+                                href="/top-rated-sellers/western">Western</a></li>
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellersnorthern.html">Northern</a></li>
+                                href="/top-rated-sellers/northern">Northern</a></li>
                     </ul>
                 </div> -->
                 <div class="dropdown-two">
@@ -464,53 +473,53 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="categories">
                 <span>
-                    <img src="assets/images/icons/Categories personal icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Categories personal icon.png" class="img-fluid options-icons">
                 </span>Categories</button>
             <ul class="dropdown-content" aria-labelledby="categories">
-                <li class="li-1"><a class="dropdown-item" href="categoriesapparel.html">Apparel/Ndiboota</a>
+                <li class="li-1"><a class="dropdown-item" href="/categories/apparel">Apparel/Ndiboota</a>
                 </li>
-                <li class="li-1"><a class="dropdown-item" href="categorieswholesale&retail.html">Wholesale &
+                <li class="li-1"><a class="dropdown-item" href="/categories/wholesale-retail">Wholesale &
                         Retail</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categorieselectronics&gagdets.html">Electronics
+                <li class="li-1"><a class="dropdown-item" href="/categories/electronics-gadgets">Electronics
                         & Gadgets</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesagriculture&produce.html">Agriculture
+                <li class="li-1"><a class="dropdown-item" href="/categories/agriculture-produce">Agriculture
                         & Produce</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categorieslivestock&animals.html">Livestock &
+                <li class="li-1"><a class="dropdown-item" href="/categories/livestock-animals">Livestock &
                         Animals</a></li>
                 <li class="li-1"><a class="dropdown-item"
-                        href="categoriesconstruction&building.html">Construction & Building Materials</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesofficesupply&stationery.html">Office
+                        href="/categories/construction-building">Construction & Building Materials</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/categories/office-supply-stationery">Office
                         Supplies & Stationery</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categorieshealth&beauty.html">Health &
+                <li class="li-1"><a class="dropdown-item" href="/categories/health-beauty">Health &
                         Beauty</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesfood&beverages.html">Food &
+                <li class="li-1"><a class="dropdown-item" href="/categories/food-beverages">Food &
                         Beverages</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesautomotive&transport.html">Automotive
+                <li class="li-1"><a class="dropdown-item" href="/categories/automotive-transport">Automotive
                         & Transport</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesfurniture&home.html">Furniture & Home
+                <li class="li-1"><a class="dropdown-item" href="/categories/furniture-home">Furniture & Home
                         Decor</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesit&software.html">IT & Software
+                <li class="li-1"><a class="dropdown-item" href="/categories/it-software">IT & Software
                         Accessories</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesprinting&branding.html">Printing &
+                <li class="li-1"><a class="dropdown-item" href="/categories/printing-branding">Printing &
                         Branding</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesgeneralservices.html">General
+                <li class="li-1"><a class="dropdown-item" href="/categories/general-services">General
                         Services</a></li>
             </ul>
         </div>
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="business">
                 <span>
-                    <img src="assets/images/icons/Business Icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Business Icon.png" class="img-fluid options-icons">
                 </span>Business</button>
             <ul class="dropdown-content" aria-labelledby="business">
                 <!-- Deals for large scale purchases.  Also a place where users can post what they need and 
                     potential sellers check in from-->
-                <li class="li-1"><a class="dropdown-item" href="businessbulkorders.html">Bulk Orders</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/bulk-orders">Bulk Orders</a></li>
                 <!-- Separate section for bulk buyers/sellers. -->
                 <!-- <li class="li-1"><a class="dropdown-item" href="">Wholesale Marketplace</a></li> -->
                 <!-- Access to manage products, orders, and earnings. -->
                 <?php if (!$isAdminLogged): ?>
-                    <li class="li-1"><a class="dropdown-item" href="php/businessvendordashboard.php">Vendor
+                    <li class="li-1"><a class="dropdown-item" href="/business-vendor-dashboard">Vendor
                             Dashboard</a></li>
                 <?php endif; ?>
             </ul>
@@ -518,23 +527,23 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="suggested">
                 <span>
-                    <img src="assets/images/icons/Suggested Icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Suggested Icon.png" class="img-fluid options-icons">
                 </span>Suggested</button>
             <ul class="dropdown-content" aria-labelledby="suggested">
-                    <li class="li-1"><a class="dropdown-item" href="suggestedtoppicks.php">Top Picks</a></li>
-                <li class="li-1"><a class="dropdown-item" href="suggestedsamecategory.html">Same Category</a>
+                    <li class="li-1"><a class="dropdown-item" href="/suggested/top-picks">Top Picks</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/suggested/same-category">Same Category</a>
                 </li>
             </ul>
         </div>
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="trending">
                 <span>
-                    <img src="assets/images/icons/Trending Icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Trending Icon.png" class="img-fluid options-icons">
                 </span>Trending</button>
             <ul class="dropdown-content" aria-labelledby="trending">
-                <!-- <li class="li-1"><a class="dropdown-item" href="trendinghotdeals.html">Hot Deals</a></li> -->
+                <!-- <li class="li-1"><a class="dropdown-item" href="/trending/hot-deals">Hot Deals</a></li> -->
                 <!-- Listings of items trending in the season or incoming season -->
-                <li class="li-1"><a class="dropdown-item" href="trendingseasonaltrends.html">Seasonal Trends</a>
+                <li class="li-1"><a class="dropdown-item" href="/trending/seasonal-trends">Seasonal Trends</a>
                 </li>
             </ul>
         </div>
@@ -546,7 +555,7 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="all">
                 <span>
-                    <img src="assets/images/icons/All icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/All icon.png" class="img-fluid options-icons">
                 </span>All</button>
             <ul class="dropdown-content" aria-labelledby="all">
                 <div class="dropdown-two">
@@ -554,22 +563,22 @@ if (isset($conn) && $conn instanceof mysqli) {
                     <ul class="dropdown-content-two"
                         style="width: 200px; height: auto; top: 100%;left: 80px; padding: 10px;"
                         aria-labelledby="newarrivals">
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalscentral.html">Central</a>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/central">Central</a>
                         </li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalseastern.html">Eastern</a>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/eastern">Eastern</a>
                         </li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalswestern.html">Western</a>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/western">Western</a>
                         </li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="newarrivalsnorthern.html">Northern</a></li>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/new-arrivals/northern">Northern</a></li>
                     </ul>
                 </div>
                 <div class="dropdown-two">
                     <li class="li-1 submenu-trigger"><a class="dropdown-item">Vendors/Shops</a></li>
                     <ul class="dropdown-content-two"
                         style="width: 200px; height: auto; top: 100%;left: 80px; padding: 10px;">
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="vendorshops-apparel.html">Apparel &
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/vendor-shops/apparel">Apparel &
                                 Accessories</a></li>
-                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="vendorshops-shoes.html">Shoes</a></li>
+                        <li class="li-2"><a class="dropdown-item-two" style="text-decoration: none;" href="/vendor-shops/shoes">Shoes</a></li>
                         <!-- <li class="li-2"><a class="dropdown-item-two" href=""> Kids & Toys</a></li> -->
                         <!-- <li class="li-2"><a class="dropdown-item-two" href="">Lights & Lighting</a></li> -->
                         <!-- <li class="li-2"><a class="dropdown-item-two" href="">Medical Supplies</a></li> -->
@@ -580,9 +589,9 @@ if (isset($conn) && $conn instanceof mysqli) {
                         <!-- <li class="li-2"><a class="dropdown-item-two" href="">Gift Hampers</a></li> -->
                     </ul>
                 </div>
-                <li class="li-1"><a class="dropdown-item" href="offers&discounts.html">Offers & Discounts</a>
+                <li class="li-1"><a class="dropdown-item" href="/offers-discounts">Offers & Discounts</a>
                 </li>
-                <li class="li-1"><a class="dropdown-item" href="recentlyviewed.html">Recently Viewed</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/recently-viewed">Recently Viewed</a></li>
                 <div class="dropdown-two">
                     <li class="li-1 submenu-trigger"><a class="dropdown-item">Popular Searches</a></li>
                     <div class="dropdown-content-two mobile-viewport-dropdown"
@@ -597,7 +606,7 @@ if (isset($conn) && $conn instanceof mysqli) {
                                 <?php if ($popularSearchTerms !== []) { ?>
                                     <?php foreach ($popularSearchTerms as $popularSearchTerm) { ?>
                                         <p class="mb-0 mt-0" style="color: rgb(0, 0, 255); cursor: pointer;"
-                                            onclick="location.href='<?php echo htmlspecialchars('index.php?search=' . urlencode($popularSearchTerm), ENT_QUOTES, 'UTF-8'); ?>'">
+                                            onclick="location.href='<?php echo htmlspecialchars('/?search=' . urlencode($popularSearchTerm), ENT_QUOTES, 'UTF-8'); ?>'">
                                             <?php echo htmlspecialchars(jomuTruncatePopularSearchLabel(ucwords($popularSearchTerm))); ?>
                                         </p>
                                     <?php } ?>
@@ -614,11 +623,11 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="home">
                 <span>
-                    <img src="assets/images/icons/Home Icon 2.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Home Icon 2.png" class="img-fluid options-icons">
                 </span>Home</button>
             <ul class="dropdown-content" style="left: -40px;" aria-labelledby="home">
                 <?php if (!$isLogged) { ?>
-                    <li class="li-1"><a class="dropdown-item" href="createaccount.html">Join as Seller</a></li>
+                    <li class="li-1"><a class="dropdown-item" href="/create-account">Join as Seller</a></li>
                 <?php } ?>
                 <!-- <div class="dropdown-two">
                     <li class="li-1"><a class="dropdown-item">Top-Rated Sellers</a></li>
@@ -626,13 +635,13 @@ if (isset($conn) && $conn instanceof mysqli) {
                         style="width: 200px; height: auto; top: 100%;left: 80px; padding: 10px;"
                         aria-labelledby="top-rated">
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellerscentral.html">Central</a></li>
+                                href="/top-rated-sellers/central">Central</a></li>
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellerseastern.html">Eastern</a></li>
+                                href="/top-rated-sellers/eastern">Eastern</a></li>
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellerswestern.html">Western</a></li>
+                                href="/top-rated-sellers/western">Western</a></li>
                         <li class="li-2"><a class="dropdown-item-two"
-                                href="topratedsellersnorthern.html">Northern</a></li>
+                                href="/top-rated-sellers/northern">Northern</a></li>
                     </ul>
                 </div> -->
                 <div class="dropdown-two">
@@ -649,7 +658,7 @@ if (isset($conn) && $conn instanceof mysqli) {
                 </div>
                 <div class="dropdown-two">
                     <li class="li-1 submenu-trigger"><a class="dropdown-item">Why Choose Us?</a></li>
-                    <div class="dropdown-content-two mobile-viewport-dropdown"
+                    <div class="dropdown-content-two mobile-viewport-dropdown mobile-why-choose-dropdown"
                         style="width: 100vw; height: auto; top: 100%;left: -110px; padding: 10px;"
                         aria-labelledby="why-choose-us">
                         <div class="container shadow"
@@ -736,36 +745,36 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="categories">
                 <span>
-                    <img src="assets/images/icons/Categories personal icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Categories personal icon.png" class="img-fluid options-icons">
                 </span>Categories</button>
             <ul class="dropdown-content" style="left: -100px;" aria-labelledby="categories">
-                <li class="li-1"><a class="dropdown-item" href="categoriesapparel.html">Apparel/Ndiboota</a>
+                <li class="li-1"><a class="dropdown-item" href="/categories/apparel">Apparel/Ndiboota</a>
                 </li>
-                <li class="li-1"><a class="dropdown-item" href="categorieswholesale&retail.html">Wholesale &
+                <li class="li-1"><a class="dropdown-item" href="/categories/wholesale-retail">Wholesale &
                         Retail</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categorieselectronics&gagdets.html">Electronics
+                <li class="li-1"><a class="dropdown-item" href="/categories/electronics-gadgets">Electronics
                         & Gadgets</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesagriculture&produce.html">Agriculture
+                <li class="li-1"><a class="dropdown-item" href="/categories/agriculture-produce">Agriculture
                         & Produce</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categorieslivestock&animals.html">Livestock &
+                <li class="li-1"><a class="dropdown-item" href="/categories/livestock-animals">Livestock &
                         Animals</a></li>
                 <li class="li-1"><a class="dropdown-item"
-                        href="categoriesconstruction&building.html">Construction & Building Materials</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesofficesupply&stationery.html">Office
+                        href="/categories/construction-building">Construction & Building Materials</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/categories/office-supply-stationery">Office
                         Supplies & Stationery</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categorieshealth&beauty.html">Health &
+                <li class="li-1"><a class="dropdown-item" href="/categories/health-beauty">Health &
                         Beauty</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesfood&beverages.html">Food &
+                <li class="li-1"><a class="dropdown-item" href="/categories/food-beverages">Food &
                         Beverages</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesautomotive&transport.html">Automotive
+                <li class="li-1"><a class="dropdown-item" href="/categories/automotive-transport">Automotive
                         & Transport</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesfurniture&home.html">Furniture & Home
+                <li class="li-1"><a class="dropdown-item" href="/categories/furniture-home">Furniture & Home
                         Decor</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesit&software.html">IT & Software
+                <li class="li-1"><a class="dropdown-item" href="/categories/it-software">IT & Software
                         Accessories</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesprinting&branding.html">Printing &
+                <li class="li-1"><a class="dropdown-item" href="/categories/printing-branding">Printing &
                         Branding</a></li>
-                <li class="li-1"><a class="dropdown-item" href="categoriesgeneralservices.html">General
+                <li class="li-1"><a class="dropdown-item" href="/categories/general-services">General
                         Services</a></li>
             </ul>
         </div>
@@ -777,14 +786,14 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="business">
                 <span>
-                    <img src="assets/images/icons/Business Icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Business Icon.png" class="img-fluid options-icons">
                 </span>Business</button>
             <ul class="dropdown-content" style="width: 200px; height: auto; top: 30px;left: 2px; padding: 10px;"
                 aria-labelledby="business">
-                <li class="li-1"><a class="dropdown-item" href="businessbulkorders.html">Bulk Orders</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/bulk-orders">Bulk Orders</a></li>
                 <!-- <li class="li-1"><a class="dropdown-item" href="">Wholesale Marketplace</a></li> -->
                 <?php if (!$isAdminLogged): ?>
-                    <li class="li-1"><a class="dropdown-item" href="php/businessvendordashboard.php">Vendor
+                    <li class="li-1"><a class="dropdown-item" href="/business-vendor-dashboard">Vendor
                             Dashboard</a></li>
                 <?php endif; ?>
             </ul>
@@ -792,27 +801,27 @@ if (isset($conn) && $conn instanceof mysqli) {
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="suggested">
                 <span>
-                    <img src="assets/images/icons/Suggested Icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Suggested Icon.png" class="img-fluid options-icons">
                 </span>Suggested</button>
             <ul class="dropdown-content" style="width: 200px; height: auto; top: 30px;left: 2px; padding: 10px;"
                 aria-labelledby="suggested">
                 <!-- Listings trending in the users category.  -->
-                <li class="li-1"><a class="dropdown-item" href="suggestedtoppicks.php">Top Picks</a></li>
+                <li class="li-1"><a class="dropdown-item" href="/suggested/top-picks">Top Picks</a></li>
                 <!-- Businesses of same category as the user.  -->
-                <li class="li-1"><a class="dropdown-item" href="suggestedsamecategory.html">Same Category</a>
+                <li class="li-1"><a class="dropdown-item" href="/suggested/same-category">Same Category</a>
                 </li>
             </ul>
         </div>
         <div class="dropdown">
             <button class="button nav-options hover-underline" id="trending">
                 <span>
-                    <img src="assets/images/icons/Trending Icon.png" class="img-fluid options-icons">
+                    <img src="/assets/images/icons/Trending Icon.png" class="img-fluid options-icons">
                 </span>Trending</button>
             <ul class="dropdown-content"
                 style="width: 184px; height: auto; top: 30px;left: -80px; padding: 10px;"
                 aria-labelledby="trending">
-                <!-- <li class="li-1"><a class="dropdown-item" href="trendinghotdeals.html">Hot Deals</a></li> -->
-                <li class="li-1"><a class="dropdown-item" href="trendingseasonaltrends.html">Seasonal Trends</a>
+                <!-- <li class="li-1"><a class="dropdown-item" href="/trending/hot-deals">Hot Deals</a></li> -->
+                <li class="li-1"><a class="dropdown-item" href="/trending/seasonal-trends">Seasonal Trends</a>
                 </li>
             </ul>
         </div>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/partials/helpers.php';
+require_once __DIR__ . '/partials/_media_upload.php';
 
 $error = $_GET['error'] ?? null;
 $priceError = $_GET['price_error'] ?? null;
@@ -42,6 +43,9 @@ function parseIniSizeToBytes($value) {
 $uploadMaxBytes = parseIniSizeToBytes(ini_get('upload_max_filesize'));
 $postMaxBytes = parseIniSizeToBytes(ini_get('post_max_size'));
 $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?: 0;
+$imageUploadLimitBytes = JOMU_IMAGE_UPLOAD_LIMIT_BYTES;
+$videoUploadLimitBytes = JOMU_VIDEO_UPLOAD_LIMIT_BYTES;
+$videoUploadLimitSeconds = JOMU_VIDEO_UPLOAD_LIMIT_SECONDS;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,6 +55,11 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
     <title>Add Listing</title>
     <link rel="stylesheet" href="/assets/bootstrap.css">
     <link rel="stylesheet" href="/assets/style.css">
+        <link rel="icon" type="image/png" sizes="16x16" href="/./assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/./assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/./assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/./assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/./assets/images/jomu_favicon_orange-512.png">
     <style>
         #listing-form .form-floating,
         #listing-form .form-control,
@@ -96,11 +105,9 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
             border-radius: 0.375rem;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             display: none;
-        }
-
-        #category-list {
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: contain;
+            touch-action: pan-y;
         }
 
         .jomu-dropdown-list.show {
@@ -123,7 +130,7 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
         }
 
         @media (max-width: 576px) {
-            #category-list {
+            .jomu-dropdown-list {
                 max-height: calc(100dvh - 120px);
             }
         }
@@ -242,12 +249,12 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
             <div class="container-fluid">
-                <a class="navbar-brand brand-logos" href="/index.php">
+                <a class="navbar-brand brand-logos" href="/">
                     <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
                     <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
                 </a>
                 <button class="button button-createaccount"
-                    onclick="location.href='businessvendordashboard.php'">Dashboard</button>
+                    onclick="location.href='<?php echo htmlspecialchars(jomu_page_url('dashboard'), ENT_QUOTES); ?>'">Dashboard</button>
             </div>
             </div>
         </nav>
@@ -267,7 +274,7 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                 <div class="alert alert-warning d-none" id="upload-message"></div>
             <?php endif; ?>
 
-            <form action="newlisting.php" method="POST" enctype="multipart/form-data" id="listing-form">
+            <form action="<?php echo htmlspecialchars(jomu_php_url('newlisting.php')); ?>" method="POST" enctype="multipart/form-data" id="listing-form">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(jomu_csrf_token()); ?>">
                 <div class="row g-2">
                     <div class="col-12 col-lg-6">
@@ -383,12 +390,12 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
     </main>
     <footer class=" footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="/termsandconditions.html">Terms of Use</a>
-            <a href="/privacypolicy.html">Privacy Policy</a>
-            <a href="/help.html">Help</a>
-            <a href="/support.html">Support</a>
-            <a href="/feedback.html">Give Feedback</a>
-            <a href="/about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <!-- <br> -->
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -424,6 +431,10 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
         const listingExtraImagesNote = document.getElementById('listing-extra-images-note');
         const extraImagesPreview = document.getElementById('extra-images-preview');
         const serverUploadLimitBytes = <?php echo (int) $serverUploadLimitBytes; ?>;
+        const serverPostLimitBytes = <?php echo (int) $postMaxBytes; ?>;
+        const IMAGE_UPLOAD_LIMIT_BYTES = <?php echo (int) $imageUploadLimitBytes; ?>;
+        const VIDEO_UPLOAD_LIMIT_BYTES = <?php echo (int) $videoUploadLimitBytes; ?>;
+        const MAX_VIDEO_DURATION_SECONDS = <?php echo (int) $videoUploadLimitSeconds; ?>;
         const DESCRIPTION_MAX_DEFAULT = <?php echo (int) $descriptionMaxLengthDefault; ?>;
         const DESCRIPTION_MAX_VIDEO = <?php echo (int) $descriptionMaxLengthVideo; ?>;
         const MAX_EXTRA_IMAGES = 5;
@@ -474,9 +485,107 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
         ];
         let selectedMediaType = '';
         let selectedImageFiles = [];
+        let selectedVideoDurationSeconds = null;
+        let isCheckingVideoDuration = false;
+        let mediaSelectionValidationId = 0;
+        let pendingVideoSubmitAfterDurationCheck = false;
+        let activeDropdownList = null;
+        const dropdownGestureStates = new WeakMap();
 
         function formatBytesToMb(bytes) {
             return (bytes / (1024 * 1024)).toFixed(2);
+        }
+
+        function formatDuration(seconds) {
+            const totalSeconds = Math.ceil(seconds);
+            const minutes = Math.floor(totalSeconds / 60);
+            const remainingSeconds = totalSeconds % 60;
+            return minutes > 0 ? `${minutes}m ${remainingSeconds}s` : `${remainingSeconds}s`;
+        }
+
+        function getFileMediaType(file) {
+            return (file.type || '').split('/')[0];
+        }
+
+        function getFileUploadLimitBytes(file) {
+            const mediaType = getFileMediaType(file);
+            if (mediaType === 'video') {
+                return VIDEO_UPLOAD_LIMIT_BYTES;
+            }
+            if (mediaType === 'image') {
+                return IMAGE_UPLOAD_LIMIT_BYTES;
+            }
+            return 0;
+        }
+
+        function getFileMediaLabel(file) {
+            return getFileMediaType(file) === 'video' ? 'Video' : 'Image';
+        }
+
+        function validateSelectedFileSizes(files) {
+            const appOversizeFile = files.find((selectedFile) => {
+                const uploadLimitBytes = getFileUploadLimitBytes(selectedFile);
+                return uploadLimitBytes > 0 && selectedFile.size > uploadLimitBytes;
+            });
+
+            if (appOversizeFile) {
+                const uploadLimitBytes = getFileUploadLimitBytes(appOversizeFile);
+                showUploadMessage(`${getFileMediaLabel(appOversizeFile)} files can be up to ${formatBytesToMb(uploadLimitBytes)} MB each. This file is ${formatBytesToMb(appOversizeFile.size)} MB.`);
+                return false;
+            }
+
+            const serverOversizeFile = files.find((selectedFile) => serverUploadLimitBytes > 0 && selectedFile.size > serverUploadLimitBytes);
+            if (serverOversizeFile) {
+                showUploadMessage(`This file is ${formatBytesToMb(serverOversizeFile.size)} MB. The current server limit is ${formatBytesToMb(serverUploadLimitBytes)} MB, so it cannot be uploaded yet.`);
+                return false;
+            }
+
+            const totalSelectedBytes = files.reduce((total, selectedFile) => total + selectedFile.size, 0);
+            if (serverPostLimitBytes > 0 && totalSelectedBytes > serverPostLimitBytes) {
+                showUploadMessage(`These files total ${formatBytesToMb(totalSelectedBytes)} MB. The current server request limit is ${formatBytesToMb(serverPostLimitBytes)} MB, so please reduce the selection.`);
+                return false;
+            }
+
+            return true;
+        }
+
+        function readVideoDurationSeconds(file) {
+            return new Promise((resolve, reject) => {
+                const video = document.createElement('video');
+                const objectUrl = URL.createObjectURL(file);
+
+                const cleanup = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    video.removeAttribute('src');
+                    video.load();
+                };
+
+                video.preload = 'metadata';
+                video.onloadedmetadata = () => {
+                    const durationSeconds = video.duration;
+                    cleanup();
+                    resolve(durationSeconds);
+                };
+                video.onerror = () => {
+                    cleanup();
+                    reject(new Error('Unable to read video duration.'));
+                };
+                video.src = objectUrl;
+            });
+        }
+
+        function resetRejectedMediaSelection() {
+            fileInput.value = '';
+            selectedMediaType = '';
+            selectedImageFiles = [];
+            selectedVideoDurationSeconds = null;
+            isCheckingVideoDuration = false;
+            pendingVideoSubmitAfterDurationCheck = false;
+            updateHashtagsVisibility();
+            updateDescriptionLimitByMediaType();
+            updateExtraImagesNoteVisibility();
+            resetExtraImagesPreview();
+            resetMediaPreviewCard();
         }
 
         function showUploadMessage(message) {
@@ -487,6 +596,15 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
         function clearUploadMessage() {
             uploadMessage.textContent = '';
             uploadMessage.classList.add('d-none');
+        }
+
+        function submitListingWhenReady() {
+            if (typeof form.requestSubmit === 'function') {
+                form.requestSubmit();
+                return;
+            }
+
+            form.submit();
         }
 
         function updateExtraImagesNoteVisibility() {
@@ -541,7 +659,7 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
         function updateHashtagsVisibility() {
             const shouldShow = selectedMediaType === 'video';
             hashtagsSection.style.display = shouldShow ? '' : 'none';
-            hashtagsInput.required = shouldShow;
+            hashtagsInput.required = false;
             if (!shouldShow) {
                 hashtagsInput.value = '';
             }
@@ -595,6 +713,79 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
             stockNameInput.placeholder = placeholderText;
         }
 
+        function bindDropdownScrollGuard(container) {
+            if (!container) {
+                return;
+            }
+
+            const getState = () => {
+                let state = dropdownGestureStates.get(container);
+                if (!state) {
+                    state = {
+                        pointerStart: null,
+                        pointerMoved: false,
+                        lastPointerWasScroll: false,
+                        clearTimer: null
+                    };
+                    dropdownGestureStates.set(container, state);
+                }
+                return state;
+            };
+
+            container.addEventListener('pointerdown', (event) => {
+                const state = getState();
+                if (state.clearTimer) {
+                    window.clearTimeout(state.clearTimer);
+                    state.clearTimer = null;
+                }
+
+                activeDropdownList = container;
+                state.pointerStart = { x: event.clientX, y: event.clientY };
+                state.pointerMoved = false;
+                state.lastPointerWasScroll = false;
+            });
+
+            container.addEventListener('pointermove', (event) => {
+                const state = getState();
+                if (!state.pointerStart) {
+                    return;
+                }
+
+                const deltaX = event.clientX - state.pointerStart.x;
+                const deltaY = event.clientY - state.pointerStart.y;
+                if (Math.hypot(deltaX, deltaY) > 8) {
+                    state.pointerMoved = true;
+                }
+            });
+
+            const finishDropdownPointer = () => {
+                const state = getState();
+                state.lastPointerWasScroll = state.pointerMoved;
+                state.pointerStart = null;
+                state.pointerMoved = false;
+                state.clearTimer = window.setTimeout(() => {
+                    if (activeDropdownList === container) {
+                        activeDropdownList = null;
+                    }
+                    state.lastPointerWasScroll = false;
+                    state.clearTimer = null;
+                }, 350);
+            };
+
+            container.addEventListener('pointerup', finishDropdownPointer);
+            container.addEventListener('pointercancel', finishDropdownPointer);
+        }
+
+        function scheduleDropdownClose(container) {
+            window.setTimeout(() => {
+                if (activeDropdownList === container) {
+                    return;
+                }
+
+                container.classList.remove('show');
+            }, 320);
+        }
+
         function renderList(container, items, onSelect) {
             container.innerHTML = '';
             if (!items.length) {
@@ -607,33 +798,36 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                 button.type = 'button';
                 button.className = 'jomu-dropdown-item';
                 button.textContent = item.label ?? item;
-                // Capture selection before input blur hides the list (mobile-safe).
-                button.addEventListener('pointerdown', (event) => {
-                    event.preventDefault();
-                    onSelect(item);
-                });
                 button.addEventListener('click', (event) => {
                     event.preventDefault();
+                    const gestureState = dropdownGestureStates.get(container);
+                    if (gestureState?.lastPointerWasScroll) {
+                        gestureState.lastPointerWasScroll = false;
+                        return;
+                    }
+
                     onSelect(item);
                 });
                 container.appendChild(button);
             });
 
             container.classList.add('show');
-            if (container === categoryList) {
-                updateCategoryListViewportHeight();
-            }
+            updateDropdownListViewportHeight(container);
         }
 
-        function updateCategoryListViewportHeight() {
-            if (!categoryList || !categoryList.classList.contains('show')) {
+        function updateDropdownListViewportHeight(container) {
+            if (!container || !container.classList.contains('show')) {
                 return;
             }
 
-            const listRect = categoryList.getBoundingClientRect();
+            const listRect = container.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
             const availableHeight = Math.max(160, Math.floor(viewportHeight - listRect.top - 12));
-            categoryList.style.maxHeight = `${availableHeight}px`;
+            container.style.maxHeight = `${availableHeight}px`;
+        }
+
+        function updateVisibleDropdownHeights() {
+            [listingTypeList, categoryList, regionList].forEach(updateDropdownListViewportHeight);
         }
 
         function renderListingTypeOptions() {
@@ -800,12 +994,17 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
             }
         }
 
-        fileInput.addEventListener('change', (e)=> {
+        fileInput.addEventListener('change', async (e)=> {
+            const validationId = ++mediaSelectionValidationId;
+            pendingVideoSubmitAfterDurationCheck = false;
             const files = Array.from(e.target.files || []);
             const file = files[0];
             if (!file) {
                 selectedMediaType = '';
                 selectedImageFiles = [];
+                selectedVideoDurationSeconds = null;
+                isCheckingVideoDuration = false;
+                pendingVideoSubmitAfterDurationCheck = false;
                 updateHashtagsVisibility();
                 updateDescriptionLimitByMediaType();
                 updateExtraImagesNoteVisibility();
@@ -821,6 +1020,8 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                 fileInput.value = '';
                 selectedMediaType = '';
                 selectedImageFiles = [];
+                updateHashtagsVisibility();
+                updateDescriptionLimitByMediaType();
                 updateExtraImagesNoteVisibility();
                 resetExtraImagesPreview();
                 resetMediaPreviewCard();
@@ -849,13 +1050,51 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                 return;
             }
 
-            const oversizeFile = files.find((selectedFile) => serverUploadLimitBytes > 0 && selectedFile.size > serverUploadLimitBytes);
-            if (oversizeFile) {
-                showUploadMessage(`This file is ${formatBytesToMb(oversizeFile.size)} MB. The current server limit is ${formatBytesToMb(serverUploadLimitBytes)} MB, so please compress it before uploading.`);
+            if (!validateSelectedFileSizes(files)) {
+                resetRejectedMediaSelection();
                 return;
             }
 
-            clearUploadMessage();
+            if (firstFileType === 'video') {
+                isCheckingVideoDuration = true;
+                try {
+                    const durationSeconds = await readVideoDurationSeconds(file);
+                    if (validationId !== mediaSelectionValidationId) {
+                        return;
+                    }
+
+                    selectedVideoDurationSeconds = durationSeconds;
+                    if (!Number.isFinite(durationSeconds)) {
+                        showUploadMessage('Unable to read this video length. Please choose another video.');
+                        resetRejectedMediaSelection();
+                        return;
+                    }
+
+                    if (durationSeconds > MAX_VIDEO_DURATION_SECONDS) {
+                        showUploadMessage(`Video files can be up to ${formatDuration(MAX_VIDEO_DURATION_SECONDS)}. This video is ${formatDuration(durationSeconds)}.`);
+                        resetRejectedMediaSelection();
+                        return;
+                    }
+                } catch (error) {
+                    if (validationId !== mediaSelectionValidationId) {
+                        return;
+                    }
+
+                    showUploadMessage('Unable to read this video length. Please choose another video.');
+                    resetRejectedMediaSelection();
+                    return;
+                } finally {
+                    if (validationId === mediaSelectionValidationId) {
+                        isCheckingVideoDuration = false;
+                    }
+                }
+            } else {
+                selectedVideoDurationSeconds = null;
+            }
+
+            if (!pendingVideoSubmitAfterDurationCheck) {
+                clearUploadMessage();
+            }
             const reader = new FileReader();
 
             reader.onload = (event) => {
@@ -882,6 +1121,20 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                     video.controls = true;
                     avatarContainer.appendChild(video);
                 }
+
+                if (pendingVideoSubmitAfterDurationCheck && fileType === 'video' && validationId === mediaSelectionValidationId) {
+                    pendingVideoSubmitAfterDurationCheck = false;
+                    showUploadMessage('Uploading video listing.');
+                    requestAnimationFrame(submitListingWhenReady);
+                }
+            };
+
+            reader.onerror = () => {
+                pendingVideoSubmitAfterDurationCheck = false;
+                showUploadMessage(firstFileType === 'video'
+                    ? 'Unable to read this video. Please choose another video.'
+                    : 'Unable to read this image. Please choose another image.');
+                resetRejectedMediaSelection();
             };
 
             reader.readAsDataURL(file);
@@ -951,6 +1204,19 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                 return;
             }
 
+            if (isCheckingVideoDuration) {
+                e.preventDefault();
+                pendingVideoSubmitAfterDurationCheck = getFileMediaType(file) === 'video';
+                showUploadMessage('Uploading video listing.');
+                return;
+            }
+
+            if (getFileMediaType(file) === 'video' && Number.isFinite(selectedVideoDurationSeconds) && selectedVideoDurationSeconds > MAX_VIDEO_DURATION_SECONDS) {
+                e.preventDefault();
+                showUploadMessage(`Video files can be up to ${formatDuration(MAX_VIDEO_DURATION_SECONDS)}. This video is ${formatDuration(selectedVideoDurationSeconds)}.`);
+                return;
+            }
+
             if (selectedMediaType === 'video' && files.length > 1) {
                 e.preventDefault();
                 showUploadMessage('Video listings can only have one media file.');
@@ -963,10 +1229,13 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
                 return;
             }
 
-            const oversizeFile = files.find((selectedFile) => serverUploadLimitBytes > 0 && selectedFile.size > serverUploadLimitBytes);
-            if (oversizeFile) {
+            if (!validateSelectedFileSizes(files)) {
                 e.preventDefault();
-                showUploadMessage(`This file is ${formatBytesToMb(oversizeFile.size)} MB. The current server limit is ${formatBytesToMb(serverUploadLimitBytes)} MB, so it cannot be uploaded yet.`);
+                return;
+            }
+
+            if (getFileMediaType(file) === 'video') {
+                showUploadMessage('Uploading video listing.');
             }
         });
 
@@ -1003,14 +1272,14 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
             renderCategoryOptions();
         });
         listingTypeInput.addEventListener('blur', () => {
-            setTimeout(() => listingTypeList.classList.remove('show'), 200);
+            scheduleDropdownClose(listingTypeList);
         });
 
         categoryInput.addEventListener('focus', renderCategoryOptions);
         categoryInput.addEventListener('click', renderCategoryOptions);
         categoryInput.addEventListener('input', renderCategoryOptions);
         categoryInput.addEventListener('blur', () => {
-            setTimeout(() => categoryList.classList.remove('show'), 200);
+            scheduleDropdownClose(categoryList);
         });
 
         regionInput.addEventListener('focus', renderRegionOptions);
@@ -1020,8 +1289,12 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
             renderRegionOptions();
         });
         regionInput.addEventListener('blur', () => {
-            setTimeout(() => regionList.classList.remove('show'), 200);
+            scheduleDropdownClose(regionList);
         });
+
+        bindDropdownScrollGuard(listingTypeList);
+        bindDropdownScrollGuard(categoryList);
+        bindDropdownScrollGuard(regionList);
 
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.jomu-dropdown')) {
@@ -1031,7 +1304,7 @@ $serverUploadLimitBytes = min(array_filter([$uploadMaxBytes, $postMaxBytes])) ?:
             }
         });
 
-        window.addEventListener('resize', updateCategoryListViewportHeight);
+        window.addEventListener('resize', updateVisibleDropdownHeights);
         window.addEventListener('resize', syncExtraImagesPreviewHeight);
 
         if (listingTypeValueInput.value) {

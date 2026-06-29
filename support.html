@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu | Support</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="description" content="Get support for your JoMu account and marketplace activities.
+    Contact our team for help with listings and technical issues.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
     <style>
         /* Sticky footer fix */
         body {
@@ -25,16 +32,79 @@
             display: block;
             text-decoration: none;
         }
+
+        @media (max-width: 767.98px) {
+            body.body-support {
+                padding-top: 45px !important;
+            }
+
+            #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            #navbarone > .container {
+                min-height: 45px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+
+            #navbarone .navbar-brand,
+            #navbarone .brand-logos {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+            }
+
+            #navbarone .logo {
+                width: clamp(88px, 26vw, 112px);
+                display: block;
+            }
+
+            #navbarone .navbar-toggler.toggler-icon-bg {
+                position: absolute;
+                top: 50%;
+                right: 26px;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                margin: 0;
+                padding: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #navbarone .navbar-toggler .options-icons {
+                width: 21px;
+                height: 21px;
+                margin-bottom: 0;
+            }
+
+            body.body-support main.mt-5 {
+                margin-top: 0 !important;
+            }
+
+            body.body-support .support-container > .container.text-center.mt-4 {
+                margin-top: 0 !important;
+            }
+        }
     </style>
 </head>
 
-<body class="body-support">
+<body class="body-support fixed-mobile-navbar-page">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
             <div class="container">
-                <a class="navbar-brand brand-logos" href="index.php">
-                    <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                <a class="navbar-brand brand-logos" href="/">
+                    <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
                 </a>
             </div>
@@ -42,17 +112,17 @@
             <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
                 <span>
-                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                    <img src="/assets/images/icons/Toggler Icon personal.png" class="options-icons">
                 </span>
             </button>
             <!-- Navbar links for large screens -->
             <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active signin">
-                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        <a class="nav-link link-text" href="/sign-in">Sign In</a>
                     </li>
                 </ul>
-                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                     account</button>
             </div>
 
@@ -66,10 +136,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
-                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                            <a class="nav-link link-text" href="/sign-in">Sign In</a>
                         </li>
                     </ul>
-                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                         account</button>
                 </div>
             </div>
@@ -91,24 +161,24 @@
                                     <p style="margin: 0;"><strong>Support Hours:</strong></p>
                                     <p style="margin: 0;">Mon-Fri, 10am-4pm.</p>
                                 </div>
-                                <h4 style="color: white;"><img src="assets/images/icons/Email logo.png"
+                                <h4 style="color: white;"><img src="/assets/images/icons/Email logo.png"
                                         class="img-fluid support-logos">
                                     Email</h4>
                                 <h4 class="support-texts" data-site-contact="support_email">jomumarket@email.com</h4>
-                                <h4 style="color: white;"><img src="assets/images/icons/Phone call logo.png"
+                                <h4 style="color: white;"><img src="/assets/images/icons/Phone call logo.png"
                                         class="img-fluid support-logos">
                                     Phone Call</h4>
                                 <h4 class="support-texts" data-site-contact="support_phone">+256 708973632</h4>
-                                <h4 style="color: white;"><img src="assets/images/icons/Whatsapp logo.png"
+                                <h4 style="color: white;"><img src="/assets/images/icons/Whatsapp logo.png"
                                         class="img-fluid support-logos">
                                     Whatsapp</h4>
                                 <h4 class="support-texts" data-site-contact="support_whatsapp"> +256 708973632</h4>
                             </div>
                             <div class="col-lg-2 col-12 text-center mb-lg-0 mb-3 d-none d-lg-block">
-                                <img src="assets/images/Support-white-blue.png" class="img-fluid support-image">
+                                <img src="/assets/images/Support-white-blue.png" class="img-fluid support-image">
                             </div>
                             <div class="col-lg-2 col-12 text-center mb-lg-0 mb-4 mt-4 d-block d-lg-none">
-                                <img src="assets/images/Support-white-blue.png" class="img-fluid support-image"
+                                <img src="/assets/images/Support-white-blue.png" class="img-fluid support-image"
                                     style="width: 120px; height: 120px;">
                             </div>
 
@@ -116,24 +186,24 @@
                                 <!-- I have to link these directly to inboxes not just the profiles.-->
                                 <a class="support-social-link" data-site-link="facebook" href="#">
                                     <h4 class="mb-0 mt-0" style="color: white;"><img
-                                            src="assets/images/icons/Facebook-logo.png"
+                                            src="/assets/images/icons/Facebook-logo.png"
                                             class=" img-fluid support-logos">
                                         Facebook</h4>
                                 </a>
                                 <a class="support-social-link" data-site-link="x" href="#">
                                     <h4 class="mb-0 mt-0" style="color: white;"><img
-                                            src="assets/images/icons/X logo2.png" class="img-fluid support-logos">
+                                            src="/assets/images/icons/X logo2.png" class="img-fluid support-logos">
                                         X (Twitter)</h4>
                                 </a>
                                 <a class="support-social-link" data-site-link="instagram" href="#">
                                     <h4 class="mb-0 mt-0" style="color: white;"><img
-                                            src="assets/images/icons/Instagram-logo.png"
+                                            src="/assets/images/icons/Instagram-logo.png"
                                             class="img-fluid support-logos">
                                         Instagram</h4>
                                 </a>
                                 <a class="support-social-link" data-site-link="tiktok" href="#">
                                     <h4 class="mb-0 mt-0" style="color: white;"><img
-                                            src="assets/images/icons/Tiktok-Logo.png" class="img-fluid support-logos">
+                                            src="/assets/images/icons/Tiktok-Logo.png" class="img-fluid support-logos">
                                         Tiktok</h4>
                                 </a>
                             </div>
@@ -144,11 +214,11 @@
         </main>
         <footer class="footer-help py-2 text-center bg-dark">
             <div class="footer-links">
-                <a href="termsandconditions.html">Terms of Use</a>
-                <a href="privacypolicy.html">Privacy Policy</a>
-                <a href="help.html">Help</a>
-                <a href="feedback.html">Give Feedback</a>
-                <a href="about.html">About JoMu</a>
+                <a href="/terms-and-conditions">Terms of Use</a>
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/help">Help</a>
+                <a href="/feedback">Give Feedback</a>
+                <a href="/about">About JoMu</a>
             </div>
             <br>
             <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -164,13 +234,13 @@
                 if (!data || data.signed_in !== true) return;
 
                 const authSelectors = [
-                    "a[href='signin.html']",
-                    "a[href='./signin.html']",
-                    "a[href='/signin.html']",
-                    "a[href='createaccount.html']",
-                    "a[href='./createaccount.html']",
-                    "a[href='/createaccount.html']",
-                    "button[onclick*='createaccount.html']"
+                    "a[href='/sign-in']",
+                    "a[href='./sign-in']",
+                    "a[href='/sign-in']",
+                    "a[href='/create-account']",
+                    "a[href='./create-account']",
+                    "a[href='/create-account']",
+                    "button[onclick*='/create-account']"
                 ];
 
                 document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
@@ -201,7 +271,7 @@
 
         async function syncSupportSiteLinks() {
             try {
-                const response = await fetch('php/site_links.php', { credentials: 'same-origin' });
+                const response = await fetch('/php/site_links.php', { credentials: 'same-origin' });
                 if (!response.ok) return;
 
                 const data = await response.json();
@@ -229,8 +299,8 @@
 
         syncSupportSiteLinks();
     </script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
-<script src="assets/bootstrap.bundle.min.js"></script>
+<script src="/assets/bootstrap.bundle.min.js"></script>
 
 </html>

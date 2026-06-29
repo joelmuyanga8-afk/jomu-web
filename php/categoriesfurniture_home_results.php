@@ -69,8 +69,8 @@ function buildPurchaseUrl(array $listing, string $listingType, bool $isOwnListin
     $priceTo = trim((string) ($listing['price_to'] ?? ''));
     $priceLabel = buildPriceLabel($listing);
 
-    return 'purchasewholesale.html?' . http_build_query([
-        'image' => getMediaPath((string) ($listing['media'] ?? ''), 'php/'),
+    return '/purchase-wholesale?' . http_build_query([
+        'image' => getMediaPath((string) ($listing['media'] ?? ''), '/php/'),
         'title' => $listing['stockname'] ?? '',
         'price' => $priceLabel,
         'raw_price' => $listing['price'] ?? '',
@@ -97,7 +97,7 @@ function renderListingCard(array $listing, int $currentUserId): string
 
     $title = trim((string) ($listing['stockname'] ?? ''));
     $description = trim((string) ($listing['description'] ?? ''));
-    $imagePath = getMediaPath((string) ($listing['media'] ?? ''), 'php/');
+    $imagePath = getMediaPath((string) ($listing['media'] ?? ''), '/php/');
     $priceLabel = buildPriceLabel($listing);
     $isOwnListing = $currentUserId > 0 && (int) ($listing['user_id'] ?? 0) === $currentUserId;
     $purchaseUrl = buildPurchaseUrl($listing, $listingType, $isOwnListing);

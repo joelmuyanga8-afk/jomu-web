@@ -61,6 +61,7 @@ if ($conn->connect_error) {
 }
 
 $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+$accountIdentifier = trim((string) ($reset['account_identifier'] ?? $identifier));
 $stmt = $conn->prepare('UPDATE users SET password = ? WHERE emailormobilenumber = ? LIMIT 1');
 
 if (!$stmt) {
@@ -70,7 +71,7 @@ if (!$stmt) {
     exit();
 }
 
-$stmt->bind_param('ss', $passwordHash, $identifier);
+$stmt->bind_param('ss', $passwordHash, $accountIdentifier);
 $stmt->execute();
 
 if ($stmt->affected_rows < 0) {

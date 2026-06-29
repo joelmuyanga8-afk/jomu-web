@@ -504,7 +504,7 @@
         }
         const cardEl = sourceEl.closest('.card');
         const columnEl = sourceEl.closest('.col-6.col-md-4.col-lg-3, .col-4.col-md-4.col-lg-3, .listing-card-item');
-        const actionLink = cardEl?.querySelector('a[href*="purchasewholesale.html"], a.listing-action-btn');
+        const actionLink = cardEl?.querySelector('a[href*="/purchase-wholesale"], a.listing-action-btn');
         const payload = {
             listing_id: listingId,
             media_type: sourceEl?.dataset?.previewType || 'image',
@@ -554,7 +554,7 @@
                     <p id="${config.descriptionId}" class="${config.descriptionClass}"></p>
                 </div>
             </div>
-            <img id="${config.watermarkId}" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png" alt="JoMu watermark">
+            <img id="${config.watermarkId}" class="media-preview-watermark" src="/assets/images/JoMu logo redesigned.png" alt="JoMu watermark">
         `;
         document.body.appendChild(overlay);
         return overlay;

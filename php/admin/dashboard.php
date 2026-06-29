@@ -640,11 +640,16 @@ function render_bulk_order_cards(array $bulkPosts, string $csrf): void
     <title>JoMu Admin</title>
     <link rel="stylesheet" href="/assets/bootstrap.min.css">
     <link rel="stylesheet" href="admin.css">
+        <link rel="icon" type="image/png" sizes="16x16" href="/./assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/./assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/./assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/./assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/./assets/images/jomu_favicon_orange-512.png">
 </head>
 <body class="admin-page">
     <header class="admin-topbar">
-        <a class="admin-brand" href="../../index.php"><img src="<?php echo htmlspecialchars(jomu_admin_media_public_url('assets/images/JoMu logo redesigned.png')); ?>" alt="JoMu"><strong>Admin</strong></a>
-        <nav><a href="../../index.php">JoMu Platform</a><a href="logout.php" id="adminLogoutLink">Logout</a></nav>
+        <a class="admin-brand" href="/"><img src="<?php echo htmlspecialchars(jomu_admin_media_public_url('/assets/images/JoMu logo redesigned.png')); ?>" alt="JoMu"><strong>Admin</strong></a>
+        <nav><a href="/">JoMu Platform</a><a href="logout.php" id="adminLogoutLink">Logout</a></nav>
     </header>
     <div class="admin-secondary-stack" role="navigation" aria-label="Admin sections">
         <nav class="admin-secondary-nav">
@@ -809,7 +814,7 @@ function render_bulk_order_cards(array $bulkPosts, string $csrf): void
                 <div class="admin-section-head">
                     <div>
                         <h2>Ads <span class="admin-count"><?php echo number_format(count($adminAdAssets)); ?></span></h2>
-                        <p>Videos and images used around the platform. Search by file name, label, or page (e.g. <code>index.php</code>, <code>nav</code>, <code>about</code>).</p>
+                        <p>Videos and images used around the platform. Search by file name, label, or page (e.g. <code>/</code>, <code>nav</code>, <code>about</code>).</p>
                     </div>
                     <form class="admin-search" method="get" action="dashboard.php">
                         <input type="hidden" name="page" value="ads">
@@ -865,7 +870,7 @@ function render_bulk_order_cards(array $bulkPosts, string $csrf): void
                                                 'hashtags' => '',
                                                 'seller' => 'JoMu Admin',
                                                 'seller_login' => '',
-                                                'seller_profilepic' => jomu_admin_media_public_url('assets/images/JoMu logo redesigned.png'),
+                                                'seller_profilepic' => jomu_admin_media_public_url('/assets/images/JoMu logo redesigned.png'),
                                                 'seller_profile_url' => '#',
                                                 'created_at' => '',
                                                 'status' => is_file($absoluteAssetPath) ? 'Available' : 'Missing file',

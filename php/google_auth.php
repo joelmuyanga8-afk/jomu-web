@@ -47,13 +47,22 @@ curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 20
 ]);
+$caBundlePath = jomu_configure_curl_ca_bundle($ch);
 $response = curl_exec($ch);
 $curlError = curl_error($ch);
 $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-if ($response === false || $httpCode < 200 || $httpCode >= 300) {
-    error_log('Google token verify failed. HTTP: ' . $httpCode . '; cURL: ' . $curlError);
+if ($response === false) {
+    error_log('Google token verify failed. HTTP: ' . $httpCode . '; cURL: ' . $curlError . '; CA bundle: ' . ($caBundlePath ?: 'default'));
+    http_response_code(502);
+    echo json_encode(['success' => false, 'message' => 'Google authentication could not be verified right now. Please try again.']);
+    exit();
+}
+
+if ($httpCode < 200 || $httpCode >= 300) {
+    $safeResponse = substr(preg_replace('/\s+/', ' ', (string) $response) ?? '', 0, 500);
+    error_log('Google token verify rejected. HTTP: ' . $httpCode . '; Response: ' . $safeResponse . '; CA bundle: ' . ($caBundlePath ?: 'default'));
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Google authentication failed. Please try again.']);
     exit();
@@ -150,8 +159,8 @@ if ($flow === 'signup') {
         exit();
     }
 
-    $requiresBusinessName = false;
     $existingUser = $result->fetch_assoc();
+    $requiresBusinessName = trim((string) ($existingUser['businessname'] ?? '')) === '';
 }
 
 if ($existingUser) {
@@ -188,7 +197,7 @@ $_SESSION['google_requires_business_name'] = $requiresBusinessName;
 echo json_encode([
     'success' => true,
     'requires_business_name' => $requiresBusinessName,
-    'redirect' => $requiresBusinessName ? 'createaccount.html?google_complete=1' : 'php/businessvendordashboard.php',
+    'redirect' => $requiresBusinessName ? '/create-account?google_complete=1' : '/business-vendor-dashboard',
     'flow' => $flow
 ]);
 

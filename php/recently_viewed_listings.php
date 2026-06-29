@@ -83,7 +83,7 @@ while ($row = $result->fetch_assoc()) {
         : ($listingType === 'service' ? 'Schedule a Service' : 'Purchase Wholesale');
 
     $purchaseParams = http_build_query([
-        'image' => getMediaPath($row['media'] ?? '', 'php/'),
+        'image' => getMediaPath($row['media'] ?? '', '/php/'),
         'title' => $row['stockname'] ?? '',
         'price' => $productPriceLabel !== '' ? $productPriceLabel : ($row['price'] ?? ''),
         'raw_price' => $row['price'] ?? '',
@@ -99,7 +99,7 @@ while ($row = $result->fetch_assoc()) {
         'owner_view' => $isOwnListing ? '1' : '0',
     ]);
 
-    $purchaseUrl = 'purchasewholesale.html?' . $purchaseParams;
+    $purchaseUrl = '/purchase-wholesale?' . $purchaseParams;
     $actionUrl = (!$isOwnListing && $currentUserId <= 0)
         ? '/?error=Not+Signed+In!'
         : $purchaseUrl;
@@ -139,7 +139,7 @@ while ($row = $result->fetch_assoc()) {
         'listing_id' => (int) ($row['listing_id'] ?? 0),
         'user_id' => (int) ($row['user_id'] ?? 0),
         'media_type' => getMediaType((string) ($row['media'] ?? '')),
-        'media_src' => getMediaPath((string) ($row['media'] ?? ''), 'php/'),
+        'media_src' => getMediaPath((string) ($row['media'] ?? ''), '/php/'),
         'title' => trim((string) ($row['stockname'] ?? '')),
         'description' => trim((string) ($row['description'] ?? '')),
         'category' => trim((string) ($row['category'] ?? '')),

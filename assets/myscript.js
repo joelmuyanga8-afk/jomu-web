@@ -61,8 +61,8 @@ window.addEventListener('scroll', function () {
 
     if (logo) {
         logo.src = isScrolled
-            ? 'assets/images/JoMu logo redesigned.png'
-            : 'assets/images/JoMu black and white.png';
+            ? '/assets/images/JoMu logo redesigned.png'
+            : '/assets/images/JoMu black and white.png';
     }
 });
 

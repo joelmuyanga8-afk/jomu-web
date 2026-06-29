@@ -12,7 +12,7 @@ $conn->query(
         id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
         user_id INT NULL,
         business_name VARCHAR(255) NOT NULL,
-        profilepic VARCHAR(500) NOT NULL DEFAULT 'assets/images/profile.png',
+        profilepic VARCHAR(500) NOT NULL DEFAULT '/assets/images/profile.png',
         content TEXT NOT NULL,
         fulfilled TINYINT(1) NOT NULL DEFAULT 0,
         fulfilled_at DATETIME NULL DEFAULT NULL,
