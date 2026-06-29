@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vendor Dashboard</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
     <style>
         body.purchase-page {
             min-height: 100svh;
@@ -21,6 +26,39 @@
         }
 
         @media (max-width: 767.98px) {
+            body.purchase-page {
+                padding-top: 45px !important;
+            }
+
+            #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            #navbarone > .container {
+                min-height: 45px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+
+            #navbarone .navbar-brand,
+            #navbarone .brand-logos {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+            }
+
+            #navbarone .logo {
+                width: clamp(88px, 26vw, 112px);
+                display: block;
+            }
+
             .purchase-page .footer-feedback {
                 padding-top: 4px !important;
                 padding-bottom: 4px !important;
@@ -38,6 +76,11 @@
             .purchase-page .footer-feedback small {
                 display: block;
                 margin-top: 2px;
+            }
+
+            .purchase-page .seller-brief-top {
+                padding-left: 12px;
+                padding-right: 12px;
             }
         }
 
@@ -442,9 +485,9 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-white" id="navbarone">
             <div class="container">
-                <a class="navbar-brand brand-logos" href="index.php">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                <a class="navbar-brand brand-logos" href="/">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
                 </a>
             </div>
             <div style="display: none;">
@@ -476,14 +519,14 @@
                 <div class="seller-brief-top">
                     <a id="seller-brief-link" class="seller-brief-link" href="#">
                         <div class="seller-brief">
-                            <img id="seller-brief-dp" src="assets/images/profile.png" alt="Business profile">
+                            <img id="seller-brief-dp" src="/assets/images/profile.png" alt="Business profile">
                             <p id="seller-brief-name" class="seller-brief-name">Business</p>
                         </div>
                     </a>
                 </div>
                 <div class="card h-100 text-center selected-listing-card">
                     <div class="selected-listing-left">
-                        <img id="selected-product-image" src="assets/images/Clothes Bale.webp"
+                        <img id="selected-product-image" src="/assets/images/Clothes Bale.webp"
                             class="card-img-top img-fluid" alt="Selected Product">
                         <div id="selected-gallery-strip" class="selected-gallery-strip" style="display: none;"></div>
                         <h5 id="selected-product-title" class="card-title">Clothes Bale/Ndiboota</h5>
@@ -551,7 +594,7 @@
             <div class="jomu-popup-top">
                 <!-- <div class="jomu-popup-icon" aria-hidden="true">✓</div> -->
                 <div class="jomu-popup-icon" aria-hidden="true">
-                    <img id="submission-popup-icon" src="assets/images/icons/tick2.png" width="40" alt="">
+                    <img id="submission-popup-icon" src="/assets/images/icons/tick2.png" width="40" alt="">
                 </div>
                 <h4 id="submission-popup-title" class="jomu-popup-title">Submitted</h4>
                 <p id="submission-popup-message" class="jomu-popup-message"></p>
@@ -568,12 +611,12 @@
 
     <footer class=" footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -638,8 +681,8 @@
         const submissionPopupMessageEl = document.getElementById('submission-popup-message');
         const submissionPopupIconEl = document.getElementById('submission-popup-icon');
         const submissionPopupCloseEl = document.getElementById('submission-popup-close');
-        const popupSuccessIcon = 'assets/images/icons/tick2.png';
-        const popupErrorIcon = 'assets/images/icons/wrong2.png';
+        const popupSuccessIcon = '/assets/images/icons/tick2.png';
+        const popupErrorIcon = '/assets/images/icons/wrong2.png';
         let isService = listingType === 'service';
         const commentSectionEl = document.querySelector('.comment-section-bulk-orders');
         const interactionPanelEl = document.getElementById('interaction-panel');
@@ -1200,7 +1243,7 @@
                 payload.set('location', locationInputEl.value.trim());
                 payload.set('csrf_token', jomuUserCsrfToken);
 
-                const response = await fetch('php/submit_purchase_request.php', {
+                const response = await fetch('/php/submit_purchase_request.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1296,7 +1339,7 @@
                 return recentStorageKeyPromise;
             }
 
-            recentStorageKeyPromise = fetch('php/auth_status.php', { credentials: 'same-origin' })
+            recentStorageKeyPromise = fetch('/php/auth_status.php', { credentials: 'same-origin' })
                 .then((response) => response.ok ? response.json() : null)
                 .then((data) => {
                     recentStorageKey = data?.signed_in && data?.user_key
@@ -1331,7 +1374,7 @@
                 purchase_url: window.location.href,
                 seller_name: sellerBusinessName || '',
             });
-            fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(parsedListingId))}`)
+            fetch(`/php/increment_listing_view.php?listing_id=${encodeURIComponent(String(parsedListingId))}`)
                 .catch(() => {
                     // Non-blocking analytics update.
                 });
@@ -1340,7 +1383,7 @@
         function configureShowroomLink() {
             const parsedSellerId = Number.parseInt(sellerId || '', 10);
             if (!ownerView && ((Number.isInteger(parsedSellerId) && parsedSellerId > 0) || (Number.isInteger(parsedListingId) && parsedListingId > 0))) {
-                const showroomUrl = new URL('php/visitor_profile.php', window.location.origin);
+                const showroomUrl = new URL('/visitor-profile', window.location.origin);
 
                 if (Number.isInteger(parsedSellerId) && parsedSellerId > 0) {
                     showroomUrl.searchParams.set('user_id', String(parsedSellerId));
@@ -1372,8 +1415,8 @@
 
         loadSelectedListingDetails();
     </script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

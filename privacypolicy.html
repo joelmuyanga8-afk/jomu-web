@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu | Policy</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="description" content="Learn how JoMu collects, uses, protects and manages your personal
+    information and data while using our platform.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
     <style>
         /* Sticky footer fix */
         body {
@@ -86,6 +93,87 @@
                 animation: none;
             }
         }
+
+        @media (max-width: 767.98px) {
+            #navbarone.navbar-terms {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            #navbarone.navbar-terms:not(.navbar-terms-scrolled) {
+                background-color: transparent !important;
+                box-shadow: none !important;
+            }
+
+            #navbarone > .container {
+                min-height: 45px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+
+            #navbarone .navbar-brand,
+            #navbarone .brand-logos {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+            }
+
+            #navbarone .logo {
+                width: clamp(88px, 26vw, 112px);
+                display: block;
+            }
+
+            #navbarone .navbar-toggler.toggler-icon-bg {
+                position: absolute;
+                top: 50%;
+                right: 26px;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                margin: 0;
+                padding: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #navbarone .navbar-toggler .options-icons {
+                width: 21px;
+                height: 21px;
+                margin-bottom: 0;
+            }
+
+            main .container-terms {
+                padding-top: 58px;
+                padding-left: 16px;
+                padding-right: 16px;
+                padding-bottom: 22px;
+            }
+
+            main .container-terms > .termsandconditions.mt-5 {
+                margin-top: 0.75rem !important;
+            }
+
+            main .container-terms > .termsandconditions > p:last-of-type {
+                margin-bottom: 0;
+            }
+
+            main + hr {
+                margin: 0;
+            }
+
+            body > footer.footer-terms.py-2 {
+                margin-top: 0;
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+        }
     </style>
 </head>
 
@@ -93,25 +181,25 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-terms" id="navbarone">
             <div class="container">
-                <a class="navbar-brand" href="index.php">
-                    <img src="assets/images/JoMu black and white.png" id="logo-change" class="img-fluid logo">
+                <a class="navbar-brand" href="/">
+                    <img src="/assets/images/JoMu black and white.png" id="logo-change" class="img-fluid logo">
                 </a>
             </div>
             <!-- Toggler for small and medium screens -->
             <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
                 <span>
-                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                    <img src="/assets/images/icons/Toggler Icon personal.png" class="options-icons">
                 </span>
             </button>
             <!-- Navbar links for large screens -->
             <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active signin">
-                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        <a class="nav-link link-text" href="/sign-in">Sign In</a>
                     </li>
                 </ul>
-                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                     account</button>
             </div>
 
@@ -125,10 +213,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
-                            <a class="nav-link link-text" href="signin.html" style="color: white;">Sign In</a>
+                            <a class="nav-link link-text" href="/sign-in" style="color: white;">Sign In</a>
                         </li>
                     </ul>
-                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                         account</button>
                 </div>
             </div>
@@ -238,11 +326,11 @@
     <hr>
     <footer class="footer-terms py-2 text-center">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -262,13 +350,13 @@
                 if (!data || data.signed_in !== true) return;
 
                 const authSelectors = [
-                    "a[href='signin.html']",
-                    "a[href='./signin.html']",
-                    "a[href='/signin.html']",
-                    "a[href='createaccount.html']",
-                    "a[href='./createaccount.html']",
-                    "a[href='/createaccount.html']",
-                    "button[onclick*='createaccount.html']"
+                    "a[href='/sign-in']",
+                    "a[href='./sign-in']",
+                    "a[href='/sign-in']",
+                    "a[href='/create-account']",
+                    "a[href='./create-account']",
+                    "a[href='/create-account']",
+                    "button[onclick*='/create-account']"
                 ];
 
                 document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
@@ -309,8 +397,8 @@
 
             if (logo) {
                 logo.src = isScrolled
-                    ? "assets/images/JoMu logo redesigned.png"
-                    : "assets/images/JoMu black and white.png";
+                    ? "/assets/images/JoMu logo redesigned.png"
+                    : "/assets/images/JoMu black and white.png";
             }
         }
 
@@ -369,7 +457,7 @@
     <script>
         async function syncPrivacySiteContacts() {
             try {
-                const response = await fetch('php/site_links.php', { credentials: 'same-origin' });
+                const response = await fetch('/php/site_links.php', { credentials: 'same-origin' });
                 if (!response.ok) return;
 
                 const data = await response.json();
@@ -390,8 +478,8 @@
 
         syncPrivacySiteContacts();
     </script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'emailormobilenumber' => $emailormobilenumber,
             'business_name' => $business_name
         ];
-        header("Location: ../createaccount.html?" . http_build_query($params));
+        header("Location: /create-account?" . http_build_query($params));
         exit();
     }
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'emailormobilenumber' => $emailormobilenumber,
             'business_name' => $business_name
         ];
-        header("Location: ../createaccount.html?" . http_build_query($params));
+        header("Location: /create-account?" . http_build_query($params));
         exit();
     }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'emailormobilenumber' => $emailormobilenumber,
             'business_name' => $business_name
         ];
-        header("Location: ../createaccount.html?" . http_build_query($params));
+        header("Location: /create-account?" . http_build_query($params));
         exit();
     }
 
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'emailormobilenumber' => $emailormobilenumber,
             'business_name' => $business_name
         ];
-        header("Location: ../createaccount.html?" . http_build_query($params));
+        header("Location: /create-account?" . http_build_query($params));
         exit();
     }
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($stmt->execute()) {
             $stmt->close();
-            header("Location: ../createaccount.html?success=1");
+            header("Location: /create-account?success=1");
             exit();
         }
 
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errorMessage = $stmt->error;
         $stmt->close();
         if ($errorCode === 1062) {
-            header("Location: ../createaccount.html?error=emailmobilenumber_exists&email=" .
+            header("Location: /create-account?error=emailmobilenumber_exists&email=" .
                 urlencode($emailormobilenumber) . "&business_name=" .
                 urlencode($business_name));
             exit();

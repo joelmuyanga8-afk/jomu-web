@@ -6,7 +6,7 @@ require_once __DIR__ . '/partials/admin_helpers.php';
 jomu_ensure_admin_schema($conn);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../signin.html');
+    header('Location: /sign-in');
     exit();
 }
 
@@ -23,12 +23,12 @@ if ($result->num_rows === 1) {
     $row = $result->fetch_assoc();
     $accountStatus = strtolower(trim((string) ($row['account_status'] ?? 'active')));
     if (!password_verify($password, (string) ($row['password'] ?? ''))) {
-        header("Location: ../signin.html?error=Invalid+password");
+        header("Location: /sign-in?error=Invalid+password");
         exit();
     }
     if ($accountStatus === 'terminated') {
         $terminatedMsg = 'This business account was terminated.';
-        header('Location: ../signin.html?error=' . rawurlencode($terminatedMsg));
+        header('Location: /sign-in?error=' . rawurlencode($terminatedMsg));
         exit();
     }
     $inactiveUntil = trim((string) ($row['inactive_until'] ?? ''));
@@ -51,7 +51,7 @@ if ($result->num_rows === 1) {
     header("location: businessvendordashboard.php");
     exit();
 } else {
-    header("Location: ../signin.html?error=Invalid+password");
+    header("Location: /sign-in?error=Invalid+password");
 }
 $stmt->close();
 $conn->close();

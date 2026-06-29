@@ -26,14 +26,14 @@ $conn->query(
 
 $defaultLinks = [
     'app' => 'JoMu Application (components/nav.php)',
-    'facebook' => 'Facebook (components/nav.php, index.php, support.html)',
-    'instagram' => 'Instagram (components/nav.php, index.php, support.html)',
-    'tiktok' => 'Tiktok (components/nav.php, index.php, support.html)',
-    'x' => 'X (components/nav.php, index.php, support.html)',
-    'support_email' => 'Support email (support.html)',
-    'privacy_email' => 'Privacy policy email (privacypolicy.html)',
-    'support_phone' => 'Support phone call (support.html)',
-    'support_whatsapp' => 'Support WhatsApp (support.html)',
+    'facebook' => 'Facebook (components/nav.php, /, /support)',
+    'instagram' => 'Instagram (components/nav.php, /, /support)',
+    'tiktok' => 'Tiktok (components/nav.php, /, /support)',
+    'x' => 'X (components/nav.php, /, /support)',
+    'support_email' => 'Support email (/support)',
+    'privacy_email' => 'Privacy policy email (/privacy-policy)',
+    'support_phone' => 'Support phone call (/support)',
+    'support_whatsapp' => 'Support WhatsApp (/support)',
 ];
 $defaultLinkUrls = [
     'support_email' => 'jomumarket@email.com',

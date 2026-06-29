@@ -109,12 +109,12 @@ function renderCard(array $business): string
 
     $profilePic = trim((string) ($business['profilepic'] ?? ''));
     if ($profilePic === '') {
-        $profilePic = 'assets/images/profile.png';
+        $profilePic = '/assets/images/profile.png';
     } else {
-        $profilePic = getMediaPath($profilePic, 'php/');
+        $profilePic = getMediaPath($profilePic, '/php/');
     }
 
-    $profileUrl = 'php/visitor_profile.php?user_id=' . (int) ($business['id'] ?? 0);
+    $profileUrl = '/visitor-profile?user_id=' . (int) ($business['id'] ?? 0);
 
     return '
         <div class="col-6 col-md-4 col-lg-3">

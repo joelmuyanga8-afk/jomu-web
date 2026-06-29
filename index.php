@@ -1,4 +1,92 @@
-<?php 
+<?php
+
+$jomuPrettyRoutes = [
+    '/about' => 'about.html',
+    '/bulk-orders' => 'businessbulkorders.html',
+    '/business-vendor-dashboard' => 'php/businessvendordashboard.php',
+    '/profile' => 'php/profile.php',
+    '/visitor-profile' => 'php/visitor_profile.php',
+    '/add-new-listing' => 'php/addnewlisting.php',
+    '/categories/agriculture-produce' => 'categoriesagriculture&produce.html',
+    '/categories/apparel' => 'categoriesapparel.html',
+    '/categories/automotive-transport' => 'categoriesautomotive&transport.html',
+    '/categories/construction-building' => 'categoriesconstruction&building.html',
+    '/categories/electronics-gadgets' => 'categorieselectronics&gagdets.html',
+    '/categories/food-beverages' => 'categoriesfood&beverages.html',
+    '/categories/furniture-home' => 'categoriesfurniture&home.html',
+    '/categories/general-services' => 'categoriesgeneralservices.html',
+    '/categories/health-beauty' => 'categorieshealth&beauty.html',
+    '/categories/it-software' => 'categoriesit&software.html',
+    '/categories/livestock-animals' => 'categorieslivestock&animals.html',
+    '/categories/office-supply-stationery' => 'categoriesofficesupply&stationery.html',
+    '/categories/printing-branding' => 'categoriesprinting&branding.html',
+    '/categories/wholesale-retail' => 'categorieswholesale&retail.html',
+    '/create-account' => 'createaccount.html',
+    '/feedback' => 'feedback.html',
+    '/help' => 'help.html',
+    '/new-arrivals/central' => 'newarrivalscentral.php',
+    '/new-arrivals/eastern' => 'newarrivalseastern.php',
+    '/new-arrivals/northern' => 'newarrivalsnorthern.php',
+    '/new-arrivals/western' => 'newarrivalswestern.php',
+    '/offers-discounts' => 'offers&discounts.html',
+    '/privacy-policy' => 'privacypolicy.html',
+    '/purchase-wholesale' => 'purchasewholesale.html',
+    '/recently-viewed' => 'recentlyviewed.html',
+    '/sign-in' => 'signin.html',
+    '/suggested/same-category' => 'suggestedsamecategory.html',
+    '/suggested/top-picks' => 'suggestedtoppicks.php',
+    '/support' => 'support.html',
+    '/terms-and-conditions' => 'termsandconditions.html',
+    '/top-rated-sellers/central' => 'topratedsellerscentral.html',
+    '/top-rated-sellers/eastern' => 'topratedsellerseastern.html',
+    '/top-rated-sellers/northern' => 'topratedsellersnorthern.html',
+    '/top-rated-sellers/western' => 'topratedsellerswestern.html',
+    '/trending/hot-deals' => 'trendinghotdeals.html',
+    '/trending/seasonal-trends' => 'trendingseasonaltrends.html',
+    '/vendor-shops/apparel' => 'vendorshops-apparel.html',
+    '/vendor-shops/shoes' => 'vendorshops-shoes.html',
+];
+
+$jomuRequestPath = parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH);
+$jomuRequestPath = '/' . ltrim(str_replace('\\', '/', (string) $jomuRequestPath), '/');
+$jomuNormalizedPath = rtrim($jomuRequestPath, '/') ?: '/';
+
+if (preg_match('#/index\.php$#i', $jomuNormalizedPath)) {
+    $jomuQuery = (string) ($_SERVER['QUERY_STRING'] ?? '');
+    header('Location: /' . ($jomuQuery !== '' ? '?' . $jomuQuery : ''), true, 301);
+    exit;
+}
+
+if ($jomuNormalizedPath !== '/' && isset($jomuPrettyRoutes[$jomuNormalizedPath])) {
+    $jomuRouteTarget = __DIR__ . DIRECTORY_SEPARATOR . $jomuPrettyRoutes[$jomuNormalizedPath];
+    if (is_file($jomuRouteTarget)) {
+        if (str_ends_with($jomuRouteTarget, '.php')) {
+            require $jomuRouteTarget;
+        } else {
+            header('Content-Type: text/html; charset=UTF-8');
+            readfile($jomuRouteTarget);
+        }
+        exit;
+    }
+}
+
+if (preg_match('#^/(?:categories|new-arrivals|suggested|top-rated-sellers|trending|vendor-shops)/(assets|php)/(.+)$#', $jomuNormalizedPath, $jomuNestedMatch)) {
+    $jomuNestedRoot = $jomuNestedMatch[1] === 'assets' ? 'assets' : 'php';
+    $jomuNestedTarget = realpath(__DIR__ . DIRECTORY_SEPARATOR . $jomuNestedRoot . DIRECTORY_SEPARATOR . $jomuNestedMatch[2]);
+    $jomuAllowedRoot = realpath(__DIR__ . DIRECTORY_SEPARATOR . $jomuNestedRoot);
+    if ($jomuNestedTarget && $jomuAllowedRoot && str_starts_with($jomuNestedTarget, $jomuAllowedRoot) && is_file($jomuNestedTarget)) {
+        if ($jomuNestedRoot === 'php' && str_ends_with($jomuNestedTarget, '.php')) {
+            require $jomuNestedTarget;
+        } else {
+            $jomuMimeType = function_exists('mime_content_type') ? mime_content_type($jomuNestedTarget) : '';
+            if (is_string($jomuMimeType) && $jomuMimeType !== '') {
+                header('Content-Type: ' . $jomuMimeType);
+            }
+            readfile($jomuNestedTarget);
+        }
+        exit;
+    }
+}
 
 session_start();
 require 'php/connection/dbconn.php';
@@ -759,9 +847,16 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <!-- <link rel="stylesheet" href="assets/bootstrap.min.css"> -->
+    <meta name="description" content="Find suppliers, wholesalers, manufacturers, service providers and clients
+    across Uganda on JoMu, your trusted B2B marketplace for business growth and connections.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <!-- <link rel="stylesheet" href="/assets/bootstrap.min.css"> -->
+         <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
     <style>
         html {
             background-color: #161515;
@@ -779,17 +874,25 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
         }
 
         @media (max-width: 767.98px) {
+            body.home-page {
+                padding-top: 60px;
+            }
+
             body.home-page #navbarone {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                height: 60px;
+                min-height: 60px;
                 padding-left: 0;
                 padding-right: 4px;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
             }
 
             body.home-page #navbarone > .d-block.d-md-none.d-lg-none.py-0.px-0 {
                 width: auto;
-                margin: 0 0 0 -14px;
+                margin: 0 0 0 -8px;
                 padding: 0 !important;
                 flex: 0 0 auto;
             }
@@ -811,12 +914,18 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
 
             body.home-page #navbarone .searching-small {
                 position: absolute;
-                left: calc(50% + 30px);
+                left: calc(50% + 24px);
                 transform: translateX(-50%);
                 width: clamp(165px, calc(100vw - 165px), 265px);
                 max-width: calc(100vw - 165px);
                 min-width: 0;
                 padding: 0;
+            }
+
+            body.home-page.home-page-guest #navbarone .searching-small {
+                left: calc(50% + 30px);
+                width: clamp(174px, calc(100vw - 152px), 278px);
+                max-width: calc(100vw - 152px);
             }
 
             body.home-page #navbarone .searching-small .input-group {
@@ -842,22 +951,38 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
             }
 
             body.home-page #navbarone .navbar-toggler.d-lg-none {
-                margin-right: 2px;
+                margin-right: -7px;
+            }
+
+            body.home-page #navbarone .navbar-toggler img {
+                margin-right: 0 !important;
             }
 
             @media (max-width: 420px) {
                 body.home-page #navbarone .searching-small {
-                    left: calc(50% + 34px);
+                    left: calc(50% + 28px);
                     width: clamp(153px, calc(100vw - 180px), 245px);
                     max-width: calc(100vw - 180px);
+                }
+
+                body.home-page.home-page-guest #navbarone .searching-small {
+                    left: calc(50% + 31px);
+                    width: clamp(162px, calc(100vw - 168px), 258px);
+                    max-width: calc(100vw - 168px);
                 }
             }
 
             @media (max-width: 360px) {
                 body.home-page #navbarone .searching-small {
-                    left: calc(50% + 38px);
+                    left: calc(50% + 32px);
                     width: clamp(141px, calc(100vw - 190px), 215px);
                     max-width: calc(100vw - 190px);
+                }
+
+                body.home-page.home-page-guest #navbarone .searching-small {
+                    left: calc(50% + 34px);
+                    width: clamp(148px, calc(100vw - 180px), 225px);
+                    max-width: calc(100vw - 180px);
                 }
             }
 
@@ -870,13 +995,21 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                 width: 100%;
                 max-width: none;
                 margin: 0;
-                padding-left: 4px !important;
-                padding-right: 4px !important;
+                padding-left: 9px !important;
+                padding-right: 9px !important;
             }
 
             .home-page footer .footer-links {
-                gap: 0 4px;
-                justify-content: space-between;
+                /* gap: 0 4x
+                justify-content: space-between;*/
+                gap: 6px 12px;
+                justify-content: center;
+            }
+
+            .home-page footer .footer-shell > .footer-links:first-child {
+                padding-left: 0;
+                padding-right: 0;
+                box-sizing: border-box;
             }
 
             .home-page footer .footer-links a:last-child {
@@ -1401,7 +1534,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
     </style>
 </head>
 
-<body class="body-one home-page">
+<body class="body-one home-page<?php echo empty($_SESSION['emailormobilenumber']) && empty($_SESSION['admin_id']) ? ' home-page-guest' : ''; ?>">
     <header>
         <?php require 'components/nav.php' ?>
     </header>
@@ -1411,28 +1544,28 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
         } ?>
         <!-- Welcome div for large screens -->
         <div class="container-fluid mt-2 d-none d-md-none d-lg-block">
-            <video width="53.5%" autoplay loop muted src="assets/videos/JoMu animation large_screens.mp4"
+            <video width="53.5%" autoplay loop muted src="/assets/videos/JoMu animation large_screens.mp4"
                 class="animation welcome-carousel" style="object-fit: cover;"></video>
             <div id="myCourasel" class="carousel-slide" data-bs-ride="carousel">
                 <div class="carousel-inner welcome-carousel" id="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="assets/images/Buy-2.png" class="d-block w-100 h-100" alt="">
+                        <img src="/assets/images/Buy-2.png" class="d-block w-100 h-100" alt="">
                     </div>
-                    <button class="button find-partner" onclick="location.href='businessbulkorders.html'">Get a business
+                    <button class="button find-partner" onclick="location.href='/bulk-orders'">Get a business
                         partner</button>
                 </div>
             </div>
         </div>
         <!-- Welcome div for medium screens -->
         <div class="container-fluid mt-2 d-none d-md-block d-lg-none">
-            <video width="53.5%" autoplay loop muted src="assets/videos/JoMu animation.mp4"
+            <video width="53.5%" autoplay loop muted src="/assets/videos/JoMu animation.mp4"
                 class="animation welcome-carousel-medium" style="object-fit: cover"></video>
             <div id="myCourasel2" class="carousel-slide" data-bs-ride="carousel">
                 <div class="carousel-inner welcome-carousel-medium" id="carousel-inner-medium">
                     <div class="carousel-item active">
-                        <img src="assets/images/Buy-2.png" class="d-block w-100 h-100" alt="">
+                        <img src="/assets/images/Buy-2.png" class="d-block w-100 h-100" alt="">
                     </div>
-                    <button class="button find-partner-small" onclick="location.href='businessbulkorders.html'">Get a
+                    <button class="button find-partner-small" onclick="location.href='/bulk-orders'">Get a
                         business partner</button>
                 </div>
             </div>
@@ -1440,14 +1573,14 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
         <!-- Welcome div for small screens -->
         <div class="mt-1 d-block d-md-none d-lg-none">
 <!-- width="53.5% -->
-            <video width="69%" autoplay loop muted src="assets/videos/JoMu Animation small_screens.mp4"
+            <video width="69%" autoplay loop muted src="/assets/videos/JoMu Animation small_screens.mp4"
                 class="animation welcome-carousel-small" style="object-fit: cover; border-radius: 10px"></video>
             <div id="myCourasel2" class="carousel-slide" data-bs-ride="carousel">
                 <div class="carousel-inner welcome-carousel-small" id="carousel-inner-small">
                     <div class="carousel-item active">
-                        <img src="assets/images/Buy-2.png" class="d-block w-100 h-100" alt="" style="margin-left: 40px;">
+                        <img src="/assets/images/Buy-2.png" class="d-block w-100 h-100" alt="" style="margin-left: 40px;">
                     </div>
-                    <button class="button find-partner-small" style="margin-bottom: -1px" onclick="location.href='businessbulkorders.html'">Get a
+                    <button class="button find-partner-small" style="margin-bottom: -1px" onclick="location.href='/bulk-orders'">Get a
                         business partner</button>
                 </div>
             </div>
@@ -1483,7 +1616,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                                 $displayPriceLabel = formatPriceText(trim((string) ($listing['price'] ?? '')));
                             }
                             $purchaseParams = http_build_query([
-                                'image' => getMediaPath($listing['media'], 'php/'),
+                                'image' => getMediaPath($listing['media'], '/php/'),
                                 'title' => $listing['stockname'] ?? '',
                                 'price' => $productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? ''),
                                 'raw_price' => $listing['price'] ?? '',
@@ -1498,7 +1631,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                                 'listing_type' => $listingType,
                                 'owner_view' => $isOwnListing ? '1' : '0',
                             ]);
-                            $purchaseUrl = 'purchasewholesale.html?' . $purchaseParams;
+                            $purchaseUrl = '/purchase-wholesale?' . $purchaseParams;
                             $actionUrl = (!$isOwnListing && $currentUserId <= 0)
                                 ? '/?error=Not+Signed+In!'
                                 : $purchaseUrl;
@@ -1515,7 +1648,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                                 $homePreviewBusiness = 'Business';
                             }
                         ?>
-                        <img src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" class="card-img-top img-fluid media-preview-item media-preview-source" alt="<?php echo htmlspecialchars($listing['stockname']); ?>" data-preview-type="image" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>" data-preview-business="<?php echo htmlspecialchars($homePreviewBusiness); ?>" data-preview-posted="<?php echo htmlspecialchars($homePreviewPosted); ?>">
+                        <img src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" class="card-img-top img-fluid media-preview-item media-preview-source" alt="<?php echo htmlspecialchars($listing['stockname']); ?>" data-preview-type="image" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>" data-preview-business="<?php echo htmlspecialchars($homePreviewBusiness); ?>" data-preview-posted="<?php echo htmlspecialchars($homePreviewPosted); ?>">
                         <div class="card-body p-2 d-flex flex-column jomu-card-typography" style="gap: 1px;">
                             <h5 class="card-title mb-0 listing-name-top"><?php echo htmlspecialchars($listing['stockname']); ?></h5>
                             <p class="card-text mb-0 listing-description"><span class="listing-description-text"><?php echo htmlspecialchars($listing['description'] ?? ''); ?></span></p>
@@ -1577,8 +1710,8 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                                         $homePreviewBusiness = 'Business';
                                     }
                                 ?>
-                                <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>" data-preview-business="<?php echo htmlspecialchars($homePreviewBusiness); ?>" data-preview-posted="<?php echo htmlspecialchars($homePreviewPosted); ?>">
-                                    <source src="<?php echo htmlspecialchars(getMediaPath($listing['media'], 'php/')); ?>" type="video/mp4">
+                                <video class="video-content media-preview-item media-preview-source" controls muted data-preview-type="video" data-preview-src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" data-preview-title="<?php echo htmlspecialchars($listing['stockname'] ?? ''); ?>" data-preview-description="<?php echo htmlspecialchars($listing['description'] ?? ''); ?>" data-preview-price="<?php echo htmlspecialchars($productPriceLabel !== '' ? $productPriceLabel : ($listing['price'] ?? '')); ?>" data-preview-listing-id="<?php echo (int) ($listing['listing_id'] ?? 0); ?>" data-preview-business="<?php echo htmlspecialchars($homePreviewBusiness); ?>" data-preview-posted="<?php echo htmlspecialchars($homePreviewPosted); ?>">
+                                    <source src="<?php echo htmlspecialchars(getMediaPath($listing['media'], '/php/')); ?>" type="video/mp4">
                                 </video>
                             </div>
                             <div class="card-body p-2 video-card-body">
@@ -1593,8 +1726,8 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                                         $sellerInitial = 'B';
                                     }
                                     $sellerProfileUrl = ((int) ($listing['user_id'] ?? 0) === $currentUserId && $currentUserId > 0)
-                                        ? 'php/profile.php'
-                                        : ('php/visitor_profile.php?user_id=' . urlencode((string) ($listing['user_id'] ?? '')));
+                                        ? '/profile'
+                                        : ('/visitor-profile?user_id=' . urlencode((string) ($listing['user_id'] ?? '')));
 
                                     $savedHashtags = trim((string) ($listing['hashtags'] ?? ''));
                                     if ($savedHashtags !== '') {
@@ -1630,7 +1763,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                                 ?>
                                 <a href="<?php echo htmlspecialchars($sellerProfileUrl); ?>" class="video-seller-row video-seller-link">
                                     <?php if ($sellerProfile !== '') { ?>
-                                        <img src="<?php echo htmlspecialchars(getMediaPath($sellerProfile, 'php/')); ?>" alt="<?php echo htmlspecialchars($sellerName); ?>" class="video-seller-dp">
+                                        <img src="<?php echo htmlspecialchars(getMediaPath($sellerProfile, '/php/')); ?>" alt="<?php echo htmlspecialchars($sellerName); ?>" class="video-seller-dp">
                                     <?php } else { ?>
                                         <span class="video-seller-dp video-seller-dp-fallback"><?php echo htmlspecialchars($sellerInitial); ?></span>
                                     <?php } ?>
@@ -1660,12 +1793,12 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
     <footer>
         <div class="container-fluid footer-shell">
             <div class="footer-links">
-                <a href="termsandconditions.html">Terms of Use</a>
-                <a href="privacypolicy.html">Privacy Policy</a>
-                <a href="help.html">Help</a>
-                <a href="support.html">Support</a>
-                <a href="feedback.html">Give Feedback</a>
-                <a href="about.html">About JoMu</a>
+                <a href="/terms-and-conditions">Terms of Use</a>
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/help">Help</a>
+                <a href="/support">Support</a>
+                <a href="/feedback">Give Feedback</a>
+                <a href="/about">About JoMu</a>
             </div>
             <div class="footer-links social-media-links" style="gap: 15px;">
                 <h6>Stay in Touch:</h6>
@@ -1676,16 +1809,16 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                     return $url !== '' ? htmlspecialchars($url, ENT_QUOTES, 'UTF-8') : '#';
                 };
                 ?>
-                <a href="<?php echo $footerSocialHref('facebook'); ?>"><span><img src="assets/images/icons/Facebook Icon.png"
+                <a href="<?php echo $footerSocialHref('facebook'); ?>"><span><img src="/assets/images/icons/Facebook Icon.png"
                             class="social-media-icons"></span>Facebook</a>
-                <a href="<?php echo $footerSocialHref('tiktok'); ?>"><span><img src="assets/images/icons/Tiktok Icon.png"
+                <a href="<?php echo $footerSocialHref('tiktok'); ?>"><span><img src="/assets/images/icons/Tiktok Icon.png"
                             class="social-media-icons"></span>TikTok</a>
-                <a href="<?php echo $footerSocialHref('instagram'); ?>"><span><img src="assets/images/icons/Instagram Icon.png"
+                <a href="<?php echo $footerSocialHref('instagram'); ?>"><span><img src="/assets/images/icons/Instagram Icon.png"
                             class="social-media-icons"></span>Instagram</a>
-                <a href="<?php echo $footerSocialHref('x'); ?>"><span><img src="assets/images/icons/X Icon.png"
+                <a href="<?php echo $footerSocialHref('x'); ?>"><span><img src="/assets/images/icons/X Icon.png"
                             class="social-media-icons"></span>Twitter(X)</a>
             </div>
-            <!-- <a href=""><img src="assets/images/JoMu logo redesigned.png" class="img-fluid footer-jomu"></a>
+            <!-- <a href=""><img src="/assets/images/JoMu logo redesigned.png" class="img-fluid footer-jomu"></a>
                 DOWNLOAD JoMu APP FREE.
                 Enjoy exclusive offers!             -->
             <br>
@@ -1706,7 +1839,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                 <p id="mediaPreviewDescription" class="media-preview-description"></p>
             </div>
         </div>
-        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png" alt="JoMu watermark">
+        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="/assets/images/JoMu logo redesigned.png" alt="JoMu watermark">
     </div>
 
     <script>
@@ -1747,14 +1880,14 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
             try {
                 if (navigator.sendBeacon) {
                     const blob = new Blob([payload], { type: 'application/json' });
-                    navigator.sendBeacon('php/track_search_interest.php', blob);
+                    navigator.sendBeacon('/php/track_search_interest.php', blob);
                     return;
                 }
             } catch (error) {
                 // Fall back to fetch below.
             }
 
-            fetch('php/track_search_interest.php', {
+            fetch('/php/track_search_interest.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: payload,
@@ -1967,7 +2100,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
                 return recentStorageKeyPromise;
             }
 
-            recentStorageKeyPromise = fetch("php/auth_status.php", { credentials: "same-origin" })
+            recentStorageKeyPromise = fetch("/php/auth_status.php", { credentials: "same-origin" })
                 .then((response) => response.ok ? response.json() : null)
                 .then((data) => {
                     recentStorageKey = data?.signed_in && data?.user_key
@@ -1990,7 +2123,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
 
             const cardEl = sourceEl.closest(".card");
             const columnEl = sourceEl.closest(".col-6.col-md-4.col-lg-3");
-            const actionLink = cardEl?.querySelector('a[href*="purchasewholesale.html"]');
+            const actionLink = cardEl?.querySelector('a[href*="/purchase-wholesale"]');
             storeRecentlyViewedListing({
                 listing_id: listingId,
                 media_type: sourceEl?.dataset.previewType || "image",
@@ -2017,7 +2150,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
             storeRecentListingFromSource(sourceEl);
 
             try {
-                await fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                await fetch(`/php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
             } catch (error) {
                 // Non-blocking analytics update.
             }
@@ -2033,7 +2166,7 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
             storeRecentListingFromSource(sourceEl);
 
             try {
-                await fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                await fetch(`/php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
             } catch (error) {
                 // Non-blocking analytics update.
             }
@@ -2215,10 +2348,10 @@ $showVideoNoMatch = $hasActiveSearch && count($video_listings) === 0;
         }, true);
 
     </script>
-    <script src="assets/listing-preview-modal.js"></script>
-    <script src="assets/listing-preview-gallery.js"></script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/listing-preview-modal.js"></script>
+    <script src="/assets/listing-preview-gallery.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="description" content="Sign up for JoMu to grow your business, discover opportunities and connect with trusted business
+    partners.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
 </head>
 
 <body class="container body-signin d-flex flex-column min-vh-100">
@@ -14,17 +21,17 @@
     <main class="main-signin flex-grow-1 d-flex flex-column justify-content-center align-items-center">
         <div class="row w-100" style="max-width: 1000px;">
             <div class="col-md-6 d-none d-md-block">
-                <img src="assets/images/Createaccount-image.png" alt="createaccount-image" class="img-fluid">
+                <img src="/assets/images/Createaccount-image.png" alt="createaccount-image" class="img-fluid">
             </div>
             <div class="col-md-6">
                 <div class="w-100  signin-logo" style="max-width: 400px;">
-                    <a class="mb-4 d-block signin-logo" href="index.php">
-                        <img src="assets/images/JoMu logo redesigned.png" class="img-fluid mx-auto d-block signinjomu"
+                    <a class="mb-4 d-block signin-logo" href="/">
+                        <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid mx-auto d-block signinjomu"
                             style="max-width: 190px; margin-left: 12px;" alt="jomu-logo">
                     </a>
                 </div>
                 <div class="createaccount-container mx-auto" style="max-width: 400px;">
-                    <form action="php/createaccount.php" id="createaccountForm" method="POST">
+                    <form action="/php/createaccount.php" id="createaccountForm" method="POST">
                         <input type="hidden" name="csrf_token" id="createAccountCsrfToken" value="">
                         <h4 class="mb-3 px-1">Create a business account.</h4>
                         <div class="form-floating mb-3">
@@ -49,12 +56,14 @@
                             <small id="passwordWarning" style="color: red; display: block; margin-top: 4px;"></small>
                         </div>
                         <p class="small mb-3 px-4 text-center">By continuing, you agree to JoMu's <a
-                                class="terms-conditions" href="termsandconditions.html">Terms and Conditions</a>.</p>
+                                class="terms-conditions" href="/terms-and-conditions">Terms and Conditions</a>.</p>
                         <button type="submit" class="btn w-100 signin-button"
                             id="createAccountContinueBtn">Continue</button>
-                        <button type="button" class="btn w-100 signin-button mt-2" id="googleCreateBtn"
-                            style="background-color: rgb(241,90,36);">Create account using Google.</button>
-                        <div id="googleCreateFallbackButton" class="mt-2 d-none"></div>
+                        <div id="googleCreateButton" class="google-auth-shell mt-2">
+                            <span class="btn w-100 signin-button google-auth-face"
+                                style="background-color: rgb(241,90,36); color: white;">Create Account using Google</span>
+                            <div id="googleCreateNativeButton" class="google-auth-native"></div>
+                        </div>
                         <small id="googleCreateFeedback"
                             style="display:block; margin-top: 6px; color: #c0392b;"></small>
                     </form>
@@ -66,12 +75,12 @@
     <hr>
     <footer class="footer-signin py-2 text-center d-none d-md-block d-lg-block">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
         <!-- </div> -->
@@ -79,12 +88,12 @@
 
     <footer class="footer-terms py-2 text-center mt-0 d-block d-md-none d-lg-none">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
     </footer>
@@ -115,15 +124,15 @@
         const passwordInput = document.getElementById("password");
         const heading = document.querySelector("#createaccountForm h4");
         const continueButton = document.getElementById("createAccountContinueBtn");
-        const googleCreateBtn = document.getElementById("googleCreateBtn");
-        const googleCreateFallbackButton = document.getElementById("googleCreateFallbackButton");
+        const googleCreateButton = document.getElementById("googleCreateButton");
+        const googleCreateNativeButton = document.getElementById("googleCreateNativeButton");
         const googleCreateFeedback = document.getElementById("googleCreateFeedback");
         const businessNameWarning = document.getElementById("businessNameWarning");
         let publicCsrfToken = "";
         async function getPublicCsrfToken() {
             if (publicCsrfToken) return publicCsrfToken;
             try {
-                const response = await fetch("php/auth_status.php", { credentials: "same-origin" });
+                const response = await fetch("/php/auth_status.php", { credentials: "same-origin" });
                 if (!response.ok) return "";
                 const data = await response.json();
                 publicCsrfToken = String(data.csrf_token || "");
@@ -236,8 +245,8 @@
                 event.preventDefault();
 
                 const businessName = businessNameInput.value.trim();
-                if (businessName.length < 3) {
-                    googleCreateFeedback.textContent = "Please enter a valid business name.";
+                if (businessName.length < 3 || businessName.length > 40) {
+                    googleCreateFeedback.textContent = "Business name must be 3 to 40 characters.";
                     googleCreateFeedback.style.color = "#c0392b";
                     businessNameInput.focus();
                     return;
@@ -255,13 +264,13 @@
 
                 try {
                     let csrfToken = "";
-                    const authStatusResponse = await fetch("php/auth_status.php", { credentials: "same-origin" });
+                    const authStatusResponse = await fetch("/php/auth_status.php", { credentials: "same-origin" });
                     if (authStatusResponse.ok) {
                         const authStatus = await authStatusResponse.json();
                         csrfToken = String(authStatus.csrf_token || "");
                     }
 
-                    const response = await fetch("php/google_complete_business_name.php", {
+                    const response = await fetch("/php/google_complete_business_name.php", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
@@ -276,7 +285,7 @@
                         return;
                     }
 
-                    window.location.href = data.redirect || "php/businessvendordashboard.php";
+                    window.location.href = data.redirect || "/business-vendor-dashboard";
                 } catch (err) {
                     googleCreateFeedback.textContent = "Something went wrong while saving your business name.";
                     googleCreateFeedback.style.color = "#c0392b";
@@ -306,24 +315,32 @@
 
             emailOrMobileInput.closest(".form-floating").style.display = "none";
             passwordInput.closest(".form-floating").style.display = "none";
-            googleCreateBtn.style.display = "none";
-            googleCreateFallbackButton.classList.add("d-none");
+            googleCreateButton.style.display = "none";
             googleCreateFeedback.style.color = "#1f7a1f";
             googleCreateFeedback.textContent = "Enter your business name to finish creating your Google account.";
         }
 
         // Google create-account flow.
         let googleCreateInitialized = false;
-        async function initializeGoogleCreate() {
+
+        function setGoogleCreateBusy(isBusy) {
+            googleCreateButton.style.pointerEvents = isBusy ? "none" : "";
+            googleCreateButton.style.opacity = isBusy ? "0.7" : "";
+        }
+
+        async function initializeGoogleCreate(showLoadingError = true) {
+            if (isGoogleCompletionMode) return false;
             if (googleCreateInitialized) return true;
             if (!window.google || !window.google.accounts || !window.google.accounts.id) {
-                googleCreateFeedback.textContent = "Google Sign-In is still loading. Please try again.";
-                googleCreateFeedback.style.color = "#c0392b";
+                if (showLoadingError) {
+                    googleCreateFeedback.textContent = "Google Sign-In is still loading. Please try again.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                }
                 return false;
             }
 
             try {
-                const response = await fetch("php/google_config.php");
+                const response = await fetch("/php/google_config.php");
                 const config = await response.json();
                 if (!response.ok || !config.success || !config.google_client_id) {
                     googleCreateFeedback.textContent = config.message || "Google Sign-In is not configured.";
@@ -337,10 +354,10 @@
                     auto_select: false,
                     cancel_on_tap_outside: true
                 });
-                window.google.accounts.id.renderButton(googleCreateFallbackButton, {
+                window.google.accounts.id.renderButton(googleCreateNativeButton, {
                     theme: "outline",
                     size: "large",
-                    width: Math.min(380, window.innerWidth - 50),
+                    width: Math.max(260, googleCreateButton.clientWidth || 380),
                     text: "signup_with"
                 });
 
@@ -353,19 +370,36 @@
             }
         }
 
+        function scheduleGoogleCreateInit(attemptsLeft = 20) {
+            if (isGoogleCompletionMode) return;
+            if (googleCreateInitialized) return;
+            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+                if (attemptsLeft <= 0) {
+                    googleCreateFeedback.textContent = "Google Sign-In could not be loaded. Please refresh and try again.";
+                    googleCreateFeedback.style.color = "#c0392b";
+                    return;
+                }
+                setTimeout(() => scheduleGoogleCreateInit(attemptsLeft - 1), 250);
+                return;
+            }
+
+            initializeGoogleCreate();
+        }
+
         async function handleGoogleCreateCredential(response) {
             if (!response || !response.credential) {
                 googleCreateFeedback.textContent = "Google did not return a sign-in token.";
                 googleCreateFeedback.style.color = "#c0392b";
+                setGoogleCreateBusy(false);
                 return;
             }
 
-            googleCreateBtn.disabled = true;
+            setGoogleCreateBusy(true);
             googleCreateFeedback.textContent = "Creating your Google account...";
             googleCreateFeedback.style.color = "#1f7a1f";
 
             try {
-                const authResponse = await fetch("php/google_auth.php", {
+                const authResponse = await fetch("/php/google_auth.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: new URLSearchParams({ id_token: response.credential, flow: "signup", csrf_token: await getPublicCsrfToken() })
@@ -375,33 +409,27 @@
                 if (!authResponse.ok || !data.success) {
                     googleCreateFeedback.textContent = data.message || "Google authentication failed.";
                     googleCreateFeedback.style.color = "#c0392b";
-                    googleCreateBtn.disabled = false;
+                    setGoogleCreateBusy(false);
                     return;
                 }
 
-                window.location.href = data.redirect || "createaccount.html?google_complete=1";
+                window.location.href = data.redirect || "/create-account?google_complete=1";
             } catch (err) {
                 googleCreateFeedback.textContent = "Something went wrong while connecting your Google account.";
                 googleCreateFeedback.style.color = "#c0392b";
-                googleCreateBtn.disabled = false;
+                setGoogleCreateBusy(false);
             }
         }
 
-        if (!isGoogleCompletionMode) {
-            googleCreateBtn.addEventListener("click", async () => {
-                googleCreateFeedback.textContent = "";
-                const ready = await initializeGoogleCreate();
-                if (!ready) return;
+        googleCreateButton.addEventListener("click", async () => {
+            googleCreateFeedback.textContent = "";
+            googleCreateFeedback.style.color = "#c0392b";
 
-                window.google.accounts.id.prompt((notification) => {
-                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        googleCreateFallbackButton.classList.remove("d-none");
-                        googleCreateFeedback.textContent = "Tap the Google button below if the popup did not appear.";
-                        googleCreateFeedback.style.color = "#c0392b";
-                    }
-                });
-            });
-        }
+            const ready = await initializeGoogleCreate();
+            if (!ready) return;
+        });
+
+        window.addEventListener("load", () => scheduleGoogleCreateInit());
 
 
 
@@ -411,15 +439,44 @@
             popup.style.display = "flex";
             // Auto redirect after 2 seconds. 
             setTimeout(() => {
-                window.location.href = "signin.html";
+                window.location.href = "/sign-in";
             }, 6000);
             // Or redirect immediately when button clicked. 
             document.getElementById("continueBtn").addEventListener("click", () => {
-                window.location.href = "signin.html";
+                window.location.href = "/sign-in";
             });
         }
     </script>
-    <script src="assets/cookie-consent.js"></script>
+    <style>
+        .google-auth-shell {
+            position: relative;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .google-auth-face {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .google-auth-native {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0.01;
+            overflow: hidden;
+        }
+
+        .google-auth-native>div,
+        .google-auth-native iframe {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

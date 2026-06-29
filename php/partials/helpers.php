@@ -14,8 +14,43 @@ function getMediaType($media): string {
     return 'img';
 }
 
-function getMediaPath($media, $base) {
-    return $base.$media;
+function getMediaPath($media, $base = '') {
+    $media = trim((string) $media);
+    if ($media === '') {
+        return '';
+    }
+
+    if (preg_match('/^(https?:)?\/\//i', $media) || str_starts_with($media, 'data:') || str_starts_with($media, 'blob:')) {
+        return $media;
+    }
+
+    $normalized = str_replace('\\', '/', $media);
+    if (str_starts_with($normalized, '/')) {
+        return $normalized;
+    }
+    if (str_starts_with($normalized, 'assets/')) {
+        return '/' . ltrim($normalized, '/');
+    }
+    if (str_starts_with($normalized, 'php/')) {
+        return '/' . ltrim($normalized, '/');
+    }
+    if (str_starts_with($normalized, 'uploads/')) {
+        return '/php/' . ltrim($normalized, '/');
+    }
+
+    $base = str_replace('\\', '/', (string) $base);
+    if ($base !== '') {
+        if (!str_ends_with($base, '/')) {
+            $base .= '/';
+        }
+        return $base . ltrim($normalized, '/');
+    }
+
+    if (!str_contains($normalized, '/')) {
+        return '/php/uploads/profile/' . $normalized;
+    }
+
+    return '/php/' . ltrim($normalized, '/');
 }
 
 function ensureListingGalleryTable(mysqli $conn): bool
@@ -205,6 +240,66 @@ function jomu_not_signed_in_message(): string
 function jomu_is_suspended_browse_session(): bool
 {
     return !empty($_SESSION['jomu_suspended_browse']);
+}
+
+function jomu_configure_curl_ca_bundle($curlHandle): ?string
+{
+    $envValue = static function (string $key): string {
+        if (function_exists('env_value')) {
+            return (string) env_value($key, '');
+        }
+
+        $value = getenv($key);
+        return $value === false ? '' : (string) $value;
+    };
+
+    $candidates = [
+        $envValue('CURL_CA_BUNDLE'),
+        $envValue('SSL_CERT_FILE'),
+        $envValue('GOOGLE_CA_CERT_PATH'),
+        (string) ini_get('curl.cainfo'),
+        (string) ini_get('openssl.cafile'),
+        __DIR__ . '/../certs/cacert.pem',
+    ];
+
+    foreach ($candidates as $candidate) {
+        $candidate = trim((string) $candidate);
+        if ($candidate === '') {
+            continue;
+        }
+
+        $paths = [$candidate];
+        if (!preg_match('/^(?:[a-z]:[\\\\\/]|\/)/i', $candidate)) {
+            $paths[] = __DIR__ . '/../../' . ltrim($candidate, '/\\');
+        }
+
+        foreach ($paths as $path) {
+            if (is_file($path)) {
+                curl_setopt($curlHandle, CURLOPT_CAINFO, $path);
+                return $path;
+            }
+        }
+    }
+
+    if (PHP_OS_FAMILY === 'Windows' && defined('CURLOPT_SSL_OPTIONS') && defined('CURLSSLOPT_NATIVE_CA')) {
+        curl_setopt($curlHandle, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+        return 'Windows native CA store';
+    }
+
+    $fallbackCandidates = [
+        'C:/wamp64/apps/phpmyadmin5.2.1/vendor/composer/ca-bundle/res/cacert.pem',
+        'C:/wamp64/wamp64/apps/phpmyadmin5.2.1/vendor/composer/ca-bundle/res/cacert.pem',
+        'C:/xampp/php/extras/ssl/cacert.pem',
+    ];
+
+    foreach ($fallbackCandidates as $candidate) {
+        if (is_file($candidate)) {
+            curl_setopt($curlHandle, CURLOPT_CAINFO, $candidate);
+            return $candidate;
+        }
+    }
+
+    return null;
 }
 
 function jomu_csrf_token(string $scope = 'user'): string
@@ -463,4 +558,31 @@ function jomu_delete_listing_completely(mysqli $conn, int $listingId): bool
     jomu_delete_listing_table_rows_if_exists($conn, 'listing_view_stats', $listingId);
 
     return true;
+}
+
+function jomu_page_url(string $page): string
+{
+    static $routes = [
+        'home' => '/',
+        'profile' => '/profile',
+        'dashboard' => '/business-vendor-dashboard',
+        'add-listing' => '/add-new-listing',
+        'visitor-profile' => '/visitor-profile',
+        'purchase-wholesale' => '/purchase-wholesale',
+    ];
+
+    return $routes[$page] ?? '/';
+}
+
+function jomu_php_url(string $script): string
+{
+    $script = ltrim(str_replace('\\', '/', $script), '/');
+    if ($script === '') {
+        return '/php/';
+    }
+    if (!str_starts_with($script, 'php/')) {
+        $script = 'php/' . $script;
+    }
+
+    return '/' . $script;
 }

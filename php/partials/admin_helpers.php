@@ -174,7 +174,7 @@ function jomu_ensure_admin_schema(mysqli $conn): void
             id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
             user_id INT NULL,
             business_name VARCHAR(255) NOT NULL,
-            profilepic VARCHAR(500) NOT NULL DEFAULT 'assets/images/profile.png',
+            profilepic VARCHAR(500) NOT NULL DEFAULT '/assets/images/profile.png',
             content TEXT NOT NULL,
             fulfilled TINYINT(1) NOT NULL DEFAULT 0,
             fulfilled_at DATETIME NULL DEFAULT NULL,
@@ -226,14 +226,14 @@ function jomu_ensure_admin_schema(mysqli $conn): void
 
     $defaultLinks = [
         'app' => 'JoMu Application (components/nav.php)',
-        'facebook' => 'Facebook (components/nav.php, index.php, support.html)',
-        'instagram' => 'Instagram (components/nav.php, index.php, support.html)',
-        'tiktok' => 'Tiktok (components/nav.php, index.php, support.html)',
-        'x' => 'X (components/nav.php, index.php, support.html)',
-        'support_email' => 'Support email (support.html)',
-        'privacy_email' => 'Privacy policy email (privacypolicy.html)',
-        'support_phone' => 'Support phone call (support.html)',
-        'support_whatsapp' => 'Support WhatsApp (support.html)',
+        'facebook' => 'Facebook (components/nav.php, /, /support)',
+        'instagram' => 'Instagram (components/nav.php, /, /support)',
+        'tiktok' => 'Tiktok (components/nav.php, /, /support)',
+        'x' => 'X (components/nav.php, /, /support)',
+        'support_email' => 'Support email (/support)',
+        'privacy_email' => 'Privacy policy email (/privacy-policy)',
+        'support_phone' => 'Support phone call (/support)',
+        'support_whatsapp' => 'Support WhatsApp (/support)',
     ];
     $defaultLinkUrls = [
         'support_email' => 'jomumarket@email.com',
@@ -366,7 +366,7 @@ function jomu_admin_media_public_url(string $path): string
 {
     $path = trim($path);
     if ($path === '') {
-        return jomu_encode_url_path_segments(jomu_public_site_path('assets/images/profile.png'));
+        return jomu_encode_url_path_segments(jomu_public_site_path('/assets/images/profile.png'));
     }
     if (str_starts_with($path, '/') || preg_match('#^https?://#i', $path)) {
         return jomu_encode_url_path_segments($path);
@@ -529,5 +529,5 @@ function jomu_listing_url(int $listingId): string
 {
     $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
-    return $scheme . '://' . $host . '/purchasewholesale.html?listing_id=' . $listingId . '&owner_view=1';
+    return $scheme . '://' . $host . '/purchase-wholesale?listing_id=' . $listingId . '&owner_view=1';
 }

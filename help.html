@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu | Help Center</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="description" content="Get help with your JoMu account, listings, and other platform services
+    through our Help Center.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_orange-512.png">
     <style>
         /* Sticky footer fix */
         body {
@@ -77,6 +84,74 @@
             opacity: 0.35;
             cursor: not-allowed;
         }
+
+        @media (max-width: 767.98px) {
+            body {
+                padding-top: 45px !important;
+            }
+
+            #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            #navbarone > .container {
+                min-height: 45px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+
+            #navbarone .navbar-brand,
+            #navbarone .brand-logos {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+            }
+
+            #navbarone .logo {
+                width: clamp(88px, 26vw, 112px);
+                display: block;
+            }
+
+            #navbarone .navbar-toggler.toggler-icon-bg {
+                position: absolute;
+                top: 50%;
+                right: 26px;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                margin: 0;
+                padding: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #navbarone .navbar-toggler .options-icons {
+                width: 21px;
+                height: 21px;
+                margin-bottom: 0;
+            }
+
+            header + main,
+            #navbarone + main {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            main.mt-5,
+            main > .container-terms > .mt-5,
+            main .container-terms .termsandconditions.mt-5,
+            main > .container.text-center.mt-5 {
+                margin-top: 0 !important;
+            }
+        }
     </style>
 </head>
 
@@ -84,9 +159,9 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
             <div class="container">
-                <a class="navbar-brand brand-logos" href="index.php">
-                    <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                <a class="navbar-brand brand-logos" href="/">
+                    <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
                 </a>
             </div>
@@ -94,17 +169,17 @@
             <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
                 <span>
-                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                    <img src="/assets/images/icons/Toggler Icon personal.png" class="options-icons">
                 </span>
             </button>
             <!-- Navbar links for large screens -->
             <div class="collapse navbar-collapse d-none d-lg-flex me-4 links-container" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active signin">
-                        <a class="nav-link link-text" href="signin.html">Sign In</a>
+                        <a class="nav-link link-text" href="/sign-in">Sign In</a>
                     </li>
                 </ul>
-                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                     account</button>
             </div>
 
@@ -118,10 +193,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
-                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                            <a class="nav-link link-text" href="/sign-in">Sign In</a>
                         </li>
                     </ul>
-                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                         account</button>
                 </div>
             </div>
@@ -132,18 +207,18 @@
         <div class="help-container">
             <div class="help-content">
                 <div class="start-help" style="margin-top: -10px;">
-                    <h6><a href="index.php" style="text-decoration: none; opacity: 0.7;"
+                    <h6><a href="/" style="text-decoration: none; opacity: 0.7;"
                             class="start-text-help">JoMu</a> <span style="opacity: 0.5;"
                             class="start-text-help">|</span>
-                        <a href="help.html" style="text-decoration: none;" class="start-text-help">Help Center
+                        <a href="/help" style="text-decoration: none;" class="start-text-help">Help Center
                             <!-- Help icon for large screens. -->
-                            <img src="assets/images/icons/Help-Center-Icon-white.png"
+                            <img src="/assets/images/icons/Help-Center-Icon-white.png"
                                 class="d-none d-lg-inline  options-icons options-icons-help">
                             <!-- Help icon for medium screens. -->
-                            <img src="assets/images/icons/Help-Center-Icon-white.png"
+                            <img src="/assets/images/icons/Help-Center-Icon-white.png"
                                 class="d-none d-lg-none d-md-inline  options-icons options-icons-help">
                             <!-- Help Icon for small screens. -->
-                            <img src="assets/images/icons/Help Center-icon.png"
+                            <img src="/assets/images/icons/Help Center-icon.png"
                                 class="d-inline d-lg-none d-md-none options-icons options-icons-help"></a>
                     </h6><br>
                 </div>
@@ -157,7 +232,7 @@
                                 placeholder="Search for answers">
                             <button type="button" id="help-search-button" class="button help-search-button"
                                 aria-label="Search for help answers">
-                                <img src="assets/images/icons/Search-Icon-3.png" class="help-options-icons">
+                                <img src="/assets/images/icons/Search-Icon-3.png" class="help-options-icons">
                             </button>
                             <div id="help-search-result" class="help-search-result" aria-live="polite"></div>
                         </div>
@@ -258,7 +333,7 @@
                 <div class="faq">
                     <div class="faq-qtn" onclick="toggleAnswer(this)">Is my data safe on this platform?</div>
                     <div class="faqanswer">Yes, we use industry-standard practices to protect your data. Read more in
-                        the <a href="privacypolicy.html">
+                        the <a href="/privacy-policy">
                             Privacy Policy</a>.</div>
                 </div>
                 <div class="faq">
@@ -284,18 +359,18 @@
         <div style="background-color: #f0ecec; padding: 20px;" class="mb-2">
             <div class="container didnt">
                 <h5>Didn't find help?</h5>
-                <button class="talk-button" onclick="location.href='support.html'"><strong>Talk to Us</strong></button>
+                <button class="talk-button" onclick="location.href='/support'"><strong>Talk to Us</strong></button>
             </div>
         </div>
     </main>
 
     <footer class=" footer-help py-2 text-center">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -314,13 +389,13 @@
                 if (!data || data.signed_in !== true) return;
 
                 const authSelectors = [
-                    "a[href='signin.html']",
-                    "a[href='./signin.html']",
-                    "a[href='/signin.html']",
-                    "a[href='createaccount.html']",
-                    "a[href='./createaccount.html']",
-                    "a[href='/createaccount.html']",
-                    "button[onclick*='createaccount.html']"
+                    "a[href='/sign-in']",
+                    "a[href='./sign-in']",
+                    "a[href='/sign-in']",
+                    "a[href='/create-account']",
+                    "a[href='./create-account']",
+                    "a[href='/create-account']",
+                    "button[onclick*='/create-account']"
                 ];
 
                 document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
@@ -754,7 +829,7 @@
                 if (currentMatches.length === 0) {
                     resultBox.innerHTML = `
                         <p class="help-search-result-label">No direct answer found</p>
-                        <p class="help-search-result-answer">Try different words or click <a href="support.html">Talk to Us</a> for direct support.</p>
+                        <p class="help-search-result-answer">Try different words or click <a href="/support">Talk to Us</a> for direct support.</p>
                     `;
                     resultBox.classList.add('is-visible');
                     return;
@@ -804,8 +879,8 @@
             });
         })();
     </script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

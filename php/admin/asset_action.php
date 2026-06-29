@@ -25,25 +25,25 @@ $finish = static function (string $message, bool $ok = true) use ($returnTo, $is
 };
 
 $allowedPaths = [
-    'assets/videos/Over Navbar JoMu 70px.mp4',
-    'assets/videos/Over Navbar JoMu 1080px.mp4',
-    'assets/videos/JoMu animation large_screens.mp4',
-    'assets/videos/JoMu animation.mp4',
-    'assets/videos/JoMu Animation small_screens.mp4',
-    'assets/images/about us.jpg',
-    'assets/images/JoMu logo redesigned.png',
-    'assets/images/JoMu laptop 3-1.png',
-    'assets/images/JoMu Phone 2.png',
-    'assets/images/JoMu laptop 1.png',
-    'assets/images/JoMu Phone 1.png',
-    'assets/images/JoMu laptop 2.png',
-    'assets/images/JoMu Screenshots-lg-1.png',
-    'assets/images/JoMu Screenshot-sm-1.png',
-    'assets/images/JoMu Screenshots-lg-2.png',
-    'assets/images/JoMu Screenshot-sm-2.png',
-    'assets/images/JoMu Screenshots-lg-3.png',
-    'assets/images/JoMu Screenshot-sm-3.png',
-    'assets/images/JoMu Screenshot-sm-4.png',
+    '/assets/videos/Over Navbar JoMu 70px.mp4',
+    '/assets/videos/Over Navbar JoMu 1080px.mp4',
+    '/assets/videos/JoMu animation large_screens.mp4',
+    '/assets/videos/JoMu animation.mp4',
+    '/assets/videos/JoMu Animation small_screens.mp4',
+    '/assets/images/about us.jpg',
+    '/assets/images/JoMu logo redesigned.png',
+    '/assets/images/JoMu laptop 3-1.png',
+    '/assets/images/JoMu Phone 2.png',
+    '/assets/images/JoMu laptop 1.png',
+    '/assets/images/JoMu Phone 1.png',
+    '/assets/images/JoMu laptop 2.png',
+    '/assets/images/JoMu Screenshots-lg-1.png',
+    '/assets/images/JoMu Screenshot-sm-1.png',
+    '/assets/images/JoMu Screenshots-lg-2.png',
+    '/assets/images/JoMu Screenshot-sm-2.png',
+    '/assets/images/JoMu Screenshots-lg-3.png',
+    '/assets/images/JoMu Screenshot-sm-3.png',
+    '/assets/images/JoMu Screenshot-sm-4.png',
 ];
 
 $assetPath = str_replace('\\', '/', trim((string) ($_POST['asset_path'] ?? '')));
@@ -70,7 +70,7 @@ if (!$targetRealDir || !$rootReal || strpos($targetRealDir, $rootReal) !== 0) {
     $finish('Asset location is not writable.', false);
 }
 
-$expectedType = str_starts_with($assetPath, 'assets/videos/') ? 'video/' : 'image/';
+$expectedType = str_starts_with($assetPath, '/assets/videos/') ? 'video/' : 'image/';
 $tmpPath = (string) ($file['tmp_name'] ?? '');
 $mime = '';
 if (is_file($tmpPath)) {

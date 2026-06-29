@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu | Food & Beverages</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <meta name="descrption" content="Explore food products, beverages and catering supplies from businesses
+    and suppliers across Uganda on JoMu.ug.">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/jomu_favicon_white-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/jomu_favicon_white-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/jomu_favicon_white-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/jomu_favicon_white-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/jomu_favicon_white-512.png">
     <style>
         body.body-one {
             min-height: 100svh;
@@ -351,18 +358,26 @@
         }
 
         @media (max-width: 767.98px) {
+            body.body-one {
+                padding-top: 45px;
+            }
+
             body.body-one #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding-left: 0;
-                padding-right: 4px;
+                padding-left: 6px;
+                padding-right: 8px;
             }
 
             body.body-one #navbarone>.d-block.d-md-none.d-lg-none.py-0.px-0 {
                 width: auto;
-                margin: 0 0 0 -14px;
-                padding: 0 !important;
+                margin: 0;
+                padding: 0 0 0 4px !important;
                 flex: 0 0 auto;
             }
 
@@ -378,15 +393,16 @@
             }
 
             body.body-one #navbarone .brand-logos .logo {
+                width: clamp(88px, 26vw, 112px);
                 margin-right: 0 !important;
             }
 
             body.body-one #navbarone .searching-small {
                 position: absolute;
-                left: calc(50% + 30px);
+                left: calc(50% + 28px);
                 transform: translateX(-50%);
-                width: clamp(165px, calc(100vw - 165px), 265px);
-                max-width: calc(100vw - 165px);
+                width: clamp(155px, calc(100vw - 178px), 255px);
+                max-width: calc(100vw - 178px);
                 min-width: 0;
                 padding: 0;
             }
@@ -414,32 +430,60 @@
             }
 
             body.body-one #navbarone .navbar-toggler.d-lg-none {
-                margin-right: 2px;
+                width: 36px;
+                height: 36px;
+                padding: 2px;
+                margin-right: 8px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            body.body-one #navbarone .navbar-toggler .signin-icon {
+                width: 21px;
+                height: 21px;
+                margin-bottom: 0;
+            }
+
+            body.body-one main {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            body.body-one main > .container-fluid:first-child {
+                padding-top: 0 !important;
+                margin-top: 0 !important;
+            }
+
+            body.body-one main > .container-fluid > .newarrivals-container-one {
+                margin-top: 0 !important;
             }
         }
 
         @media (max-width: 420px) {
             body.body-one #navbarone .searching-small {
-                left: calc(50% + 34px);
-                width: clamp(153px, calc(100vw - 180px), 245px);
-                max-width: calc(100vw - 180px);
+                left: calc(50% + 32px);
+                width: clamp(145px, calc(100vw - 192px), 235px);
+                max-width: calc(100vw - 192px);
             }
         }
 
         @media (max-width: 360px) {
             body.body-one #navbarone .searching-small {
-                left: calc(50% + 38px);
-                width: clamp(141px, calc(100vw - 190px), 215px);
-                max-width: calc(100vw - 190px);
+                left: calc(50% + 36px);
+                width: clamp(132px, calc(100vw - 202px), 205px);
+                max-width: calc(100vw - 202px);
             }
         }
 
         .recent-mobile-auth-menu {
             position: fixed;
             left: auto !important;
-            right: 10px !important;
-            top: 58px;
+            right: var(--mobile-auth-menu-right, 10px) !important;
+            top: var(--mobile-auth-menu-top, 48px) !important;
             z-index: 1200;
+            margin-top: 0 !important;
+            transform: none !important;
             background: rgb(0, 0, 255);
         }
 
@@ -447,7 +491,7 @@
             content: "";
             position: absolute;
             top: -7px;
-            right: 8px;
+            right: var(--mobile-auth-tail-right, 8px);
             width: 14px;
             height: 14px;
             background: rgb(0, 0, 255);
@@ -466,11 +510,11 @@
 
             <!-- Logo for large screens.-->
             <div class="container d-none d-md-block d-lg-block">
-                <a class="navbar-brand brand-logos" href="index.php">
-                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                <a class="navbar-brand brand-logos" href="/">
+                    <!-- <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
 
                 </a>
@@ -478,13 +522,13 @@
 
             <!-- Logo for small screens. -->
             <div class="d-block d-md-none d-lg-none py-0 px-0">
-                <a class="navbar-brand brand-logos px-0" href="index.php">
-                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo"
+                <a class="navbar-brand brand-logos px-0" href="/">
+                    <!-- <img src="/assets/images/JoMu black and white.png" class="img-fluid logo"
                         style="margin-right: 60px;">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo"
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo"
                         style="margin-right: 60px;">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
                 </a>
             </div>
@@ -492,16 +536,16 @@
             <button id="newarrivals-mobile-toggler" class="navbar-toggler d-lg-none signin-icon-bg" type="button"
                 aria-expanded="false" aria-label="Open sign in menu">
                 <span>
-                    <img src="assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
+                    <img src="/assets/images/icons/Signin.png" class="signin-icon" alt="Sign in">
                 </span>
             </button>
             <div id="newarrivals-mobile-auth-menu"
                 class="dropdown-menu mobile-auth-menu recent-mobile-auth-menu newarrivals-mobile-auth-menu"
                 aria-labelledby="newarrivals-mobile-toggler">
-                <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="signin.html"
-                    data-mobile-auth-link="signin.html" style="color: white;">Sign In</a>
+                <a id="newarrivals-signin-mobile" class="dropdown-item mobile-auth-item" href="/sign-in"
+                    data-mobile-auth-link="/sign-in" style="color: white;">Sign In</a>
                 <button id="newarrivals-createaccount-mobile" class="dropdown-item mobile-auth-item mobile-auth-create"
-                    type="button" data-mobile-auth-link="createaccount.html">Create account</button>
+                    type="button" data-mobile-auth-link="/create-account">Create account</button>
             </div>
 
             <!-- Navbar links for large screens -->
@@ -512,23 +556,23 @@
                     <input type="text" id="searchbarInput" class="searchbar" style="border: 1px solid black;"
                         placeholder="Search...">
                     <button class="button search" type="submit">
-                        <span><img src="assets/images/icons/Search Icon.png" class="options-icons"></span>
+                        <span><img src="/assets/images/icons/Search Icon.png" class="options-icons"></span>
                         Search</button>
                 </div>
                 <ul class="navbar-nav">
                     <li class="nav-item active signin">
-                        <a id="food-signin-desktop" class="nav-link link-text" href="signin.html"
+                        <a id="food-signin-desktop" class="nav-link link-text" href="/sign-in"
                             style="color: rgb(0, 0, 255);">Sign In</a>
                     </li>
                 </ul>
                 <button id="food-createaccount-desktop" class="button button-createaccount"
-                    onclick="location.href='createaccount.html'">Create
+                    onclick="location.href='/create-account'">Create
                     account</button>
             </div>
             <!-- Search bar for medium screens -->
             <div class="container-fluid d-none d-md-block d-lg-none searching-medium">
                 <input type="text" id="searchbarInput" class="searchbar-medium" placeholder="Search...">
-                <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+                <button class="btn" type="submit"><span><img src="/assets/images/icons/Search Icon.png"
                             class="search-icon-medium search-medium"></span>
                 </button>
             </div>
@@ -537,7 +581,7 @@
                 <div class="input-group">
                     <input type="text" id="searchbarInput" class="form-control searchbar-small" placeholder="Search...">
                     <button class="btn btn-search-small" type="submit"><span><img
-                                src="assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
+                                src="/assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
                     </button>
                 </div>
             </div>
@@ -546,7 +590,7 @@
     <main class="main-one">
         <div class="container-fluid">
             <p class="py-2 px-2 mb-0" style=" color: rgb(34, 32, 32); font-weight: 600; font-size: small;"><a
-                    href="index.php" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
+                    href="/" style="text-decoration: none; color: rgb(34, 32, 32);">Home Page</a> <span
                     style="color: rgb(0,0,255);">&#187;</span>
                 Categories
                 <span style="color: rgb(0,0,255);">&#187;</span>
@@ -586,12 +630,12 @@
 
     <footer class=" footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -611,7 +655,7 @@
                 <p id="mediaPreviewDescription" class="media-preview-description"></p>
             </div>
         </div>
-        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="assets/images/JoMu logo redesigned.png"
+        <img id="mediaPreviewWatermark" class="media-preview-watermark" src="/assets/images/JoMu logo redesigned.png"
             alt="JoMu watermark">
     </div>
 
@@ -737,7 +781,7 @@
             countedFoodPreviewViews.add(listingId);
 
             try {
-                await fetch(`php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
+                await fetch(`/php/increment_listing_view.php?listing_id=${encodeURIComponent(String(listingId))}`);
             } catch (error) {
                 // Non-blocking analytics update.
             }
@@ -864,7 +908,7 @@
 
         async function loadFoodListings() {
             try {
-                const response = await fetch('php/categoriesfood_beverages_results.php', {
+                const response = await fetch('/php/categoriesfood_beverages_results.php', {
                     credentials: 'same-origin',
                     cache: 'no-store'
                 });
@@ -1050,9 +1094,17 @@
 
             function positionMobileAuthMenu() {
                 const buttonRect = mobileAuthButton.getBoundingClientRect();
+                const tailSize = 14;
+                const tailTipReach = Math.round((tailSize * Math.SQRT2) / 2);
                 const rightOffset = Math.max(8, window.innerWidth - buttonRect.right);
-                mobileAuthMenu.style.right = `${rightOffset}px`;
-                mobileAuthMenu.style.top = `${buttonRect.bottom + 8}px`;
+                const buttonCenterX = buttonRect.left + (buttonRect.width / 2);
+                const tailRight = Math.max(8, Math.round(window.innerWidth - rightOffset - buttonCenterX - (tailSize / 2)));
+                const menuTop = Math.round(buttonRect.bottom + tailTipReach - 1);
+                mobileAuthMenu.style.setProperty('right', `${rightOffset}px`, 'important');
+                mobileAuthMenu.style.setProperty('top', `${menuTop}px`, 'important');
+                mobileAuthMenu.style.setProperty('--mobile-auth-menu-right', `${rightOffset}px`);
+                mobileAuthMenu.style.setProperty('--mobile-auth-menu-top', `${menuTop}px`);
+                mobileAuthMenu.style.setProperty('--mobile-auth-tail-right', `${tailRight}px`);
             }
 
             function setMobileAuthOpen(isOpen) {
@@ -1060,6 +1112,9 @@
                     positionMobileAuthMenu();
                 }
                 mobileAuthMenu.classList.toggle('show', isOpen);
+                if (isOpen) {
+                    window.requestAnimationFrame(positionMobileAuthMenu);
+                }
                 mobileAuthButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             }
 
@@ -1082,6 +1137,12 @@
                     positionMobileAuthMenu();
                 }
             });
+
+            window.addEventListener('scroll', () => {
+                if (mobileAuthMenu.classList.contains('show')) {
+                    positionMobileAuthMenu();
+                }
+            }, { passive: true });
         })();
 
         (function () {
@@ -1134,9 +1195,9 @@
 
         syncNewArrivalsAuthButtons();
     </script>
-    <script src="assets/listing-preview-modal.js"></script>
-    <script src="assets/listing-preview-gallery.js"></script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/listing-preview-modal.js"></script>
+    <script src="/assets/listing-preview-gallery.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

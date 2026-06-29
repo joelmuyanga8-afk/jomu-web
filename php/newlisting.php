@@ -228,14 +228,14 @@ if ($errors) {
         $query["error"] = $errors[0];
     }
 
-    header("Location: addnewlisting.php?" . http_build_query($query));
+    header('Location: ' . jomu_page_url('add-listing') . '?' . http_build_query($query));
     exit;
 }
 
 if ($uploadedMediaFiles !== []) {
     $allowedTypes = [ "image/jpeg", "image/jpg", "image/png", "image/webp", "video/*"];
     $uploadDir = "uploads/profile/";
-    $uploadErrorRedirect = "addnewlisting.php";
+    $uploadErrorRedirect = jomu_page_url('add-listing');
     $uploadedGalleryPaths = [];
     $firstDetectedMediaType = '';
 
@@ -501,5 +501,5 @@ if ($listing_id > 0 && $mediaType === 'image' && !empty($uploadedGalleryPaths)) 
 $stmt->close();
 $conn->close();
 
-header('Location: profile.php?listing_id='.$listing_id);
+header('Location: ' . jomu_page_url('profile') . '?listing_id=' . $listing_id);
 exit;

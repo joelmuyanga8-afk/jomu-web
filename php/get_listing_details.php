@@ -100,7 +100,7 @@ echo json_encode([
         'stockname' => trim((string) ($listing['stockname'] ?? '')),
         'description' => (string) ($listing['description'] ?? ''),
         'category' => (string) ($listing['category'] ?? ''),
-        'media' => getMediaPath((string) ($listing['media'] ?? ''), 'php/'),
+        'media' => getMediaPath((string) ($listing['media'] ?? ''), '/php/'),
         'price' => (string) ($listing['price'] ?? ''),
         'price_from' => (string) ($listing['price_from'] ?? ''),
         'price_to' => (string) ($listing['price_to'] ?? ''),

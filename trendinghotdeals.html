@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoMu | Wholesale & Retail</title>
-    <link rel="stylesheet" href="assets/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style.css">
     <style>
         .cards-container {
             display: flex;
@@ -82,11 +82,11 @@
 
             <!-- Logo for large screens.-->
             <div class="container d-none d-md-block d-lg-block">
-                <a class="navbar-brand brand-logos" href="index.php">
-                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                <a class="navbar-brand brand-logos" href="/">
+                    <!-- <img src="/assets/images/JoMu black and white.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
 
                 </a>
@@ -94,13 +94,13 @@
 
             <!-- Logo for small screens. -->
             <div class="d-block d-md-none d-lg-none py-0 px-0">
-                <a class="navbar-brand brand-logos px-0" href="index.php">
-                    <!-- <img src="assets/images/JoMu black and white.png" class="img-fluid logo"
+                <a class="navbar-brand brand-logos px-0" href="/">
+                    <!-- <img src="/assets/images/JoMu black and white.png" class="img-fluid logo"
                         style="margin-right: 60px;">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo"
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover"> -->
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo"
                         style="margin-right: 60px;">
-                    <img src="assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
+                    <img src="/assets/images/JoMu logo redesigned.png" class="img-fluid logo logo-hover">
 
                 </a>
             </div>
@@ -110,7 +110,7 @@
             <button class="navbar-toggler d-lg-none  toggler-icon-bg" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
                 <span>
-                    <img src="assets/images/icons/Toggler Icon personal.png" class="options-icons">
+                    <img src="/assets/images/icons/Toggler Icon personal.png" class="options-icons">
                 </span>
             </button>
             <!-- Navbar links for large screens -->
@@ -121,21 +121,21 @@
                     <input type="text" id="searchbarInput" class="searchbar" style="border: 1px solid black;"
                         placeholder="Search...">
                     <button class="button search" type="submit">
-                        <span><img src="assets/images/icons/Search Icon.png" class="options-icons"></span>
+                        <span><img src="/assets/images/icons/Search Icon.png" class="options-icons"></span>
                         Search</button>
                 </div>
                 <ul class="navbar-nav">
                     <li class="nav-item active signin">
-                        <a class="nav-link link-text" href="signin.html" style="color: rgb(0, 0, 255);">Sign In</a>
+                        <a class="nav-link link-text" href="/sign-in" style="color: rgb(0, 0, 255);">Sign In</a>
                     </li>
                 </ul>
-                <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                     account</button>
             </div>
             <!-- Search bar for medium screens -->
             <div class="container-fluid d-none d-md-block d-lg-none searching-medium">
                 <input type="text" id="searchbarInput" class="searchbar-medium" placeholder="Search...">
-                <button class="btn" type="submit"><span><img src="assets/images/icons/Search Icon.png"
+                <button class="btn" type="submit"><span><img src="/assets/images/icons/Search Icon.png"
                             class="search-icon-medium search-medium"></span>
                 </button>
             </div>
@@ -144,7 +144,7 @@
                 <div class="input-group">
                     <input type="text" id="searchbarInput" class="form-control searchbar-small" placeholder="Search...">
                     <button class="btn btn-search-small" type="submit"><span><img
-                                src="assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
+                                src="/assets/images/icons/Search Icon.png" class="search-icon-small search-small"></span>
                     </button>
                 </div>
             </div>
@@ -160,10 +160,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
-                            <a class="nav-link link-text" href="signin.html">Sign In</a>
+                            <a class="nav-link link-text" href="/sign-in">Sign In</a>
                         </li>
                     </ul>
-                    <button class="button button-createaccount" onclick="location.href='createaccount.html'">Create
+                    <button class="button button-createaccount" onclick="location.href='/create-account'">Create
                         account</button>
                 </div>
             </div>
@@ -175,7 +175,7 @@
             <div class="containerone">
                 <div class="dropdown">
                     <button class="button nav-options hover-underline filterpointvendorshops" id="friday"
-                        onclick="location.href='trendinghotdeals.html'">Black Friday</button>
+                        onclick="location.href='/trending/hot-deals'">Black Friday</button>
                 </div>
                 <div class="dropdown">
                     <button class="button nav-options hover-underline filterpointvendorshops" id="november"
@@ -210,7 +210,7 @@
                 <!-- Product Card -->
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0">Clothes Bale/Ndiboota</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -224,7 +224,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -237,7 +237,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -251,7 +251,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Watermelons</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -265,7 +265,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Curtains</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -278,7 +278,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -292,7 +292,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mt-0 mb-0">Watermelons</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -306,7 +306,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Curtains</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -319,7 +319,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Clothes Bale/Ndiboota</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -333,7 +333,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -346,7 +346,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -360,7 +360,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <phodiv class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Watermelons</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -374,7 +374,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Curtains</h5>
                         <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -387,7 +387,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Smartphones</h5>
                         <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -398,7 +398,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Watermelons</h5>
                         <p class="card-text">Shs.800 / Unit Price</p>
@@ -409,7 +409,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Curtains</h5>
                         <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
@@ -419,7 +419,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Clothes Bale/Ndiboota</h5>
                         <p class="card-text">Shs.9,000 - Shs.20,000 / Unit Price</p>
@@ -430,7 +430,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Smartphones</h5>
                         <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -440,7 +440,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Smartphones</h5>
                         <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -451,7 +451,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Watermelons</h5>
                         <p class="card-text">Shs.800 / Unit Price</p>
@@ -462,7 +462,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Curtains</h5>
                         <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
@@ -472,7 +472,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Smartphones</h5>
                         <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -483,7 +483,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Watermelons</h5>
                         <p class="card-text">Shs.800 / Unit Price</p>
@@ -494,7 +494,7 @@
 
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card h-100">
-                    <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                    <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                     <div class="card-body">
                         <h5 class="card-title">Curtains</h5>
                         <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
@@ -539,7 +539,7 @@
                 <!-- Product Card -->
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0">Clothes Bale/Ndiboota</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -553,7 +553,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -566,7 +566,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -580,7 +580,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Watermelons</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -594,7 +594,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Curtains</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -607,7 +607,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -621,7 +621,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mt-0 mb-0">Watermelons</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -635,7 +635,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Curtains</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -648,7 +648,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Clothes Bale/Ndiboota</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -662,7 +662,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -675,7 +675,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title mb-0 mt-0">Smartphones</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -689,7 +689,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Watermelons</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -703,7 +703,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Curtains</h5>
                             <p class="card-text mb-0 mt-0"><s style="opacity: 0.5;">Shs.9,000 - Shs.20,000</s> / Unit
@@ -716,7 +716,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Smartphones</h5>
                             <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -727,7 +727,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Watermelons</h5>
                             <p class="card-text">Shs.800 / Unit Price</p>
@@ -738,7 +738,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Curtains</h5>
                             <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
@@ -748,7 +748,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Clothes Bale.webp" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Clothes Bale/Ndiboota</h5>
                             <p class="card-text">Shs.9,000 - Shs.20,000 / Unit Price</p>
@@ -759,7 +759,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Smartphones</h5>
                             <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -769,7 +769,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Smartphones</h5>
                             <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -780,7 +780,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Watermelons</h5>
                             <p class="card-text">Shs.800 / Unit Price</p>
@@ -791,7 +791,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Curtains</h5>
                             <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
@@ -801,7 +801,7 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Phones.jpg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Smartphones</h5>
                             <p class="card-text">Starting Shs.150,000 / Unit Price</p>
@@ -812,7 +812,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Watermelon1.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Watermelons</h5>
                             <p class="card-text">Shs.800 / Unit Price</p>
@@ -823,7 +823,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100">
-                        <img src="assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
+                        <img src="/assets/images/Curtains.jpeg" class="card-img-top img-fluid" alt="jumper">
                         <div class="card-body">
                             <h5 class="card-title">Curtains</h5>
                             <p class="card-text">Shs.35,000 - Shs.100,000 / Unit Price</p>
@@ -846,12 +846,12 @@
 
     <footer class=" footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="termsandconditions.html">Terms of Use</a>
-            <a href="privacypolicy.html">Privacy Policy</a>
-            <a href="help.html">Help</a>
-            <a href="support.html">Support</a>
-            <a href="feedback.html">Give Feedback</a>
-            <a href="about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -868,13 +868,13 @@
                 if (!data || data.signed_in !== true) return;
 
                 const authSelectors = [
-                    "a[href='signin.html']",
-                    "a[href='./signin.html']",
-                    "a[href='/signin.html']",
-                    "a[href='createaccount.html']",
-                    "a[href='./createaccount.html']",
-                    "a[href='/createaccount.html']",
-                    "button[onclick*='createaccount.html']"
+                    "a[href='/sign-in']",
+                    "a[href='./sign-in']",
+                    "a[href='/sign-in']",
+                    "a[href='/create-account']",
+                    "a[href='./create-account']",
+                    "a[href='/create-account']",
+                    "button[onclick*='/create-account']"
                 ];
 
                 document.querySelectorAll(authSelectors.join(',')).forEach((node) => {
@@ -996,10 +996,10 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
     </script>
-    <script src="assets/listing-preview-modal.js"></script>
-    <script src="assets/listing-preview-gallery.js"></script>
-    <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/cookie-consent.js"></script>
+    <script src="/assets/listing-preview-modal.js"></script>
+    <script src="/assets/listing-preview-gallery.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 
 </html>

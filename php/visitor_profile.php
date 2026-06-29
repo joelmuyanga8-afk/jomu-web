@@ -77,7 +77,7 @@ if (!$user) {
     die("Seller not found.");
 }
 
-$profileImage = !empty($user['profilepic']) ? $user['profilepic'] : "/assets/images/profile.png";
+$profileImage = jomu_resolve_public_profile_image_path((string) ($user['profilepic'] ?? ''));
 $businessName = trim((string) ($user['businessname'] ?? 'Business'));
 $businessBio = trim((string) ($user['bio'] ?? ''));
 if ($businessBio === '') {
@@ -102,6 +102,7 @@ if (!empty($_SESSION['emailormobilenumber'])) {
         $viewerUserId = (int) ($viewerRow['id'] ?? 0);
     }
 }
+$jomuDashboardInboxUrl = jomu_page_url('dashboard') . '?section=inbox&partner_id=' . (int) $userId;
 $isOwnProfile = $viewerUserId > 0 && $viewerUserId === $userId;
 $visitorAdmin = jomu_current_admin($conn);
 
@@ -212,6 +213,11 @@ if ($featuredListing) {
     <title>Business Showroom</title>
     <link rel="stylesheet" href="/assets/bootstrap.css">
     <link rel="stylesheet" href="/assets/style.css">
+        <link rel="icon" type="image/png" sizes="16x16" href="/./assets/images/jomu_favicon_orange-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/./assets/images/jomu_favicon_orange-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/./assets/images/jomu_favicon_orange-48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/./assets/images/jomu_favicon_orange-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/./assets/images/jomu_favicon_orange-512.png">
     <style>
         body.profile-page {
             min-height: 100svh;
@@ -226,6 +232,40 @@ if ($featuredListing) {
 
         body.profile-page > footer {
             margin-top: auto;
+        }
+
+        @media (max-width: 767.98px) {
+            body.profile-page {
+                padding-top: 45px;
+            }
+
+            body.profile-page #navbarone {
+                height: 45px;
+                min-height: 45px;
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: center;
+                line-height: 1;
+            }
+
+            body.profile-page #navbarone .profile-nav-inner {
+                min-height: 45px;
+                align-items: center;
+            }
+        }
+
+        .visitor-business-summary {
+            --visitor-summary-gap: 0.45rem;
+            margin-bottom: 0.65rem !important;
+        }
+
+        .visitor-business-summary #business-name-input {
+            margin: 0;
+            line-height: 1.12;
+        }
+
+        .visitor-business-summary #business-bio-input {
+            margin: var(--visitor-summary-gap) auto 0;
         }
 
         .profile-page .footer-links {
@@ -447,7 +487,7 @@ if ($featuredListing) {
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top navbarone navbar-help bg-dark" id="navbarone">
             <div class="container-fluid profile-nav-inner">
-                <a id="visitor-profile-back" class="mobile-profile-back d-flex" href="/purchasewholesale.html" aria-label="Go back">&#8592;</a>
+                <a id="visitor-profile-back" class="mobile-profile-back d-flex" href="/purchase-wholesale" aria-label="Go back">&#8592;</a>
                 <h2 class="mobile-profile-title d-block d-md-none"><?php echo htmlspecialchars($businessName); ?></h2>
                 <h2 id="nav-business-name" class="profile-nav-title-desktop d-none d-md-block d-lg-block"><?php echo htmlspecialchars($businessName); ?></h2>
                 <div class="mobile-nav-spacer d-md-none" aria-hidden="true"></div>
@@ -462,7 +502,7 @@ if ($featuredListing) {
             </div>
         </div>
 
-        <div class="container text-center mt-2 mb-4">
+        <div class="container text-center mt-2 visitor-business-summary">
             <h2 id="business-name-input"><?php echo htmlspecialchars($businessName); ?></h2>
             <h6 id="business-bio-input"><?php echo nl2br(htmlspecialchars($businessBio)); ?></h6>
         </div>
@@ -527,7 +567,7 @@ if ($featuredListing) {
                     class="btn visitor-contact-btn"
                     style="background-color: rgb(206, 207, 207);"
                     data-contact-action="message"
-                    data-contact-href="/php/businessvendordashboard.php?section=inbox&amp;partner_id=<?php echo (int) $userId; ?>"
+                    data-contact-href="<?php echo htmlspecialchars($jomuDashboardInboxUrl); ?>"
                 >Message</button>
             <?php } ?>
             <?php if ($hasCallableBusinessContact): ?>
@@ -575,9 +615,9 @@ if ($featuredListing) {
                             $base = '';
                             $listCardClass = 'profile-showroom-card';
                             $shareSellerBusinessName = $businessName;
-                            $shareSellerProfilePic = (string) ($user['profilepic'] ?? '');
+                            $shareSellerProfilePic = $profileImage;
                             $ownerHiddenShowroomCard = $isOwnProfile && strtolower((string) ($listing['moderation_status'] ?? 'visible')) === 'hidden';
-                            include '../components/list_item.php';
+                            include __DIR__ . '/../components/list_item.php';
                         ?>
                     </div>
                 <?php } ?>
@@ -603,12 +643,12 @@ if ($featuredListing) {
 
     <footer class="footer-feedback py-2 text-center bg-white">
         <div class="footer-links">
-            <a href="/termsandconditions.html">Terms of Use</a>
-            <a href="/privacypolicy.html">Privacy Policy</a>
-            <a href="/help.html">Help</a>
-            <a href="/support.html">Support</a>
-            <a href="/feedback.html">Give Feedback</a>
-            <a href="/about.html">About JoMu</a>
+            <a href="/terms-and-conditions">Terms of Use</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/help">Help</a>
+            <a href="/support">Support</a>
+            <a href="/feedback">Give Feedback</a>
+            <a href="/about">About JoMu</a>
         </div>
         <br>
         <small>&copy; 2026 JoMu. All rights reserved.</small>
@@ -912,6 +952,6 @@ if ($featuredListing) {
     <script src="/assets/listing-preview-modal.js"></script>
     <script src="/assets/listing-preview-gallery.js"></script>
     <script src="/assets/bootstrap.bundle.min.js"></script>
-    <script src="../assets/cookie-consent.js"></script>
+    <script src="/assets/cookie-consent.js"></script>
 </body>
 </html>

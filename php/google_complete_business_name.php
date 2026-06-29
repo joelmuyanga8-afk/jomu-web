@@ -28,9 +28,9 @@ if ($email === '' || !$needsBusinessName) {
     exit();
 }
 
-if ($businessName === '' || strlen($businessName) < 2) {
+if ($businessName === '' || mb_strlen($businessName) < 3 || mb_strlen($businessName) > 40) {
     http_response_code(422);
-    echo json_encode(['success' => false, 'message' => 'Please enter a valid business name.']);
+    echo json_encode(['success' => false, 'message' => 'Business name must be 3 to 40 characters.']);
     exit();
 }
 
@@ -69,7 +69,7 @@ $_SESSION['google_requires_business_name'] = false;
 echo json_encode([
     'success' => true,
     'message' => 'Business name saved successfully.',
-    'redirect' => 'php/businessvendordashboard.php'
+    'redirect' => '/business-vendor-dashboard'
 ]);
 
 $stmt->close();

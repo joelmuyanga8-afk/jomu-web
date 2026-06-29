@@ -27,59 +27,59 @@ $jomuAdminAdAdd = static function (string $path, string $label, array $pages) us
 
 // --- Site videos ---
 $jomuAdminAdAdd(
-    'assets/videos/Over Navbar JoMu 70px.mp4',
+    '/assets/videos/Over Navbar JoMu 70px.mp4',
     'Over-navbar desktop video',
     [
-        'index.php',
-        'about.html',
-        'signin.html',
+        '/',
+        '/about',
+        '/sign-in',
         'Category pages (e.g. categories*.html)',
-        'suggestedtoppicks.php',
-        'recentlyviewed.html',
+        '/suggested/top-picks',
+        '/recently-viewed',
     ]
 );
 $jomuAdminAdAdd(
-    'assets/videos/Over Navbar JoMu 1080px.mp4',
+    '/assets/videos/Over Navbar JoMu 1080px.mp4',
     'Over-navbar mobile video',
     [
-        'index.php',
-        'about.html',
-        'signin.html',
+        '/',
+        '/about',
+        '/sign-in',
         'Category pages',
-        'suggestedtoppicks.php',
-        'recentlyviewed.html',
+        '/suggested/top-picks',
+        '/recently-viewed',
     ]
 );
-$jomuAdminAdAdd('assets/videos/JoMu animation large_screens.mp4', 'Home welcome video (large screens)', ['index.php']);
-$jomuAdminAdAdd('assets/videos/JoMu animation.mp4', 'Home welcome video (medium screens)', ['index.php']);
-$jomuAdminAdAdd('assets/videos/JoMu Animation small_screens.mp4', 'Home welcome video (small screens)', ['index.php']);
+$jomuAdminAdAdd('/assets/videos/JoMu animation large_screens.mp4', 'Home welcome video (large screens)', ['/']);
+$jomuAdminAdAdd('/assets/videos/JoMu animation.mp4', 'Home welcome video (medium screens)', ['/']);
+$jomuAdminAdAdd('/assets/videos/JoMu Animation small_screens.mp4', 'Home welcome video (small screens)', ['/']);
 
 // --- Core branding & home carousel ---
-$jomuAdminAdAdd('assets/images/JoMu logo redesigned.png', 'JoMu colour logo', ['components/nav.php', 'index.php (footer)', 'Chat / listing UI where used']);
-$jomuAdminAdAdd('assets/images/JoMu black and white.png', 'JoMu greyscale logo (navbar stack)', ['components/nav.php']);
-$jomuAdminAdAdd('assets/images/profile.png', 'Default profile / placeholder avatar', ['Listings, profiles, fallbacks site-wide']);
-$jomuAdminAdAdd('assets/images/Buy-2.png', 'Home carousel image', ['index.php']);
+$jomuAdminAdAdd('/assets/images/JoMu logo redesigned.png', 'JoMu colour logo', ['components/nav.php', '/ (footer)', 'Chat / listing UI where used']);
+$jomuAdminAdAdd('/assets/images/JoMu black and white.png', 'JoMu greyscale logo (navbar stack)', ['components/nav.php']);
+$jomuAdminAdAdd('/assets/images/profile.png', 'Default profile / placeholder avatar', ['Listings, profiles, fallbacks site-wide']);
+$jomuAdminAdAdd('/assets/images/Buy-2.png', 'Home carousel image', ['/']);
 
 // --- About page (representative hero / content images) ---
-$jomuAdminAdAdd('assets/images/JoMu laptop 3-1.png', 'About hero — laptop', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Phone 2.png', 'About hero — phone', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu laptop 1.png', 'About section — laptop', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Phone 1.png', 'About section — phone', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu laptop 2.png', 'About section — laptop alt', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshots-lg-1.png', 'About screenshots row (large)', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshot-sm-1.png', 'About screenshots (small)', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshots-lg-2.png', 'About screenshots block (large)', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshot-sm-2.png', 'About screenshots (small)', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshots-lg-3.png', 'About screenshots block 2 (large)', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshot-sm-3.png', 'About screenshots (small)', ['about.html']);
-$jomuAdminAdAdd('assets/images/JoMu Screenshot-sm-4.png', 'About screenshots (small)', ['about.html']);
-$jomuAdminAdAdd('assets/images/icons/JoMu Vision-icon.png', 'About — vision icon', ['about.html']);
+$jomuAdminAdAdd('/assets/images/JoMu laptop 3-1.png', 'About hero — laptop', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Phone 2.png', 'About hero — phone', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu laptop 1.png', 'About section — laptop', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Phone 1.png', 'About section — phone', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu laptop 2.png', 'About section — laptop alt', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshots-lg-1.png', 'About screenshots row (large)', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshot-sm-1.png', 'About screenshots (small)', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshots-lg-2.png', 'About screenshots block (large)', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshot-sm-2.png', 'About screenshots (small)', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshots-lg-3.png', 'About screenshots block 2 (large)', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshot-sm-3.png', 'About screenshots (small)', ['/about']);
+$jomuAdminAdAdd('/assets/images/JoMu Screenshot-sm-4.png', 'About screenshots (small)', ['/about']);
+$jomuAdminAdAdd('/assets/images/icons/JoMu Vision-icon.png', 'About — vision icon', ['/about']);
 
 // --- Footer social (same files as index footer) ---
-$jomuAdminAdAdd('assets/images/icons/Facebook Icon.png', 'Footer — Facebook icon', ['index.php']);
-$jomuAdminAdAdd('assets/images/icons/Tiktok Icon.png', 'Footer — TikTok icon', ['index.php']);
-$jomuAdminAdAdd('assets/images/icons/Instagram Icon.png', 'Footer — Instagram icon', ['index.php']);
-$jomuAdminAdAdd('assets/images/icons/X Icon.png', 'Footer — X (Twitter) icon', ['index.php']);
+$jomuAdminAdAdd('/assets/images/icons/Facebook Icon.png', 'Footer — Facebook icon', ['/']);
+$jomuAdminAdAdd('/assets/images/icons/Tiktok Icon.png', 'Footer — TikTok icon', ['/']);
+$jomuAdminAdAdd('/assets/images/icons/Instagram Icon.png', 'Footer — Instagram icon', ['/']);
+$jomuAdminAdAdd('/assets/images/icons/X Icon.png', 'Footer — X (Twitter) icon', ['/']);
 
 // --- All other icons under assets/images/icons (skip files already registered above) ---
 $jomuIconsDir = $jomuAdminAdManifestRoot . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'icons';
@@ -98,21 +98,21 @@ if (is_dir($jomuIconsDir)) {
             if (!in_array($ext, ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'ico'], true)) {
                 continue;
             }
-            $rel = 'assets/images/icons/' . $iconFile;
+            $rel = '/assets/images/icons/' . $iconFile;
             $jomuAdminAdAdd(
                 $rel,
                 'Icon: ' . pathinfo($iconFile, PATHINFO_FILENAME),
                 [
                     'components/nav.php',
-                    'index.php',
+                    '/',
                     'Category HTML pages',
-                    'signin.html',
-                    'suggestedtoppicks.php',
-                    'recentlyviewed.html',
-                    'php/businessvendordashboard.php',
-                    'php/profile.php',
-                    'php/visitor_profile.php',
-                    'purchasewholesale.html',
+                    '/sign-in',
+                    '/suggested/top-picks',
+                    '/recently-viewed',
+                    '/business-vendor-dashboard',
+                    '/profile',
+                    '/visitor-profile',
+                    '/purchase-wholesale',
                 ]
             );
         }
